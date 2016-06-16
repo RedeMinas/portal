@@ -123,6 +123,14 @@
                 <simpleCondition role="onEnd"/>
                 <simpleAction role="set" value="$value"/>
             </causalConnector>
+
+             <causalConnector id="onSelectionSet">
+                <connectorParam name="value"/>
+                <simpleCondition role="onSelection"/>
+                <simpleAction role="set" value="$value"/>
+            </causalConnector>
+
+        
     </connectorBase>
     </head>
 </ncl>

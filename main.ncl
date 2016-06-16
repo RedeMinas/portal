@@ -9,7 +9,7 @@
 
     <head>
         <regionBase>
-        	
+            
             <region id="rgVideo"                width="100%"        height="100%"                                  zIndex="2"/>
             <region id="rgIcone"                width="11.4%"       height="9.2%"       top="10%"    left="9.97%"  zIndex="2"/>
             <region id="rgIconetest"            width="11.4%"       height="3.5%"       top="10%"    left="9.97%"  zIndex="3"/>
@@ -34,7 +34,7 @@
         </regionBase>
 
         <descriptorBase>
-        	  
+              
             <descriptor id="deVideo"                region="rgVideo"/>   
             <descriptor id="deFundo"                region="rgFundo"> 
             <descriptorParam name="transparency"     value="0.010"/>    
@@ -77,8 +77,8 @@
 
         <!-- Extra -->
        
-		<media id="Video"      src="midia/video.mp4"              descriptor="deVideo"/>
-			
+        <media id="Video"      src="midia/video.mp4"              descriptor="deVideo"/>
+            
  <!-- VIDEO MP4 
         <media id="Video" src="sbtvd-ts://video" descriptor="deFullScreenMedia">
             <area id="icon" begin="2s"/>
