@@ -17,7 +17,7 @@ for i=guarda_min,guarda_max do
   -- menu[i][canvas] = canvas:new( 'midia/' .. tostring(i) .. 'off.png')
   menu[i][canvas] = canvas:new(tostring(i) .. 'off.png')
    -- calcula posição inicial na tela
-   menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i+1) )
+   menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i+1) + distancia )
 
 end
 
@@ -54,24 +54,41 @@ function redraw ()
    end
 
    icone = canvas:new('selecao.png')
+   fundo = canvas:new('transparent.png')
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
   -- print(contador)
   -- canvas:drawRect('frame', dx/1.8-(tamanhoicone/2), dy/1.48-(tamanhoicone/2), tamanhoicone, tamanhoicone)
-    canvas:compose(dx/2.15,dy/1.2,icone)
+    canvas:compose(dx/1920,dy/1.75,fundo)
+     canvas:flush()
+   --canvas:attrColor('transparent')
+   --local tamanhoicone = 30
+  -- print(contador)
+  -- canvas:drawRect('frame', dx/1.8-(tamanhoicone/2), dy/1.48-(tamanhoicone/2), tamanhoicone, tamanhoicone)
+
+    canvas:compose(dx/2.05,dy/1.25,icone)
    canvas:flush()
-  
+      
+ 
+         esquerda = canvas:new('esquerda.png')
+            canvas:compose(0,240,esquerda)
+            canvas:flush()
+             direita = canvas:new('direita.png')
+            canvas:compose(1475,240,direita)
+            canvas:flush()
 end
 
 function writeText()
-  
-  for i=guarda_min,posicao do
+	
+	for i=guarda_min,posicao do
         canvas:attrColor('transparent')
         canvas:drawRect('fill', 0, 0, dx, dy )  
         canvas:compose((dx/2 - dy/2)/5,dy/1.7,menu[posicao][canvas])
         canvas:flush()
     end
-         
+         acima = canvas:new('acima.png')
+         canvas:compose(dx/1920,dy/1.5,acima)
+         canvas:flush()
    if posicao == 1 then
       canvas:attrColor('maroon')
       canvas:attrFont("vera", 22)
@@ -177,25 +194,25 @@ function handler (evt)
    if (evt.class == 'key' and evt.type == 'press') then
       
       if evt.key == "CURSOR_RIGHT" then
-        if posicao == guarda_max then
-           posicao = guarda_min
-        else
-           posicao = posicao + 1
+	      if posicao == guarda_max then
+	         posicao = guarda_min
+	      else
+	         posicao = posicao + 1
             print("direita"..posicao)
          end
 
-        for i=guarda_min,guarda_max do
+	      for i=guarda_min,guarda_max do
             menu[i][dx] = menu[i][dx] - (menu[i][canvas]:attrSize(width) + distancia)
          end
 
       else if evt.key == "CURSOR_LEFT" then
          if posicao == guarda_min then
-            posicao = guarda_max   
+            posicao = guarda_max	 
          else
             posicao = posicao - 1
             print("esquerda"..posicao)
             end
-      
+	    
          for i=guarda_min,guarda_max do
             menu[i][dx] = menu[i][dx] + (menu[i][canvas]:attrSize(width) + distancia )
             canvas:flush()
