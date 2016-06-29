@@ -30,7 +30,7 @@
             <region id="rgFundo3"               width="100%"        height="10%"        top="90%"                  zIndex="4"/>
             <region id="rgFundo4"               width="100%"        height="1%"         top="96.8%"                zIndex="4"/>
             <region id="rgmenuApagado"          width="74.58%"      height="14.44%"     top="77%"    left="12.5%"  zIndex="8"/>
-            <region id="rgLua"                  width="80%"       height="43%"         top="54%"    left="11.7%"  zIndex="9"/>
+            <region id="rgLua"                  width="78.95%"       height="43%"        top="54%"    left="10.8%"  zIndex="9"/>
             <region id="rgSelecao"              width="79.4%"       height="13.8%"     top="79.8%"  left="11.4%"    zIndex="11"/>
         </regionBase>
 
@@ -393,7 +393,7 @@
             <bind role="start"          component="voltar"/>
             <bind role="start"          component="btnOk"/>
             <bind role="start"          component="lua"/>
-            <bind role="start"          component="selecao"/>
+            
         </link>
 
         <link id="link_btn3"            xconnector="conBase#onSelectionStartStop">
