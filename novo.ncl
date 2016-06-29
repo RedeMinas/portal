@@ -30,13 +30,15 @@
             <region id="rgFundo3"               width="100%"        height="10%"        top="90%"                  zIndex="4"/>
             <region id="rgFundo4"               width="100%"        height="1%"         top="96.8%"                zIndex="4"/>
             <region id="rgmenuApagado"          width="74.58%"      height="14.44%"     top="77%"    left="12.5%"  zIndex="8"/>
-            <region id="rgLua"                  width="76.3%"       height="43%"        top="54%"    left="11.7%"  zIndex="9"/>
-            <region id="rgSelecao"              width="1.82%"       height="3.33%"      top="90.5%"  left="18%"    zIndex="10"/>
+            <region id="rgLua"                  width="80%"       height="43%"         top="54%"    left="11.7%"  zIndex="9"/>
+            <region id="rgSelecao"              width="79.4%"       height="13.8%"     top="79.8%"  left="11.4%"    zIndex="11"/>
         </regionBase>
 
         <descriptorBase>
             <descriptor id="deVideo"                region="rgVideo"/>   
-            <descriptor id="deSelecao"              region="rgSelecao"/> 
+            <descriptor id="deSelecao"              region="rgSelecao">
+            <descriptorParam name="transparency"    value="0.30"/>    
+            </descriptor>    
             <descriptor id="deFundo"                region="rgFundo"> 
             <descriptorParam name="transparency"    value="0.010"/>    
             </descriptor>      
@@ -58,9 +60,9 @@
             <descriptor id="deconteudoBtn01"        region="rgconteudoBtn01"/>
             <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
             <descriptor id="deBtn1on"               region="rgBtn1on"/>
-            <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="1" focusSrc="media/btn1on.png" focusSelSrc="media/btn1on.png" moveLeft="3" moveRight="2"/>
-            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="media/btn2on.png" focusSelSrc="media/btn2on.png" moveLeft="1" moveRight="3" moveDown="4"/>
-            <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="3" focusSrc="media/btn3on.png" focusSelSrc="media/btn3on.png" moveLeft="2" moveRight="1"/>
+            <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="1" focusSrc="midia/btn1on.png" focusSelSrc="midia/btn1on.png" moveLeft="3" moveRight="2"/>
+            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="1" moveRight="3" moveDown="4"/>
+            <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="3" focusSrc="midia/btn3on.png" focusSelSrc="midia/btn3on.png" moveLeft="2" moveRight="1"/>
             <descriptor id="deEsquerda"             region="rgEsquerda"/>
             <descriptor id="deDireita"              region="rgDireita"/>
              <descriptor id="dsLua"                 region="rgLua"  />
@@ -87,14 +89,14 @@
         <media id="icone"           src="midia/icon3.png"           descriptor="deIcone"><property name="top"/></media>
         <media id="iconetest"       src="midia/icon.png"            descriptor="deIconetest"/>
         <media id="voltar"          src="midia/voltar.png"          descriptor="deVoltar"/>
-        <media id="selecao"         src="selecao.png"               descriptor="deSelecao"/>
+        <media id="selecao"         src="transparent2.png"               descriptor="deSelecao"/>
         
         <!-- BOTOES (TEXTO NCL) -->
-        <media id="btn1" src="media/btn1off.png" descriptor="deBtn1"><property name="top"/><area id="conteudo" begin="0.8s"/></media>
-        <media id="btn1on" src="media/btn1on.png" descriptor="deBtn1"><property name="top"/>
+        <media id="btn1" src="midia/btn1off.png" descriptor="deBtn1"><property name="top"/><area id="conteudo" begin="0.8s"/></media>
+        <media id="btn1on" src="midia/btn1on.png" descriptor="deBtn1"><property name="top"/>
         </media>
-        <media id="btn2" src="media/btn2off.png"                descriptor="deBtn2">  <property name="top"/> </media>  
-        <media id="btn3" src="media/btn3off.png"                descriptor="deBtn3"><property name="top"/></media>
+        <media id="btn2" src="midia/btn2off.png"                descriptor="deBtn2">  <property name="top"/> </media>  
+        <media id="btn3" src="midia/btn3off.png"                descriptor="deBtn3"><property name="top"/></media>
         <media id="esquerda" src="midia/esquerda.png"           descriptor="deEsquerda"/>
         <media id="direita" src="midia/direita.png"             descriptor="deDireita"/>
         <media id="baixo" src="midia/baixo.png"                 descriptor="deEsquerda"/>
@@ -104,8 +106,8 @@
         <!-- FIM DOS BOTOES (TEXTO NCL) -->
         <media id="conteudo1"      src="midia/conteudo1.png"    descriptor="deconteudoBtn01"/>
         <media id="conteudo3"      src="midia/contato.png"      descriptor="deconteudoBtn03"/>
-        <media id="lua"            src="scroll.lua"             descriptor="dsLua"/>
-        <media id="menuApagado"	   src="midia/menu.png"         descriptor="demenuApagado"/>
+        <media id="lua"            src="imagens.lua"             descriptor="dsLua"/>
+        <media id="menuApagado"    src="midia/menu.png"         descriptor="demenuApagado"/>
 
          <!-- FUNDO -->
         <media id="fundo"  src="midia/fundo2.png" descriptor="deFundo"><property name="top"/>
@@ -448,7 +450,7 @@
             <bind component="direita"                 role="stop"/>
             <bind component="baixo"                   role="stop"/>
             <bind component="esquerda"                role="stop"/>
-            <bind component="btnOk"                   role="stop"/>	
+            <bind component="btnOk"                   role="stop"/> 
         </link>
     
         <!-- QUANDO BOTÃO SAIR FOR SELECIONADO.. -->
@@ -457,7 +459,7 @@
                 <bindParam name="keyCode" value="EXIT"/>
             </bind>
             <bind component="icone"                   role="start"/>
-            <bind component="lua"			          role="stop"/>
+            <bind component="lua"                     role="stop"/>
             <bind component="btn1"                    role="stop"/>
             <bind component="btn1on"                    role="stop"/>
             <bind component="btn2"                    role="stop"/>

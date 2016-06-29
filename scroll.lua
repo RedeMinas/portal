@@ -1,91 +1,109 @@
-local aux = 0
-local guarda = 1
+local posicao = 1
 local guarda_min = 1
-local guarda_max = 7
+local guarda_max = 14
 --rever como calcular a partir das imagens do menu
-local distancia = 280
+local distancia = 30
+local espacamento = 144.22
+local enter = false
 local dx, dy = canvas:attrSize()
 local menu = {}
 local imagem = {}
 
--- rever
+-- inicialização
+-- rever - melhor usar objetos
+
 for i=guarda_min,guarda_max do
    menu[i] = {}
-end
-
---menu1 guarda a imagem, posicao inicial e dimensoes
-
-for i=guarda_min,guarda_max do
    --instancia imagens
-   menu[i][canvas] = canvas:new( tostring(i) .. 'off.png')
-   --  menu[i].caminho2 = canvas:new(i . 'off.png')
+  -- menu[i][canvas] = canvas:new( 'midia/' .. tostring(i) .. 'off.png')
+  menu[i][canvas] = canvas:new(tostring(i) .. 'off.png')
    -- calcula posição inicial na tela
-   menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i-1))
+   menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i) )
+
 end
 
--- Funcao de redesenho:
--- chamada a cada ciclo de animacao
+-- Funcao de redesenho: chamada a cada ciclo de animacao
+-- reescrever para centralizar...
 function redraw ()
    -- fundo
+   canvas:attrColor('black')
+   canvas:drawRect('fill', 0, 0, dx, dy )
+
    for i=guarda_min,guarda_max do
-      canvas:attrColor('black')
-      canvas:drawRect('fill', 0, 0, dx, dy )
-      -- conferir... se precisa de if
-    end
-   for i=guarda_min,guarda_max do
-	   canvas:compose(menu[i][dx]* 1.05 , menu[i][canvas]:attrSize(height), menu[i][canvas])
-      canvas:flush()
+
+      canvas:compose(menu[i][dx] + distancia*(i) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-espacamento) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+espacamento) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*2)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*2)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*3)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*3)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*4)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*4)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*5)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*5)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*6)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*6)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*7)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*7)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*8)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*8)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*9)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*9)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*10)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*10)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+   end
+   icone = canvas:new('selecao.png')
+   --canvas:attrColor('transparent')
+   --local tamanhoicone = 30
+  -- print(contador)
+  -- canvas:drawRect('frame', dx/1.8-(tamanhoicone/2), dy/1.48-(tamanhoicone/2), tamanhoicone, tamanhoicone)
+    canvas:compose(dx/1.85,dy/1.55,icone)
+   canvas:flush()
+   if enter == true then
+
+      print("f")
    end
 end
 
---function desenha(guarda)
---   for i=guarda_min,guarda_max do
---      if guarda == i then
---	      canvas:attrColor('black')
---	      canvas:drawRect('fill', 0,0, menu[i][dx],menu[i][canvas]:attrSize(height))
---	      canvas:compose(menu[i][dx], menu2[i][canvas]:attrSize(height), menu2[i][canvas])
---	      canvas:flush()
---      end
---   end
---end
-redraw()
 -- Funcao de tratamento de eventos:
+
 function handler (evt)
-   -- a animacao comeca no *start* e eh realimentada por eventos da classe *user*
    if (evt.class == 'key' and evt.type == 'press') then
-
-      if evt.key == "CURSOR_RIGHT" then
-	      if guarda > guarda_max  then
-            guarda = guarda_min
-         end 
-         for i=guarda_min,guarda_max do
-            menu[i][dx] = menu[i][dx] - (distancia + 1)
-            redraw()
-	      end
-         if guarda < guarda_max then
-	         guarda = guarda + 1
-	         print(guarda)
-         end
-      end
-
---   if evt.key == "ENTER" then
---     print(guarda)
---	    desenha(guarda)
---	    menu2[guarda].p = menu2[guarda].f 
---   end 
       
+      if evt.key == "CURSOR_RIGHT" then
+    if posicao == guarda_max then
+       posicao = guarda_min
+    else
+       posicao = posicao + 1
+       print("direita"..posicao)
+    end
+
+    for i=guarda_min,guarda_max do
+       menu[i][dx] = menu[i][dx] - (menu[i][canvas]:attrSize(width) + distancia)
+    end
+
       else if evt.key == "CURSOR_LEFT" then
-	      for i=guarda_min,guarda_max do
-	         menu[i][dx] = menu[i][dx] + (distancia + 1)
-	         redraw()
-         end
-
-	      if guarda < guarda_max then
-         guarda = guarda - 1
-         print(guarda)
-         end
+       if posicao == guarda_min then
+          posicao = guarda_max    
+       else
+          posicao = posicao - 1
+           print("esquerda"..posicao)
+       end
+       
+       for i=guarda_min,guarda_max do
+          menu[i][dx] = menu[i][dx] + (menu[i][canvas]:attrSize(width) + distancia )
+          canvas:flush()
+       end
+       
       end
+      end
+   else if evt.key == "ENTER" then
+    print ( "pressionou enter, valor guarda:" .. tostring(posicao))
+    enter = true
    end
-end
-
+   enter = false
+      redraw()      
+   end --  if
+end -- handler
 event.register(handler)
