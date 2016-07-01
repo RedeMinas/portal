@@ -3,7 +3,7 @@
      <!--
         Serie Rede-Minas
         Date: 17/06/2016
-        Author: Bernardo Monteiro 
+        Author: Bernardo Monteiro and Alessandro Cézar
         Organization: Rede Minas
      -->
     <head>
@@ -15,11 +15,10 @@
             <region id="rgVoltar"               width="2.29%"       height="4.63%"      top="72%"    left="79%"    zIndex="5"/>
             <region id="rgOk"                   width="2.29%"       height="4.63%"      top="72%"    left="76%"    zIndex="5"/>
             <!-- CONTEÚDO DOS BOTÕES -->
-            <region id="rgconteudoBtn01"        width="59.9%"       height="15.84%"     top="77%"    left="12.5%"  zIndex="5"/>
+            <region id="rgconteudoBtn01"        width="80%"       height="15.84%"     top="80%"    left="12.5%"  zIndex="5"/>
             <region id="rgconteudoBtn03"        width="74.94%"      height="11.67%"     top="78%"    left="12.5%"  zIndex="5"/>
             <!-- BOTÕES -->
             <region id="rgBtn1"                 width="13.80%"      height="3.18%"      top="90%"    left="12.5%"  zIndex="5"/>
-            <region id="rgBtn1on"               width="13.80%"      height="3.18%"      top="90%"    left="12.5%"  zIndex="10"/>
             <region id="rgBtn2"                 width="10.93%"      height="3.18%"      top="90%"    left="27.5%"  zIndex="5"/>
             <region id="rgBtn3"                 width="10.93%"      height="3.18%"      top="90%"    left="38.5%"  zIndex="5"/>
             <!-- IMAGEM DE FUNDO-->
@@ -28,7 +27,7 @@
             <region id="rgFundo3"               width="100%"        height="10%"        top="90%"                  zIndex="4"/>
             <region id="rgFundo4"               width="100%"        height="1%"         top="96.8%"                zIndex="4"/>
             <region id="rgmenuApagado"          width="74.58%"      height="14.44%"     top="77%"    left="12.5%"  zIndex="8"/>
-            <region id="rgLua"                  width="78.95%"      height="45%"        top="54%"    left="10%"  zIndex="9"/>
+            <region id="rgLua"                  width="78.95%"      height="45%"        top="54%"    left="10%"    zIndex="9"/>
            
         </regionBase>
 
@@ -54,7 +53,6 @@
             <descriptor id="deSair"                 region="rgSair"/>
             <descriptor id="deconteudoBtn01"        region="rgconteudoBtn01"/>
             <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
-            <descriptor id="deBtn1on"               region="rgBtn1on"/>
             <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="1" focusSrc="midia/btn1on.png" focusSelSrc="midia/btn1on.png" moveLeft="3" moveRight="2"/>
             <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="1" moveRight="3" moveDown="4"/>
             <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="3" focusSrc="midia/btn3on.png" focusSelSrc="midia/btn3on.png" moveLeft="2" moveRight="1"/>
@@ -86,17 +84,25 @@
         
         
         <!-- BOTOES (TEXTO NCL) -->
-        <media id="btn1" src="midia/btn1off.png" descriptor="deBtn1"><property name="top"/><area id="conteudo" begin="0.8s"/></media>
-        <media id="btn1on" src="midia/btn1on.png" descriptor="deBtn1"><property name="top"/>
+        <media id="btn1" src="midia/btn1off.png" descriptor="deBtn1"><property name="top"/><area id="conteudo" begin="0.8s"/>
         </media>
-        <media id="btn2" src="midia/btn2off.png"                descriptor="deBtn2">  <property name="top"/> </media>  
-        <media id="btn3" src="midia/btn3off.png"                descriptor="deBtn3"><property name="top"/></media>
+      
+        <media id="btn2" src="midia/btn2off.png"  descriptor="deBtn2">  <property name="top"/> </media>  
+        <media id="btn3" src="midia/btn3off.png"  descriptor="deBtn3"><property name="top"/></media>
 
-        <media id="btnOk"     src="midia/ok.png"                descriptor="debtnOk"/>
-        <media id="sair" src="midia/sair.png"                   descriptor="deSair"><property name="top"/></media>
+        <media id="btnOk"     src="midia/ok.png"  descriptor="debtnOk"/>
+        <media id="sair" src="midia/sair.png"     descriptor="deSair"><property name="top"/></media>
         
         <!-- FIM DOS BOTOES (TEXTO NCL) -->
-        <media id="conteudo1"      src="midia/conteudo1.png"    descriptor="deconteudoBtn01"/>
+        <media id="conteudo1"  src="texto/conteudo1.txt"  descriptor="deconteudoBtn01">
+            <property name="background" value="transparent"/>
+            <property name="fontColor" value="black" />
+            <property name="fontFamily" value="vera" />
+            <property name="fontSize" value="30" />
+            <property name="textAlign" value="left" />
+            <property name="text" value="" />
+        </media>
+
         <media id="conteudo3"      src="midia/contato.png"      descriptor="deconteudoBtn03"/>
         <media id="lua"            src="scroll.lua"             descriptor="dsLua"/>
         <media id="menuApagado"    src="midia/menu.png"         descriptor="demenuApagado"/>
@@ -113,7 +119,7 @@
         <!-- FIM FUNDO -->
          <media id="settings" type="application/x-ginga-settings">
             <property name="service.currentKeyMaster" value=""/>
-            <property name="service.currentFocus" value="btn1on"/>
+            <property name="service.currentFocus" value=""/>
         </media>
 
         <!-- INÍCIO DO PROGRAMA -->
@@ -142,13 +148,13 @@
          <!-- CONTROLE FOCO BTN01 -->
         <link id="link_BeginProgram"  xconnector="conBase#onBeginSet">
             <bind role="onBegin" component="fundo"/>
-            <bind component="settings" interface="service.currentKeyMaster">
-            <bindParam name="value" value="btn1on"/>
+            <bind component="settings" interface="service.currentFocus">
+            <bindParam name="value" value="btn1"/>
             </bind>
         </link>
 
         <link id="link_EndProgram"  xconnector="conBase#onEndSet">
-            <bind role="onEnd" component="btn1on"/>
+            <bind role="onEnd" component="btn1"/>
             <bind component="settings" interface="service.currentKeyMaster">
             <bindParam name="value" value=""/>
             </bind>
@@ -179,23 +185,8 @@
 
 
         <!-- ANIMAÇÃO DOS BOTÕES -->
-        <link id="Animação_Btn1onn" xconnector="conBase#onBeginIconMenuSetAnim">
-            <bind role="onBegin" component="fundo"/>
-            <bind role="set" component="btn1on" interface="top">
-                <bindParam name="vBy"           value="0"/>
-                <bindParam name="vDuration"     value="0.5s"/>
-                <bindParam name="newValue"      value="72%"/>
-            </bind>
-        </link>
 
-        <link id="Animação_Btn1onn_Fim" xconnector="conBase#onEndIconMenuSetAnim">
-            <bind role="onEnd" component="fundo"/>
-            <bind role="set" component="btn1on" interface="top" >
-                <bindParam name="vBy"           value="0"/>
-                <bindParam name="vDuration"     value="0"/>
-                <bindParam name="newValue"      value="90%"/>
-            </bind>
-        </link>
+
 
         <link id="Animação_Btn1" xconnector="conBase#onBeginIconMenuSetAnim">
             <bind role="onBegin" component="fundo"/>
@@ -338,48 +329,27 @@
             </bind>
             <bind role="start"          component="conteudo1"/>
             <bind role="stop"           component="conteudo3"/>
+            <bind role="stop"           component="voltar"/>
             <bind role="stop"           component="btnOk"/>
-            <bind role="stop"           component="selecao"/>
             <bind role="stop"           component="lua"/>
         </link>
 
-        <link id="link_btn1"        xconnector="conBase#onBeginStart">
+        <link id="link_btn1Begin"        xconnector="conBase#onBeginStart">
             <bind role="onBegin"    component="btn1" interface="conteudo" >   
             </bind>
             <bind role="start"      component="conteudo1"/>
-            <bind role="start"      component="btn1on"/>
         </link>
-         <link id="link_btn1"        xconnector="conBase#onBeginStart">
-            <bind role="onBegin"    component="btn1"  >   
-            </bind>
-            <bind role="start"      component="btn1on"/>
-        </link>
+         
 
-
-        <link id="link_FimBtn1On"   xconnector="conBase#onSelectionStartStop">
-            <bind role="onSelection"    component="btn1" interface="conteudo" > 
-            <bindParam  name="keyCode" value="CURSOR_RIGHT"/>
-            </bind>
-            <bind role="stop"      component="btn1on"/>
-            <bind role="start"      component="btn1"/>
-        </link>
-        <link id="link_FimBtn1OnLeft"   xconnector="conBase#onSelectionStartStop">
-            <bind role="onSelection"    component="btn1" interface="conteudo" > 
-            <bindParam  name="keyCode" value="CURSOR_LEFT"/>
-            </bind>
-            <bind role="stop"      component="btn1on"/>
-            <bind role="start"      component="btn1"/>
-        </link>
+     
 
         <link id="link_btn2"            xconnector="conBase#onSelectionStartStop">
             <bind role="onSelection"    component="btn2" >   
             </bind>
             <bind role="stop"           component="conteudo1"/>
-            <bind role="stop"           component="btn1on"/>
             <bind role="stop"           component="conteudo3"/>
             <bind role="start"          component="voltar"/>
             <bind role="start"          component="btnOk"/>
-            <bind role="start"          component="selecao"/>
             <bind role="start"          component="lua"/>
             
         </link>
@@ -393,18 +363,16 @@
             <bind role="stop"           component="btnOk"/>
             <bind role="stop"           component="conteudo2Menu1"/>
             <bind role="stop"           component="lua"/>
-            <bind role="stop"           component="selecao"/>
+            <bind role="stop"           component="voltar"/>
         </link>
        
-
-
-        <link id="ExitLua"              xconnector="conBase#onSelectionStartStop">
+        <link id="ExitLua"              xconnector="conBase#onSelectionStop">
             <bind role="onSelection"    component="btn1" >
                 <bindParam name="keyCode" value="CURSOR_RIGHT"/>
             </bind>
             <bind role="stop"           component="conteudo1"/>
-  
-          
+
+
         </link>
 
         <!-- CONTROLE LUA -->
@@ -439,7 +407,8 @@
             <bind component="icone"                   role="start"/>
             <bind component="lua"                     role="stop"/>
             <bind component="btn1"                    role="stop"/>
-            <bind component="btn1on"                    role="stop"/>
+            <bind component="btn1"  interface="conteudo"                  role="stop"/>
+           
             <bind component="btn2"                    role="stop"/>
             <bind component="btn3"                    role="stop"/>
             <bind component="conteudo1"               role="stop"/>
@@ -449,7 +418,6 @@
             <bind component="conteudo3"               role="stop"/>
             <bind component="sair"                    role="stop"/>
             <bind component="voltar"                  role="stop"/>
-            <bind component="selecao"                 role="stop"/>
             <bind component="btnOk"                   role="stop"/>
         </link>
      </body>

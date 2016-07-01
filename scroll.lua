@@ -1,65 +1,60 @@
 local posicao = 1
 local guarda_min = 1
-local guarda_max = 14
+local guarda_max = 18
 --rever como calcular a partir das imagens do menu
 local distancia = 30
-local espacamento = 144.22
+local espacamento = 144.22/2
 local dx, dy = canvas:attrSize()
-local menu = {}
+local menu= {}
+local aux= {}
 local imagem = {}
 
--- inicialização
--- rever - melhor usar objetos
+function criaVetor()
+    -- cria vetor primario
+    for i=guarda_min,guarda_max do
+      menu[i] = {}
+      menu[i][canvas] = canvas:new('midia/menu2/'..tostring(i) .. 'off.png')
+      menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i) )
+    end
+    for i=guarda_min,guarda_max do
+        menu[i][dx] = menu[i][dx] - (menu[i][canvas]:attrSize(width) + distancia)
+    end
+end
+criaVetor()
 
-for i=guarda_min,guarda_max do
-   menu[i] = {}
-   --instancia imagens
-  -- menu[i][canvas] = canvas:new( 'midia/' .. tostring(i) .. 'off.png')
-  menu[i][canvas] = canvas:new(tostring(i) .. 'off.png')
-   -- calcula posição inicial na tela
-   menu[i][dx]=(menu[i][canvas]:attrSize(width)*(i+1) + distancia )
+function clonaVetor()
+    -- cria vetor auxiliar
+    for i=guarda_min,guarda_max do
+      aux[i] = {}
+      aux[i][dx] = menu[i][dx]
+    end
+end
+clonaVetor()
 
+function restauraVetor()
+    -- cria vetor auxiliar
+    for i=guarda_min,guarda_max do
+      menu[i][dx] = aux[i][dx]
+    end
 end
 
--- Funcao de redesenho: chamada a cada ciclo de animacao
--- reescrever para centralizar...
-function redraw ()
-   -- fundo
-   canvas:attrColor('black')
-   canvas:drawRect('fill', 0, 0, dx, dy )
+function desenha ()
+  -- fundo
+  canvas:attrColor('black')
+  canvas:drawRect('fill', 0, 0, dx, dy )
 
-   for i=guarda_min,guarda_max do
-
-      canvas:compose(menu[i][dx] + distancia*(i) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-espacamento) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+espacamento) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*2)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*2)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*3)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*3)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*4)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*4)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*5)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*5)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*6)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*6)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*7)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*7)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*8)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*8)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*9)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*9)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i-(espacamento*10)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-      canvas:compose(menu[i][dx] + distancia*(i+(espacamento*10)) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
-   end
-
-   icone = canvas:new('selecao.png')
-   fundo = canvas:new('transparent.png')
+  for i=guarda_min,guarda_max do   
+    canvas:compose(menu[i][dx] + distancia*(i) ,menu[i][canvas]:attrSize(height),menu[i][canvas])
+  end
+  
+  icone = canvas:new('midia/selecao.png')
+   fundo = canvas:new('midia/transparent.png')
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
   -- print(contador)
   -- canvas:drawRect('frame', dx/1.8-(tamanhoicone/2), dy/1.48-(tamanhoicone/2), tamanhoicone, tamanhoicone)
-    canvas:compose(dx/1920,dy/1.75,fundo)
+    canvas:compose(dx/1920,275,fundo)
+    print(dx/1920)
      canvas:flush()
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
@@ -70,25 +65,32 @@ function redraw ()
    canvas:flush()
       
  
-         esquerda = canvas:new('esquerda.png')
+         esquerda = canvas:new('midia/esquerda.png')
             canvas:compose(0,240,esquerda)
             canvas:flush()
-             direita = canvas:new('direita.png')
+             direita = canvas:new('midia/direita.png')
             canvas:compose(1475,240,direita)
-            canvas:flush()
-end
+            canvas:flush()end
 
+function goToFimVetor ()
+    for i=1,(guarda_max -5) do
+        for j=guarda_min,guarda_max do
+            menu[j][dx] = menu[j][dx] - (menu[j][canvas]:attrSize(width) + distancia)
+        end
+    end    
+end
 function writeText()
-	
-	for i=guarda_min,posicao do
-        canvas:attrColor('transparent')
+  
+  for i=guarda_min,posicao do
+        canvas:attrColor('black')
         canvas:drawRect('fill', 0, 0, dx, dy )  
-        canvas:compose((dx/2 - dy/2)/5,dy/1.7,menu[posicao][canvas])
+        canvas:compose((dx/2 - dy/2)/5,dy/1.7,menu[posicao+2][canvas])
         canvas:flush()
     end
-         acima = canvas:new('acima.png')
+         acima = canvas:new('midia/acima.png')
          canvas:compose(dx/1920,dy/1.5,acima)
          canvas:flush()
+
    if posicao == 1 then
       canvas:attrColor('maroon')
       canvas:attrFont("vera", 22)
@@ -187,48 +189,54 @@ function writeText()
       canvas:flush()
    end
 end
+--desenha interface ao abrir
+desenha()
 
--- Funcao de tratamento de eventos:
-redraw() 
 function handler (evt)
-   if (evt.class == 'key' and evt.type == 'press') then
-      
+   if (evt.class == 'key' and evt.type == 'press') then      
       if evt.key == "CURSOR_RIGHT" then
-	      if posicao == guarda_max then
-	         posicao = guarda_min
-	      else
-	         posicao = posicao + 1
-            print("direita"..posicao)
-         end
+          if posicao >= (guarda_max-4) then
+             posicao = guarda_min            
+             restauraVetor()
+          else
+              for i=guarda_min,guarda_max do
+                  menu[i][dx] = menu[i][dx] - (menu[i][canvas]:attrSize(width) + distancia)
+              end
+              posicao = posicao + 1
+              print("posicao "..posicao)
+          end          
+          desenha()
+          
+      else
+        if evt.key == "CURSOR_LEFT" then
+          if posicao <= (guarda_min) then
+              posicao = guarda_max -4
+              restauraVetor()
+              goToFimVetor()                
+          else
+              for i=guarda_min,guarda_max do
+                  menu[i][dx] = menu[i][dx] + (menu[i][canvas]:attrSize(width) + distancia )
+                  canvas:flush()
+              end
 
-	      for i=guarda_min,guarda_max do
-            menu[i][dx] = menu[i][dx] - (menu[i][canvas]:attrSize(width) + distancia)
-         end
-
-      else if evt.key == "CURSOR_LEFT" then
-         if posicao == guarda_min then
-            posicao = guarda_max	 
-         else
-            posicao = posicao - 1
-            print("esquerda"..posicao)
+              posicao = posicao - 1
+              print("posicao "..posicao)
+          end              
+          desenha()
+                
+      else
+        if evt.key == "ENTER" then
+            print ("pressionou enter, valor guarda:" .. tostring(posicao))
+              writeText() 
             end
-	    
-         for i=guarda_min,guarda_max do
-            menu[i][dx] = menu[i][dx] + (menu[i][canvas]:attrSize(width) + distancia )
-            canvas:flush()
-         end
+          
+            if evt.key == "CURSOR_UP" then
+            print ("pressionou up, valor guarda:" .. tostring(posicao))
+             desenha()
+            end
+        end          
       end
-      end --END IF LEFT/RIGHT
-      redraw()      
+  end
+end
 
-      if evt.key == "ENTER" then
-         print ( "pressionou enter, valor guarda:" .. tostring(posicao))
-        
-         writeText()
-         
-         end
-
-    
-   end --  if
-end -- handler
 event.register(handler)
