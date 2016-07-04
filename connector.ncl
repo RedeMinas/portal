@@ -52,6 +52,14 @@
                 </compoundAction>
             </causalConnector>
 
+            <causalConnector id="onSelectionStop">
+                <connectorParam name="keyCode"/>
+                <simpleCondition role="onSelection" key="$keyCode"/>
+               
+                    <simpleAction role="stop" max="unbounded" qualifier="seq"/>
+                
+            </causalConnector>
+
             <causalConnector id="onAbortStopStart">
                 
                 <simpleCondition role="onSelection" />
@@ -144,6 +152,15 @@
                 <connectorParam name="value"/>
                 <simpleCondition role="onSelection"/>
                 <simpleAction role="set" value="$value"/>
+            </causalConnector>
+
+         <causalConnector id="onKeySelectionAbortStop">
+            <connectorParam name="vKey" />
+            <simpleCondition role="onSelection" key="$vKey" />
+            <compoundAction operator="par">
+            <simpleAction role="abort" />
+            <simpleAction role="stop" />
+            </compoundAction>
             </causalConnector>
 
         

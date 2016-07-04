@@ -234,6 +234,10 @@ function handler (evt)
             print ("pressionou up, valor guarda:" .. tostring(posicao))
              desenha()
             end
+            if evt.key == "BACK" then
+            error("FIM")
+            end
+
         end          
       end
   end
