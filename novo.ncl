@@ -7,7 +7,6 @@
         Organization: Rede Minas
      -->
     <head>
-     
         <regionBase>
             <region id="rgVideo"                width="100%"        height="100%"                                  zIndex="2"/>
             <region id="rgIcone"                width="11.4%"       height="9.2%"       top="10%"    left="9.97%"  zIndex="2"/>
@@ -54,9 +53,9 @@
             <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
             <descriptor id="deBtnAux"               region="rgBtnAux"/>
             <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="1" focusSrc="midia/btn1on.png" focusSelSrc="midia/btn1on.png" moveLeft="3" moveRight="2"/>
-            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="1" moveRight="3" moveDown="4"/>
+            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="1" moveRight="3" />
             <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="3" focusSrc="midia/btn3on.png" focusSelSrc="midia/btn3on.png" moveLeft="2" moveRight="1"/>
-             <descriptor id="dsLua"                 region="rgLua"/>
+             <descriptor id="dsLua"                 region="rgLua" focusIndex="2" />
         </descriptorBase>
 
         <!-- BIBLIOTECA DOS CONECTORES -->
@@ -88,7 +87,7 @@
         <media id="btnAux" src="midia/btn01.png"  descriptor="deBtnAux"><property name="top"/><area id="conteudo" begin="0.8s"/>
         </media>
       
-        <media id="btn2" src="midia/btn2off.png"  descriptor="deBtn2"/> 
+        <media id="btn2" src="midia/btn2off.png"  descriptor="deBtn2"/>
         <media id="btn3" src="midia/btn3off.png"  descriptor="deBtn3"/>
 
         <media id="btnOk"     src="midia/ok.png"  descriptor="debtnOk"/>
@@ -122,7 +121,7 @@
             <property name="service.currentKeyMaster" value=""/>
             <property name="service.currentFocus" value=""/>
         </media>
-
+        
         <!-- INICIO DO PROGRAMA -->
         <link id="link_onBeginVideo"    xconnector="conBase#onBeginStart">
             <bind role="onBegin"        component="Video" />
@@ -287,19 +286,17 @@
             </bind>
             <bind role="start"      component="conteudo1"/>
         </link>
-        
        
         <link id="link_btn2"            xconnector="conBase#onSelectionStartStop">
             <bind role="onSelection"    component="btn2" >   
             </bind>
             <bind role="stop"           component="conteudo1"/>
             <bind role="stop"           component="conteudo3"/>
-            <bind role="start"          component="voltar"/>
+            <bind role="start"           component="voltar"/>
             <bind role="start"          component="btnOk"/>
             <bind role="start"          component="lua"/>
         </link>
         
-
         <link id="link_btn3"            xconnector="conBase#onSelectionStartStop">
             <bind role="onSelection"    component="btn3" >   
             </bind>
@@ -335,31 +332,25 @@
             <bind role="start"           component="btn1"/>
             <bind role="start"           component="btn2"/>
         </link>
+       
         
-
         <!-- CONTROLE LUA -->
         <link id="link_focoConteudo2BEGIN"    xconnector="conBase#onBeginSet">
             <bind role="onBegin"        component="lua"/>
             <bind role="set"            component="settings" interface="service.currentKeyMaster">
                 <bindParam name="value" value="lua"/>
-            </bind>
+                </bind>
+               
         </link>
-        
+
         <link id="link_focoConteudo2END"    xconnector="conBase#onEndSet">
             <bind role="onEnd"              component="lua" />
             <bind role="set"                component="settings" interface="service.currentKeyMaster">
                 <bindParam name="value" value=""/>
             </bind>
         </link>
-<!-- FIM DO CONTROLE LUA -->
-            <link id="link_Voltar"    xconnector="conBase#onSelectionStop">
-            <bind role="onSelection"              component="voltar" >
-            <bindParam name="keyCode" value="BACK"/>
-            </bind>
-            <bind role="stop"                component="lua"/>
-            <bind role="stop"                component="voltar"/>
+		<!-- FIM DO CONTROLE LUA -->
 
-        </link>
          
         <!-- QUANDO BOTAO SAIR FOR SELECIONADO.. -->
         <link id="link_Sair"  xconnector="conBase#onSelectionStartStop">
@@ -367,20 +358,20 @@
                 <bindParam name="keyCode" value="EXIT"/>
             </bind>
             <bind component="icone"                   role="start"/>
-            <bind component="lua"                     role="stop"/>
             <bind component="btn1"                    role="stop"/>
-            <bind component="btnAux"                  role="stop"/>
-            <bind component="btn2"                    role="stop"/>
+            <bind component="btn2"               	  role="stop"/>
             <bind component="btn3"                    role="stop"/>
+            <bind component="btnAux"                  role="stop"/>
             <bind component="conteudo1"               role="stop"/>
             <bind component="fundo"                   role="stop"/>
             <bind component="fundo2"                  role="stop"/>
             <bind component="fundo3"                  role="stop"/>
             <bind component="conteudo3"               role="stop"/>
             <bind component="sair"                    role="stop"/>
+            <bind component="lua"                     role="stop"/>
             <bind component="voltar"                  role="stop"/>
             <bind component="btnOk"                   role="stop"/>
-        </link>
+            </link>
      </body>
         <!-- FIM DO PROGRAMA -->
 </ncl>

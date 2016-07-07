@@ -20,6 +20,7 @@
                 <simpleCondition role="onEnd"/>
                 <simpleAction role="start" max="unbounded" qualifier="par"/>
             </causalConnector>
+            
              <causalConnector id="onEndStopStart">
                 <simpleCondition role="onEnd"/>
                  <compoundAction operator="seq">
@@ -28,14 +29,7 @@
                  </compoundAction>
             </causalConnector>
 
-            <causalConnector id="onEndStopStart">
-                <simpleCondition role="onEnd"/>
-                <compoundAction operator="seq">
-                <simpleAction role="stop" max="unbounded" qualifier="seq"/>
-                <simpleAction role="start" max="unbounded" qualifier="seq"/>
-                </compoundAction>
-            </causalConnector>
-
+        
             <causalConnector id="onBeginStopStart">
                 <simpleCondition role="onBegin"/>
                 <compoundAction operator="seq">
@@ -55,13 +49,9 @@
             <causalConnector id="onSelectionStop">
                 <connectorParam name="keyCode"/>
                 <simpleCondition role="onSelection" key="$keyCode"/>
-               
                     <simpleAction role="stop" max="unbounded" qualifier="seq"/>
-                
             </causalConnector>
-
             <causalConnector id="onAbortStopStart">
-                
                 <simpleCondition role="onSelection" />
                 <compoundAction operator="seq">
                     <simpleAction role="stop" max="unbounded" qualifier="seq"/>
@@ -105,15 +95,7 @@
                 <simpleAction role="set" value="$newValue" duration="$vDuration" by="$vBy" />
             </causalConnector>
           
-             <causalConnector id="onEndIconMenuSetAnimStart">
-                <connectorParam name="vBy" />
-                <connectorParam name="vDuration" />
-                <connectorParam name="newValue"/>
-                <simpleCondition role="onBegin"/>
-                <simpleAction role="set" value="$newValue" duration="$vDuration" by="$vBy" />
-                
-                <simpleAction role="start" max="unbounded" qualifier="seq"/>
-            </causalConnector>
+             
             <causalConnector id="onSelectionIconMenuResizeVideo">
                 <connectorParam name="varSet"/>
                 <connectorParam name="keyCode"/>
@@ -142,10 +124,36 @@
                 <simpleAction role="set" value="$value"/>
             </causalConnector>
 
+
+            <causalConnector id="onBeginSetStart">
+                <connectorParam name="value"/>
+                <simpleCondition role="onBegin"/>
+                <compoundAction operator="seq">
+                <simpleAction role="set" value="$value"/>
+                <simpleAction role="start" max="unbounded" qualifier="par"/>
+                </compoundAction>
+            </causalConnector>
+
          <causalConnector id="onEndSet">
                 <connectorParam name="value"/>
                 <simpleCondition role="onEnd"/>
-                <simpleAction role="set" value="$value"/>
+                 <simpleAction role="set" value="$value" max="unbounded" qualifier="par"/>
+            </causalConnector>
+            <causalConnector id="onEndSetStop">
+                <connectorParam name="value"/>
+                <simpleCondition role="onEnd"/>
+                <compoundAction operator="seq">
+                 <simpleAction role="set" value="$value" max="unbounded" qualifier="par"/>
+                 <simpleAction role="stop" max="unbounded" qualifier="par"/>
+                 </compoundAction>
+            </causalConnector>
+            <causalConnector id="onEndSetStart">
+                <connectorParam name="value"/>
+                <simpleCondition role="onEnd"/>
+                <compoundAction operator="seq">
+                 <simpleAction role="set" value="$value" max="unbounded" qualifier="par"/>
+                 <simpleAction role="start" max="unbounded" qualifier="par"/>
+                 </compoundAction>
             </causalConnector>
 
              <causalConnector id="onSelectionSet">
