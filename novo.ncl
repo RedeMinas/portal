@@ -52,10 +52,10 @@
             <descriptor id="deconteudoBtn01"        region="rgconteudoBtn01"/>
             <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
             <descriptor id="deBtnAux"               region="rgBtnAux"/>
-            <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="1" focusSrc="midia/btn1on.png" focusSelSrc="midia/btn1on.png" moveLeft="3" moveRight="2"/>
-            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="1" moveRight="3" />
-            <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="3" focusSrc="midia/btn3on.png" focusSelSrc="midia/btn3on.png" moveLeft="2" moveRight="1"/>
-             <descriptor id="dsLua"                 region="rgLua" focusIndex="2" />
+            <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="0" focusIndex="2" focusSrc="midia/btn1on.png" focusSelSrc="midia/btn1on.png" moveLeft="4" moveRight="1"/>
+            <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="0" focusIndex="1" focusSrc="midia/btn2on.png" focusSelSrc="midia/btn2on.png" moveLeft="2" moveRight="4" />
+            <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="0" focusIndex="4" focusSrc="midia/btn3on.png" focusSelSrc="midia/btn3on.png" moveLeft="1" moveRight="2"/>
+             <descriptor id="dsLua"                 region="rgLua" focusBorderWidth="0" focusIndex="1" />
         </descriptorBase>
 
         <!-- BIBLIOTECA DOS CONECTORES -->
@@ -64,10 +64,7 @@
         </connectorBase>
     </head>
     <body>
-
         <port id="pMediaInitialPort" component="Video"/>
-
-
         <!-- VIDEO MP4 
         <media id="Video" src="sbtvd-ts://video" descriptor="deFullScreenMedia">
             <area id="icon" begin="2s"/>
@@ -80,16 +77,13 @@
         <media id="icone"           src="midia/icon3.png"           descriptor="deIcone"><property name="top"/></media>
         <media id="iconetest"       src="midia/icon.png"            descriptor="deIconetest"/>
         <media id="voltar"          src="midia/voltar.png"          descriptor="deVoltar"/>
-        
-        
+     
         <!-- BOTOES (TEXTO NCL) -->
         <media id="btn1" src="midia/btn1off.png" descriptor="deBtn1"/>
         <media id="btnAux" src="midia/btn01.png"  descriptor="deBtnAux"><property name="top"/><area id="conteudo" begin="0.8s"/>
         </media>
-      
         <media id="btn2" src="midia/btn2off.png"  descriptor="deBtn2"/>
         <media id="btn3" src="midia/btn3off.png"  descriptor="deBtn3"/>
-
         <media id="btnOk"     src="midia/ok.png"  descriptor="debtnOk"/>
         <media id="sair" src="midia/sair.png"     descriptor="deSair"><property name="top"/></media>
         
@@ -106,7 +100,6 @@
         <media id="conteudo3"      src="midia/contato.png"      descriptor="deconteudoBtn03"/>
         <media id="lua"            src="scroll.lua"             descriptor="dsLua"/>
       
-
          <!-- FUNDO -->
         <media id="fundo"  src="midia/fundo2.png" descriptor="deFundo"><property name="top"/>
         </media>
@@ -165,11 +158,7 @@
         </link>
         <!-- FIM DA ANIMACAO DO ICONE -->
 
-
         <!-- ANIMACAO DOS BOTOES -->
-
-
-
         <link id="Animacao_BtnAux" xconnector="conBase#onBeginIconMenuSetAnim">
             <bind role="onBegin" component="fundo"/>
             <bind role="set" component="btnAux" interface="top">
@@ -188,7 +177,6 @@
             </bind>
         </link>
 
-
         <link id="Animacao_SAIR" xconnector="conBase#onBeginIconMenuSetAnim">
             <bind role="onBegin" component="sair"/>
             <bind role="set" component="sair" interface="top">
@@ -206,12 +194,9 @@
                 <bindParam name="newValue"      value="90%"/>
             </bind>
         </link>
-
         <!-- FIM DA ANIMACAO DOS BOTOES -->
-
-
-        <!-- LINKS ANIMACAO FUNDO -->
         
+        <!-- LINKS ANIMACAO FUNDO -->
         <link id="Animacao_Fundo_Inicio" xconnector="conBase#onBeginIconMenuSetAnim">
             <bind role="onBegin" component="fundo"/>
             <bind role="set" component="fundo" interface="top">
@@ -333,14 +318,12 @@
             <bind role="start"           component="btn2"/>
         </link>
        
-        
         <!-- CONTROLE LUA -->
         <link id="link_focoConteudo2BEGIN"    xconnector="conBase#onBeginSet">
             <bind role="onBegin"        component="lua"/>
             <bind role="set"            component="settings" interface="service.currentKeyMaster">
                 <bindParam name="value" value="lua"/>
                 </bind>
-               
         </link>
 
         <link id="link_focoConteudo2END"    xconnector="conBase#onEndSet">
@@ -350,7 +333,14 @@
             </bind>
         </link>
 		<!-- FIM DO CONTROLE LUA -->
-
+		<link id="Link_Red"              xconnector="conBase#onSelectionStop">
+            <bind role="onSelection"    component="voltar" >
+                <bindParam name="keyCode" value="RED"/>
+            </bind>
+            <bind role="stop"           component="lua"/>
+            <bind role="stop"           component="voltar"/>
+            <bind role="stop"           component="btnOk"/>
+        </link>
          
         <!-- QUANDO BOTAO SAIR FOR SELECIONADO.. -->
         <link id="link_Sair"  xconnector="conBase#onSelectionStartStop">
