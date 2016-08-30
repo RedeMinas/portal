@@ -8,13 +8,14 @@
      -->
     <head>
         <regionBase>
-            <region id="rgVideo"                width="100%"        height="100%"                                  zIndex="2"/>
+
             <region id="rgIcone"                width="11.4%"       height="9.2%"       top="10%"    left="9.97%"  zIndex="2"/>
             <region id="rgIconetest"            width="11.4%"       height="3.5%"       top="10%"    left="9.97%"  zIndex="3"/>
             <region id="rgSair"                 width="2.29%"       height="4.63%"      top="90%"    left="82%"    zIndex="5"/>
             <region id="rgVoltar"               width="2.29%"       height="4.63%"      top="72%"    left="79%"    zIndex="15"/>
             <region id="rgOk"                   width="2.29%"       height="4.63%"      top="72%"    left="76%"    zIndex="5"/>
             <!-- CONTEUDO DOS BOTOES -->
+	    
             <region id="rgconteudoBtn01"        width="80%"       height="15.84%"     top="80%"    left="12.5%"  zIndex="5"/>
             <region id="rgconteudoBtn03"        width="74.94%"      height="11.67%"     top="78%"    left="12.5%"  zIndex="5"/>
             <!-- BOTOES -->
@@ -64,16 +65,10 @@
         </connectorBase>
     </head>
     <body>
-        <port id="pMediaInitialPort" component="Video"/>
-        <!-- VIDEO MP4 
-        <media id="Video" src="sbtvd-ts://video" descriptor="deFullScreenMedia">
-            <area id="icon" begin="2s"/>
-            <property name="bounds"/>
-            <property name="zIndex" value="3"/>
-        </media>
- -->
+        <port id="pMediaInitialPort" component="icone"/>
+
         <!-- MIDIAS -->
-        <media id="Video"           src="midia/video.mp4"           descriptor="deVideo"/>
+
         <media id="icone"           src="midia/icon3.png"           descriptor="deIcone"><property name="top"/></media>
         <media id="iconetest"       src="midia/icon.png"            descriptor="deIconetest"/>
         <media id="voltar"          src="midia/voltar.png"          descriptor="deVoltar"/>
