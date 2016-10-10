@@ -52,8 +52,6 @@ function desenha ()
   icone = canvas:new('midia/selecao.png')
    fundo = canvas:new('midia/transparent2.png')
 
-
-
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
   -- print(contador)
@@ -81,8 +79,8 @@ function goToFimVetor ()
         end
     end    
 end
+
 function writeText()
-  
   for i=guarda_min,posicao do
         canvas:attrColor('black')
         canvas:drawRect('fill', 0, 0, dx, dy )  
@@ -107,8 +105,6 @@ function handler (evt)
           if posicao >= (guarda_max-4) then
              posicao = guarda_min            
              restauraVetor()
-          
-
           else
               for i=guarda_min,guarda_max do
                   menu[i][dx] = menu[i][dx] - (tamImagem + distancia)
@@ -117,7 +113,6 @@ function handler (evt)
               print("posicao "..posicao)
           end          
           desenha()
-          
       else
         if evt.key == "CURSOR_LEFT" then
           if posicao <= (guarda_min) then
@@ -134,7 +129,6 @@ function handler (evt)
              -- print("posicao "..posicao)
           end              
           desenha()
-            
       else
         if evt.key == "ENTER" then
             print ("pressionou enter, valor guarda:" .. tostring(posicao))
@@ -145,8 +139,6 @@ function handler (evt)
             print ("pressionou up, valor guarda:" .. tostring(posicao))
              desenha()
             end
-            
-
         end          
       end
   end
