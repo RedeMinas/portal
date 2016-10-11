@@ -3,7 +3,7 @@
   <!--
       Serie Rede-Minas
       Date: 17/06/2016
-      Author: Bernardo Monteiro and Alessandro Cezar
+      Author: Núcleo Transmídia: Alessandro Cezar, Bernardo Monteiro, Carlos Paulino, João Victor e Bruna
       Organization: Rede Minas
   -->
   <head>
@@ -15,7 +15,7 @@
       <region id="rgVoltar"               width="2.29%"       height="4.63%"      top="72%"    left="79%"    zIndex="15"/>
       <region id="rgOk"                   width="2.29%"       height="4.63%"      top="72%"    left="76%"    zIndex="5"/>
       <!-- CONTEUDO DOS BOTOES -->
-      
+
       <region id="rgconteudoBtn01"        width="80%"       height="15.84%"     top="80%"    left="12.5%"  zIndex="5"/>
       <region id="rgconteudoBtn03"        width="74.94%"      height="11.67%"     top="78%"    left="12.5%"  zIndex="5"/>
       <!-- BOTOES -->
@@ -30,7 +30,7 @@
       
       <region id="rgFundo"                width="100%"        height="40%"        top="60%"                  zIndex="4"/>
       
-      <region id="rgLua"                 left="10%" width="80%" height="20%" top="75%"   zIndex="9"/>
+      <region id="rgScroll"                 left="10%" width="80%" height="20%" top="75%"   zIndex="9"/>
       <region id="rgSlide"               left="10%" width="80%" height="80%" top="10%"   zIndex="9"/>
     </regionBase>
 
@@ -54,7 +54,7 @@
       <descriptor id="deBtn3on"     region="rgBtn3on" />
       <descriptor id="deBtn4on"     region="rgBtn4on" />
       <descriptor id="deSlide"      region="rgSlide" />
-      <descriptor id="dsLua"        region="rgLua" focusBorderWidth="0" focusIndex="0" />
+      <descriptor id="dsScroll"        region="rgScroll" focusBorderWidth="0" focusIndex="0" />
     </descriptorBase>
 
     <!-- BIBLIOTECA DOS CONECTORES -->
@@ -96,19 +96,19 @@
       <property name="text" value="" />
     </media>
 
-    <media id="conteudo3"      src="midia/contato.png"      descriptor="deconteudoBtn03"/>
-    <media id="lua"            src="scroll.lua"             descriptor="dsLua"/>
-    <media id="slide"            src="slideEdital.lua"             descriptor="deSlide"/>
+    <media id="conteudo3"   src="midia/contato.png"      descriptor="deconteudoBtn03"/>
+    <media id="scroll"      src="scroll.lua"             descriptor="dsScroll"/>
+    <media id="slide"       src="slideEdital.lua"        descriptor="deSlide"/>
     
     <!-- FUNDO -->
     <media id="fundo"  src="midia/fundo.png" descriptor="deFundo"/>
     
     <!-- FIM FUNDO -->
+    
     <media id="settings" type="application/x-ginga-settings">
       <property name="service.currentKeyMaster" value=""/>
       <property name="service.currentFocus" value=""/>
     </media>
-    
     
     <link id="link_icon"         xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="icone" >
@@ -124,8 +124,6 @@
       <bind role="stop"       component="icone"/>
     </link>
     
-    
-    
     <!-- LINKS PARA BOTOES -->
     <link id="link_btn1"            xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection"    component="btn1" >   
@@ -133,7 +131,7 @@
       <bind role="start"          component="btn1on"/>
       <bind role="start"          component="conteudo1"/>
       <bind role="stop"           component="conteudo3"/>
-      <bind role="stop"           component="lua"/>
+      <bind role="stop"           component="scroll"/>
       <bind role="stop"           component="btn2on"/>
       <bind role="stop"           component="btn3on"/>
       <bind role="stop"           component="btn4on"/>
@@ -144,7 +142,8 @@
       </bind>
       <bind role="stop"           component="conteudo1"/>
       <bind role="start"          component="btn2on"/>
-      <bind role="start"          component="lua"/>
+      <bind role="start"          component="scroll"/>
+      <bind role="start"          component="settingsscroll"/>
       <bind role="stop"          component="conteudo3"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn3on"/>
@@ -159,7 +158,7 @@
       <bind role="stop"           component="conteudo1"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn2on"/>
-      <bind role="stop"           component="lua"/>
+      <bind role="stop"           component="scroll"/>
     </link>
 
     <link id="link_btn4" xconnector="conBase#onSelectionStartStop">
@@ -168,34 +167,51 @@
 <!--      <bind role="start"          component="conteudo4"/> -->
       <bind role="start"          component="btn4on"/>
       <bind role="start"          component="slide"/>
+      <bind role="start"          component="settingsslide"/>
       <bind role="stop"           component="conteudo1"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn2on"/>
       <bind role="stop"           component="btn3on"/>
-      <bind role="stop"           component="lua"/>      
+      <bind role="stop"           component="scroll"/>      
     </link>
     
     <!-- CONTROLE LUA -->
-    <link id="link_focoConteudo2BEGIN"    xconnector="conBase#onBeginSet">
-      <bind role="onBegin"        component="lua"/>
+    <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
+      <bind role="onBegin"        component="scroll"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
-        <bindParam name="value" value="lua"/>
-      </bind>
-    </link>
-
-    <link id="link_focoConteudo2END"    xconnector="conBase#onEndSet">
-      <bind role="onEnd"              component="lua" />
-      <bind role="set"                component="settings" interface="service.
-								      currentKeyMaster">
         <bindParam name="value" value=""/>
       </bind>
     </link>
+
+    <link id="link_focoScroll2END"    xconnector="conBase#onEndSet">
+      <bind role="onEnd"              component="scroll" />
+      <bind role="set"                component="settings" interface="service.currentKeyMaster">
+        <bindParam name="value" value=""/>
+      </bind>
+    </link>
+
+    <link id="link_focoSlide2BEGIN"    xconnector="conBase#onBeginSet">
+      <bind role="onBegin"        component="slide"/>
+      <bind role="set"            component="settings" interface="service.currentKeyMaster">
+        <bindParam name="value" value=""/>
+      </bind>
+    </link>
+
+    <link id="link_focoSlide2END"    xconnector="conBase#onEndSet">
+      <bind role="onEnd"              component="slide" />
+      <bind role="set"                component="settings" interface="service.currentKeyMaster">
+        <bindParam name="value" value=""/>
+      </bind>
+    </link>
+
+
+
     <!-- FIM DO CONTROLE LUA -->
     <link id="Link_Red"              xconnector="conBase#onSelectionStop">
       <bind role="onSelection"    component="voltar" >
         <bindParam name="keyCode" value="RED"/>
       </bind>
-      <bind role="stop"           component="lua"/>
+      <bind role="stop"           component="scroll"/>
       <bind role="stop"           component="voltar"/>
       <bind role="stop"           component="btnOk"/>
     </link>
@@ -218,7 +234,7 @@
       <bind component="fundo"	      role="stop"/>
       <bind component="conteudo3"     role="stop"/>
       <bind component="sair"          role="stop"/>
-      <bind component="lua"           role="stop"/>
+      <bind component="scroll"           role="stop"/>
       <bind component="voltar"        role="stop"/>
       <bind component="btnOk"         role="stop"/>
     </link>
