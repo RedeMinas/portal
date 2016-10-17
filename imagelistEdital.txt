@@ -1,1 +1,3 @@
 midia/edital/tela1.png
+midia/edital/tela2.png
+midia/edital/tela3.png

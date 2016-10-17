@@ -179,7 +179,7 @@
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
       <bind role="onBegin"        component="scroll"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
-        <bindParam name="value" value=""/>
+        <bindParam name="value" value="scroll"/>
       </bind>
     </link>
 
@@ -193,7 +193,7 @@
     <link id="link_focoSlide2BEGIN"    xconnector="conBase#onBeginSet">
       <bind role="onBegin"        component="slide"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
-        <bindParam name="value" value=""/>
+        <bindParam name="value" value="slide"/>
       </bind>
     </link>
 
@@ -234,7 +234,8 @@
       <bind component="fundo"	      role="stop"/>
       <bind component="conteudo3"     role="stop"/>
       <bind component="sair"          role="stop"/>
-      <bind component="scroll"           role="stop"/>
+      <bind component="scroll"        role="stop"/>
+      <bind component="slide"         role="stop"/>
       <bind component="voltar"        role="stop"/>
       <bind component="btnOk"         role="stop"/>
     </link>
