@@ -3,7 +3,7 @@
   <!--
       Serie Rede-Minas
       Date: 17/06/2016
-      Author: Núcleo Transmídia: Alessandro Cezar, Bernardo Monteiro, Carlos Paulino, João Victor e Bruna
+      Author: Nucleo Transmidia: Alessandro Cezar, Bernardo Monteiro, Bruna Menezes, Carlos Paulino, Joï¿½o Victor 
       Organization: Rede Minas
   -->
   <head>
@@ -44,17 +44,18 @@
       <descriptor id="deSair"                 region="rgSair"/>
       <descriptor id="deconteudoBtn01"        region="rgconteudoBtn01"/>
       <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
-      <descriptor id="deBtn1"                 region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="2"/>
-      <descriptor id="deBtn2"                 region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="2" moveLeft="1" moveRight="3" />
-      <descriptor id="deBtn3"                 region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="2" moveRight="4"/>
-      <descriptor id="deBtn4"                 region="rgBtn4" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="3" moveRight="1"/>
+      <descriptor id="deBtn1"      region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="2" moveRight="1"/>
+      <descriptor id="deBtn2"      region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="3"/>
+      <descriptor id="deBtn3"      region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="1" moveRight="2"/>
+      <descriptor id="deBtn4"      region="rgBtn4" focusBorderWidth="3" focusBorderColor="red" focusIndex="2"  moveLeft="3" moveRight="4"/>
      
       <descriptor id="deBtn1on"     region="rgBtn1on" />
-      <descriptor id="deBtn2on"     region="rgBtn2on"  />
+      <descriptor id="deBtn2on"     region="rgBtn2on"   />
       <descriptor id="deBtn3on"     region="rgBtn3on" />
-      <descriptor id="deBtn4on"     region="rgBtn4on" />
-      <descriptor id="deSlide"      region="rgSlide" />
+      <descriptor id="deBtn4on"     region="rgBtn4on"  />
       <descriptor id="dsScroll"        region="rgScroll" focusBorderWidth="0" focusIndex="0" />
+      <descriptor id="deSlide"      region="rgSlide"  focusBorderWidth="0" focusIndex="1"  />
+      
     </descriptorBase>
 
     <!-- BIBLIOTECA DOS CONECTORES -->
@@ -79,13 +80,12 @@
     <media id="btn2on" src="midia/btn2on.png"  descriptor="deBtn2on"/>
     <media id="btn3"   src="midia/btn3off.png" descriptor="deBtn3"/>
     <media id="btn3on" src="midia/btn3on.png"  descriptor="deBtn3on"/>
-    <media id="btn3"   src="midia/btn3off.png" descriptor="deBtn3"/>
-    <media id="btn3on" src="midia/btn3on.png"  descriptor="deBtn3on"/>
     <media id="btn4"   src="midia/btn4off.png" descriptor="deBtn4"/>
     <media id="btn4on" src="midia/btn4on.png"  descriptor="deBtn4on"/>
     <media id="btnOk"  src="midia/ok.png"      descriptor="debtnOk"/>
     <media id="sair"   src="midia/sair.png"    descriptor="deSair"/>
-    
+    <media id="sairMenuScroll"   src="midia/sair.png"    descriptor="deSair"/>
+     <media id="sairMenuSlide"   src="midia/sair.png"    descriptor="deSair"/>
     <!-- FIM DOS BOTOES (TEXTO NCL) -->
     <media id="conteudo1"  src="midia/conteudo1.txt"  descriptor="deconteudoBtn01">
       <property name="background" value="transparent"/>
@@ -109,7 +109,8 @@
       <property name="service.currentKeyMaster" value=""/>
       <property name="service.currentFocus" value=""/>
     </media>
-    
+  
+
     <link id="link_icon"         xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="icone" >
         <bindParam name="keyCode" value="ENTER"/>
@@ -128,10 +129,10 @@
     <link id="link_btn1"            xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection"    component="btn1" >   
       </bind>
+      
       <bind role="start"          component="btn1on"/>
       <bind role="start"          component="conteudo1"/>
       <bind role="stop"           component="conteudo3"/>
-      <bind role="stop"           component="scroll"/>
       <bind role="stop"           component="btn2on"/>
       <bind role="stop"           component="btn3on"/>
       <bind role="stop"           component="btn4on"/>
@@ -141,10 +142,12 @@
       <bind role="onSelection"    component="btn2" >   
       </bind>
       <bind role="stop"           component="conteudo1"/>
+      <bind role="stop"           component="conteudo3"/>
+      <bind role="stop"           component="btn2"/>
       <bind role="start"          component="btn2on"/>
       <bind role="start"          component="scroll"/>
-      <bind role="start"          component="settingsscroll"/>
-      <bind role="stop"          component="conteudo3"/>
+      <bind role="start"          component="sairMenuScroll"/>
+       <bind role="stop"          component="sair"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn3on"/>
       <bind role="stop"           component="btn4on"/>
@@ -155,25 +158,28 @@
       </bind>
       <bind role="start"          component="conteudo3"/>
       <bind role="start"          component="btn3on"/>
-      <bind role="stop"           component="conteudo1"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn2on"/>
-      <bind role="stop"           component="scroll"/>
+      <bind role="stop"           component="btn4on"/>
+     <bind role="stop"           component="conteudo1"/>   
     </link>
 
     <link id="link_btn4" xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection"    component="btn4" >   
       </bind>
-<!--      <bind role="start"          component="conteudo4"/> -->
+     
       <bind role="start"          component="btn4on"/>
       <bind role="start"          component="slide"/>
-      <bind role="start"          component="settingsslide"/>
       <bind role="stop"           component="conteudo1"/>
+      <bind role="stop"           component="conteudo3"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn2on"/>
       <bind role="stop"           component="btn3on"/>
-      <bind role="stop"           component="scroll"/>      
+      <bind role="stop"           component="sair"/>
+      <bind role="start"          component="sairMenuSlide"/>    
     </link>
+    
+ 
     
     <!-- CONTROLE LUA -->
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
@@ -199,23 +205,32 @@
 
     <link id="link_focoSlide2END"    xconnector="conBase#onEndSet">
       <bind role="onEnd"              component="slide" />
-      <bind role="set"                component="settings" interface="service.currentKeyMaster">
-        <bindParam name="value" value=""/>
+      <bind role="set"                component="settings" interface="service.currentFocus">
+        <bindParam name="value" value="2"/>
       </bind>
     </link>
 
-
-
-    <!-- FIM DO CONTROLE LUA -->
-    <link id="Link_Red"              xconnector="conBase#onSelectionStop">
-      <bind role="onSelection"    component="voltar" >
-        <bindParam name="keyCode" value="RED"/>
+     <link id="link_SairMenuScroll"  xconnector="conBase#onSelectionStartStop">
+      <bind role="onSelection" component="sairMenuScroll">
+        <bindParam name="keyCode" value="EXIT"/>
       </bind>
-      <bind role="stop"           component="scroll"/>
-      <bind role="stop"           component="voltar"/>
-      <bind role="stop"           component="btnOk"/>
+       <bind role="stop"          component="sairMenuScroll"/>
+       <bind role="stop"          component="btn2on"/>      
+       <bind role="stop"          component="scroll"/>     
+       <bind role="stop"           component="btnOk"/>
+       <bind role="start"          component="btn2"/>
+       <bind role="start"          component="sair"/>
     </link>
-    
+    <link id="link_SairMenuSlide"  xconnector="conBase#onSelectionStartStop">
+      <bind role="onSelection" component="sairMenuSlide">
+        <bindParam name="keyCode" value="EXIT"/>
+      </bind>
+       <bind role="stop"          component="sairMenuSlide"/>
+		<bind role="stop"          component="btn4on"/>
+		<bind role="stop"          component="slide"/>
+		 <bind role="start"          component="sair"/>
+       <bind role="start"          component="btn4"/>  
+    </link>
     <!-- QUANDO BOTAO SAIR FOR SELECIONADO.. -->
     <link id="link_Sair"  xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="sair">
@@ -234,11 +249,10 @@
       <bind component="fundo"	      role="stop"/>
       <bind component="conteudo3"     role="stop"/>
       <bind component="sair"          role="stop"/>
-      <bind component="scroll"        role="stop"/>
-      <bind component="slide"         role="stop"/>
       <bind component="voltar"        role="stop"/>
       <bind component="btnOk"         role="stop"/>
     </link>
   </body>
   <!-- FIM DO PROGRAMA -->
 </ncl>
+
