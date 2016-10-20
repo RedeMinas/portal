@@ -19,19 +19,19 @@
       <region id="rgconteudoBtn01"        width="80%"       height="15.84%"     top="80%"    left="12.5%"  zIndex="5"/>
       <region id="rgconteudoBtn03"        width="74.94%"      height="11.67%"     top="78%"    left="12.5%"  zIndex="5"/>
       <!-- BOTOES -->
-      <region id="rgBtn1"                 width="13.80%"      height="3.18%"      top="72%"    left="12.5%"  zIndex="5"/>
-      <region id="rgBtn2"                 width="10.93%"      height="3.18%"      top="72%"    left="27.5%"  zIndex="5"/>
-      <region id="rgBtn3"                 width="10.93%"      height="3.18%"      top="72%"    left="38.5%"  zIndex="5"/>
-      <region id="rgBtn4"                 width="10.93%"      height="3.18%"      top="72%"    left="50%"  zIndex="5"/>
-      <region id="rgBtn1on"               width="13.80%"      height="3.18%"      top="72%"    left="12.5%"  zIndex="7"/>
-      <region id="rgBtn2on"               width="10.93%"      height="3.18%"      top="72%"    left="27.5%"  zIndex="7"/>
-      <region id="rgBtn3on"               width="10.93%"      height="3.18%"      top="72%"    left="38.5%"  zIndex="7"/>
-      <region id="rgBtn4on"               width="10.93%"      height="3.18%"      top="72%"    left="50%"    zIndex="7"/>
+      <region id="rgBtn1"                 width="12.91%"      height="2.77%"      top="72%"    left="12.5%"  zIndex="5"/>
+      <region id="rgBtn2"                 width="10.20%"      height="3.33%"      top="72%"    left="27%"  zIndex="5"/>
+      <region id="rgBtn3"                 width="7.5%"        height="2.77%"      top="72%"    left="38.5%"  zIndex="5"/>
+      <region id="rgBtn4"                 width="6.25%"       height="2.77%"       top="72%"    left="47.5%"  zIndex="5"/>
+      <region id="rgBtn1on"               width="12.91%"       height="2.77%"      top="72%"    left="12.5%"  zIndex="7"/>
+      <region id="rgBtn2on"               width="10.33%"      height="3.33%"      top="72%"    left="27%"  zIndex="7"/>
+      <region id="rgBtn3on"               width="7.5%"        height="2.77%"      top="72%"    left="38.5%"  zIndex="7"/>
+      <region id="rgBtn4on"               width="6.25%"      height="2.77%"      top="72%"    left="47.5%"    zIndex="7"/>
       
       <region id="rgFundo"                width="100%"        height="40%"        top="60%"                  zIndex="4"/>
       
-      <region id="rgScroll"                 left="10%" width="80%" height="20%" top="75%"   zIndex="9"/>
-      <region id="rgSlide"               left="10%" width="80%" height="80%" top="10%"   zIndex="9"/>
+      <region id="rgScroll"         left="18%" width="54%" height="20%" top="77%"   zIndex="9"/>
+      <region id="rgSlide"                left="7%" width="80%" height="80%" top="10%"   zIndex="9"/>
     </regionBase>
 
     <descriptorBase>
@@ -44,16 +44,15 @@
       <descriptor id="deSair"                 region="rgSair"/>
       <descriptor id="deconteudoBtn01"        region="rgconteudoBtn01"/>
       <descriptor id="deconteudoBtn03"        region="rgconteudoBtn03"/>
-      <descriptor id="deBtn1"      region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="2" moveRight="1"/>
+      <descriptor id="deBtn1"   region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="2" moveRight="1"/>
       <descriptor id="deBtn2"      region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="3"/>
       <descriptor id="deBtn3"      region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="1" moveRight="2"/>
       <descriptor id="deBtn4"      region="rgBtn4" focusBorderWidth="3" focusBorderColor="red" focusIndex="2"  moveLeft="3" moveRight="4"/>
-     
       <descriptor id="deBtn1on"     region="rgBtn1on" />
       <descriptor id="deBtn2on"     region="rgBtn2on"   />
       <descriptor id="deBtn3on"     region="rgBtn3on" />
       <descriptor id="deBtn4on"     region="rgBtn4on"  />
-      <descriptor id="dsScroll"        region="rgScroll" focusBorderWidth="0" focusIndex="0" />
+      <descriptor id="dsScroll"     region="rgScroll" focusBorderWidth="0" focusIndex="0" />
       <descriptor id="deSlide"      region="rgSlide"  focusBorderWidth="0" focusIndex="1"  />
       
     </descriptorBase>
@@ -69,7 +68,7 @@
     <!-- MIDIAS -->
 
     <media id="icone"
-	   src="midia/icon3.png"           descriptor="deIcone"/>
+     src="midia/icon3.png"           descriptor="deIcone"/>
     <media id="iconetest"       src="midia/icon.png"            descriptor="deIconetest"/>
     <media id="voltar"          src="midia/voltar.png"          descriptor="deVoltar"/>
     
@@ -116,6 +115,7 @@
         <bindParam name="keyCode" value="ENTER"/>
       </bind>
       <bind role="start"      component="btn1"/>
+      <bind role="start"      component="btn1on"/>
       <bind role="start"      component="btn2"/>
       <bind role="start"      component="btn3"/>
       <bind role="start"      component="btn4"/>
@@ -226,9 +226,9 @@
         <bindParam name="keyCode" value="EXIT"/>
       </bind>
        <bind role="stop"          component="sairMenuSlide"/>
-		<bind role="stop"          component="btn4on"/>
-		<bind role="stop"          component="slide"/>
-		 <bind role="start"          component="sair"/>
+    <bind role="stop"          component="btn4on"/>
+    <bind role="stop"          component="slide"/>
+     <bind role="start"          component="sair"/>
        <bind role="start"          component="btn4"/>  
     </link>
     <!-- QUANDO BOTAO SAIR FOR SELECIONADO.. -->
@@ -236,17 +236,17 @@
       <bind role="onSelection" component="sair">
         <bindParam name="keyCode" value="EXIT"/>
       </bind>
-      <bind component="icone"	      role="start"/>
-      <bind component="btn1"	      role="stop"/>
-      <bind component="btn2"	      role="stop"/>
-      <bind component="btn3"	      role="stop"/>
-      <bind component="btn4"	      role="stop"/>
-      <bind component="btn1on"	      role="stop"/>
-      <bind component="btn2on"	      role="stop"/>
-      <bind component="btn3on"	      role="stop"/>
-      <bind component="btn4on"	      role="stop"/>
+      <bind component="icone"       role="start"/>
+      <bind component="btn1"        role="stop"/>
+      <bind component="btn2"        role="stop"/>
+      <bind component="btn3"        role="stop"/>
+      <bind component="btn4"        role="stop"/>
+      <bind component="btn1on"        role="stop"/>
+      <bind component="btn2on"        role="stop"/>
+      <bind component="btn3on"        role="stop"/>
+      <bind component="btn4on"        role="stop"/>
       <bind component="conteudo1"     role="stop"/>
-      <bind component="fundo"	      role="stop"/>
+      <bind component="fundo"       role="stop"/>
       <bind component="conteudo3"     role="stop"/>
       <bind component="sair"          role="stop"/>
       <bind component="voltar"        role="stop"/>
@@ -255,4 +255,3 @@
   </body>
   <!-- FIM DO PROGRAMA -->
 </ncl>
-
