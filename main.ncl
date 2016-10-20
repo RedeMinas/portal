@@ -3,7 +3,7 @@
   <!--
       Serie Rede-Minas
       Date: 17/06/2016
-      Author: Nucleo Transmidia: Alessandro Cezar, Bernardo Monteiro, Bruna Menezes, Carlos Paulino, Jo�o Victor 
+      Author: Nucleo Transmidia: Alessandro Cezar, Bernardo Monteiro, Bruna Menezes, Carlos Paulino, Joao Victor 
       Organization: Rede Minas
   -->
   <head>
