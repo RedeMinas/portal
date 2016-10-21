@@ -34,5 +34,13 @@ menu = {
    [17] = { nome="arrumação", descricao =  "O Arrumação abre espaço para diversas manifestações culturais como \na música, a dança, o teatro, a poesia, o folclore, as tradições, a \nnotícia boa e o bom-humor, apresentando os valores mais autênticos da \ncultura brasileira."
    },
    [18] = { nome="Brasil das Gerais", descricao = "O Brasil das Gerais trata de temas como patrimônio cultural, tecnologia \nsocial e saúde. É sobre pessoas e sobre histórias de nossa Minas Gerais."
+   },
+   [19] =  { nome="Alto Falante", descricao =  "Uma revista eletrônica dedicada à musica pop e suas vertentes.Traz a \nhistória, das grandes bandas de rock, divulga artistas independentes, \ndestaca os lançamentos, fala tudo sobre instrumentos musicais e conta \nainda com entrevistas."
+   },
+   [20] = { nome="arrumação", descricao =  "O Arrumação abre espaço para diversas manifestações culturais como \na música, a dança, o teatro, a poesia, o folclore, as tradições, a \nnotícia boa e o bom-humor, apresentando os valores mais autênticos da \ncultura brasileira."
+   },
+   [21] = { nome="arrumação", descricao =  "O Arrumação abre espaço para diversas manifestações culturais como \na música, a dança, o teatro, a poesia, o folclore, as tradições, a \nnotícia boa e o bom-humor, apresentando os valores mais autênticos da \ncultura brasileira."
+   },
+   [22] = { nome="arrumação", descricao =  "O Arrumação abre espaço para diversas manifestações culturais como \na música, a dança, o teatro, a poesia, o folclore, as tradições, a \nnotícia boa e o bom-humor, apresentando os valores mais autênticos da \ncultura brasileira."
    }
 }

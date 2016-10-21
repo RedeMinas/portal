@@ -1,6 +1,6 @@
 local posicao = 1
 local guarda_min = 1
-local guarda_max = 18
+local guarda_max = 22
 --rever como calcular a partir das imagens do menu
 local distancia = 30
 local tamImagem = 180
@@ -14,7 +14,7 @@ local imagem = {}
 function criaVetor()
     -- cria vetor primario
    for i=guarda_min,guarda_max do
-      menu[i][canvas] = canvas:new('midia/menu2/'..tostring(i) .. 'off.png')
+      menu[i][canvas] = canvas:new('midia/menu2/'..tostring(i) .. 'off.jpg')
       menu[i][dx]=(tamImagem *(i)  )
     end
     for i=guarda_min,guarda_max do
