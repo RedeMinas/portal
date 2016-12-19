@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <ncl id="portal" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
   <head>
-    <regionBase>
 
+    <regionBase>
       <region id="rgIcone"     width="11.4%"  height="9.2%"   top="10%"  left="9.97%"  zIndex="2"/>
       <region id="rgSair"      width="2.29%"  height="4.63%"  top="72%"  left="82%"    zIndex="5"/>
-      <region id="rgVoltar"    width="2.29%"  height="4.63%"  top="72%"  left="79%"    zIndex="15"/>
+      <region id="rgVoltar"    width="2.29%"  height="4.63%"  top="72%"  left="79%"    zIndex="8"/>
       <region id="rgOk"        width="2.29%"  height="4.63%"  top="72%"  left="76%"    zIndex="5"/>
       <region id="rgContent01" width="80%"    height="15.84%" top="80%"  left="12.5%"  zIndex="5"/>
       <region id="rgContent03" width="74.94%" height="11.67%" top="78%"  left="12.5%"  zIndex="5"/>
       <region id="rgBtn1"      width="12.91%" height="2.77%"  top="72%"  left="12.5%"  zIndex="5"/>
+      <region id="rgBtn1on"    width="12.91%" height="2.77%"  top="72%"  left="12.5%"  zIndex="5"/>
       <region id="rgBtn2"      width="10.20%" height="3.33%"  top="72%"  left="27%"    zIndex="5"/>
+      <region id="rgBtn2on"    width="10.33%" height="3.33%"  top="72%"  left="27%"    zIndex="5"/>
       <region id="rgBtn3"      width="7.5%"   height="2.77%"  top="72%"  left="38.5%"  zIndex="5"/>
-      <region id="rgBtn4"      width="6.25%"  height="2.77%"  top="72%"  left="47.5%"  zIndex="5"/>
-      <region id="rgBtn1on"    width="12.91%" height="2.77%"  top="72%"  left="12.5%"  zIndex="7"/>
-      <region id="rgBtn2on"    width="10.33%" height="3.33%"  top="72%"  left="27%"    zIndex="7"/>
-      <region id="rgBtn3on"    width="7.5%"   height="2.77%"  top="72%"  left="38.5%"  zIndex="7"/>
+      <region id="rgBtn3on"    width="7.5%"   height="2.77%"  top="72%"  left="38.5%"  zIndex="5"/>
+      <region id="rgBtn4"      width="6.25%"  height="2.31%"  top="72%"  left="47.5%"  zIndex="5"/>
+      <region id="rgBtn4on"    width="6.25%"  height="2.31%"  top="72%"  left="47.5%"  zIndex="5"/>
       <region id="rgBgd"       width="100%"   height="40%"    top="60%"  zIndex="4"/>
       <region id="rgScroll"    width="54%"    height="20%" top="77%"     left="18%"    zIndex="9"/>
     </regionBase>
@@ -28,14 +29,14 @@
       <descriptor id="deSair"      region="rgSair"/>
       <descriptor id="deContent01" region="rgContent01"/>
       <descriptor id="deContent03" region="rgContent03"/>
-      <descriptor id="deBtn1"      region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="2" moveRight="1"/>
-      <descriptor id="deBtn2"      region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="3"/>
-      <descriptor id="deBtn3"      region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="1" moveRight="2"/>
-
-      <descriptor id="deBtn1on"    region="rgBtn1on" />
-      <descriptor id="deBtn2on"    region="rgBtn2on"   />
-      <descriptor id="deBtn3on"    region="rgBtn3on" />
-      <descriptor id="deBtn4on"    region="rgBtn4on"  />
+      <descriptor id="deBtn1"      region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="2"/>
+      <descriptor id="deBtn2"      region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="2"  moveLeft="1" moveRight="3"/>
+      <descriptor id="deBtn3"      region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="2" moveRight="4"/>
+      <descriptor id="deBtn4"      region="rgBtn4" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="3" moveRight="1"/>
+      <descriptor id="deBtn1on"    region="rgBtn1on"/>
+      <descriptor id="deBtn2on"    region="rgBtn2on"/>
+      <descriptor id="deBtn3on"    region="rgBtn3on"/>
+      <descriptor id="deBtn4on"    region="rgBtn4on"/>
       <descriptor id="dsScroll"    region="rgScroll" focusBorderWidth="0" focusIndex="0" />
     </descriptorBase>
 
@@ -56,6 +57,8 @@
     <media id="btn2on" src="media/btn2on.png"  descriptor="deBtn2on"/>
     <media id="btn3"   src="media/btn3off.png" descriptor="deBtn3"/>
     <media id="btn3on" src="media/btn3on.png"  descriptor="deBtn3on"/>
+    <media id="btn4"   src="media/btn4off.png" descriptor="deBtn4"/>
+    <media id="btn4on" src="media/btn4on.png"  descriptor="deBtn4on"/>
 
     <media id="btnOk"  src="media/ok.png"      descriptor="debtnOk"/>
     <media id="sair"   src="media/sair.png"    descriptor="deSair"/>
@@ -137,9 +140,6 @@
       <bind role="stop"           component="sair"/>
     </link>
     
-    
-    
-
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
       <bind role="onBegin"        component="scroll"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
