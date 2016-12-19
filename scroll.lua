@@ -14,7 +14,7 @@ local imagem = {}
 function criaVetor()
   -- cria vetor primario
   for i=guarda_min,guarda_max do
-    menu[i][canvas] = canvas:new('media/pgm/'..tostring(i) .. 'off.png')
+    menu[i][canvas] = canvas:new('media/'.. string.format("%02d" , i) .. '.png')
     menu[i][dx]=(tamImagem *(i)  )
   end
   for i=guarda_min,guarda_max do

@@ -3,7 +3,7 @@
   <head>
 
     <regionBase>
-      <region id="rgIcone"     width="11.4%"  height="9.2%"   top="10%"  left="9.97%"  zIndex="2"/>
+      <region id="rgIcone"     width="5%"  height="5%"   top="90%"  left="90%"  zIndex="2"/>
       <region id="rgSair"      width="2.29%"  height="4.63%"  top="72%"  left="82%"    zIndex="5"/>
       <region id="rgVoltar"    width="2.29%"  height="4.63%"  top="72%"  left="79%"    zIndex="8"/>
       <region id="rgOk"        width="2.29%"  height="4.63%"  top="72%"  left="76%"    zIndex="5"/>
