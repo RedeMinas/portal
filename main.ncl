@@ -16,13 +16,12 @@
       <region id="rgBtn1on"    width="12.91%" height="2.77%"  top="72%"  left="12.5%"  zIndex="7"/>
       <region id="rgBtn2on"    width="10.33%" height="3.33%"  top="72%"  left="27%"    zIndex="7"/>
       <region id="rgBtn3on"    width="7.5%"   height="2.77%"  top="72%"  left="38.5%"  zIndex="7"/>
-      <region id="rgBtn4on"    width="6.25%"  height="2.77%"  top="72%"  left="47.5%"  zIndex="7"/>
-      <region id="rgFundo"     width="100%"   height="40%"    top="60%"  zIndex="4"/>
+      <region id="rgBgd"       width="100%"   height="40%"    top="60%"  zIndex="4"/>
       <region id="rgScroll"    width="54%"    height="20%" top="77%"     left="18%"    zIndex="9"/>
     </regionBase>
 
     <descriptorBase>
-      <descriptor id="deFundo"     region="rgFundo"/> 
+      <descriptor id="deBgd"     region="rgBgd"/> 
       <descriptor id="debtnOk"     region="rgOk"/> 
       <descriptor id="deVoltar"    region="rgVoltar" />        
       <descriptor id="deIcone"     region="rgIcone"/> 
@@ -32,7 +31,7 @@
       <descriptor id="deBtn1"      region="rgBtn1" focusBorderWidth="3" focusBorderColor="red" focusIndex="4"  moveLeft="2" moveRight="1"/>
       <descriptor id="deBtn2"      region="rgBtn2" focusBorderWidth="3" focusBorderColor="red" focusIndex="1"  moveLeft="4" moveRight="3"/>
       <descriptor id="deBtn3"      region="rgBtn3" focusBorderWidth="3" focusBorderColor="red" focusIndex="3"  moveLeft="1" moveRight="2"/>
-      <descriptor id="deBtn4"      region="rgBtn4" focusBorderWidth="3" focusBorderColor="red" focusIndex="2"  moveLeft="3" moveRight="4"/>
+
       <descriptor id="deBtn1on"    region="rgBtn1on" />
       <descriptor id="deBtn2on"    region="rgBtn2on"   />
       <descriptor id="deBtn3on"    region="rgBtn3on" />
@@ -58,16 +57,15 @@
     <media id="btn3"   src="media/btn3off.png" descriptor="deBtn3"/>
     <media id="btn3on" src="media/btn3on.png"  descriptor="deBtn3on"/>
 
-    <media id="btn4"   src="media/btn4off.png" descriptor="deBtn4"/>
-    <media id="btn4on" src="media/btn4on.png"  descriptor="deBtn4on"/>
     <media id="btnOk"  src="media/ok.png"      descriptor="debtnOk"/>
     <media id="sair"   src="media/sair.png"    descriptor="deSair"/>
     <media id="sairMenuScroll"   src="media/sair.png"    descriptor="deSair"/>
+
+    <media id="conteudo1"  src="media/contato.png"  descriptor="deContent01"/>
+    <media id="conteudo3"  src="media/contato.png"  descriptor="deContent03"/>
+    <media id="scroll"     src="scroll.lua"         descriptor="dsScroll"/>
     
-    <media id="conteudo3"   src="media/contato.png"      descriptor="deContent03"/>
-    <media id="scroll"      src="scroll.lua"             descriptor="dsScroll"/>
-    
-    <media id="fundo"  src="media/fundo.png" descriptor="deFundo"/>
+    <media id="fundo"  src="media/fundo.png" descriptor="deBgd"/>
     
     <media id="settings" type="application/x-ginga-settings">
       <property name="service.currentKeyMaster" value=""/>

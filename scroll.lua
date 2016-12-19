@@ -14,7 +14,7 @@ local imagem = {}
 function criaVetor()
     -- cria vetor primario
    for i=guarda_min,guarda_max do
-      menu[i][canvas] = canvas:new('media/menu2/'..tostring(i) .. 'off.jpg')
+      menu[i][canvas] = canvas:new('media/pgm/'..tostring(i) .. 'off.jpg')
       menu[i][dx]=(tamImagem *(i)  )
     end
     for i=guarda_min,guarda_max do
@@ -45,12 +45,12 @@ function desenha ()
   canvas:attrColor('black')
   canvas:drawRect('fill', 0, 0, dx, dy )
 
-  for i=guarda_min,guarda_max do   
+  for i=guarda_min,guarda_max do
     canvas:compose(menu[i][dx] + distancia*(i) ,dy/5,menu[i][canvas])
   end
-  
+
   icone = canvas:new('media/selecao.png')
-   fundo = canvas:new('media/transparent2.png')
+   fundo = canvas:new('media/scrollbgd.png')
 
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
@@ -77,13 +77,13 @@ function goToFimVetor ()
         for j=guarda_min,guarda_max do
             menu[j][dx] = menu[j][dx] - (tamImagem + distancia)
         end
-    end    
+    end
 end
 
 function writeText()
   for i=guarda_min,posicao do
         canvas:attrColor('black')
-        canvas:drawRect('fill', 0, 0, dx, dy )  
+        canvas:drawRect('fill', 0, 0, dx, dy)
         canvas:compose((dx/2 - dy/2)/5,dy/5,menu[posicao+2][canvas])
         canvas:flush()
     end
@@ -100,10 +100,10 @@ end
 desenha()
 
 function handler (evt)
-   if (evt.class == 'key' and evt.type == 'press') then      
+   if (evt.class == 'key' and evt.type == 'press') then
       if evt.key == "CURSOR_RIGHT" then
           if posicao >= (guarda_max-4) then
-             posicao = guarda_min            
+             posicao = guarda_min
              restauraVetor()
           else
               for i=guarda_min,guarda_max do
@@ -111,14 +111,14 @@ function handler (evt)
               end
               posicao = posicao + 1
               print("posicao "..posicao)
-          end          
+          end
           desenha()
       else
         if evt.key == "CURSOR_LEFT" then
           if posicao <= (guarda_min) then
               posicao = guarda_max -4
               restauraVetor()
-              goToFimVetor()                
+              goToFimVetor()
           else
               for i=guarda_min,guarda_max do
                   menu[i][dx] = menu[i][dx] + (tamImagem + distancia )
@@ -127,19 +127,19 @@ function handler (evt)
 
               posicao = posicao - 1
              -- print("posicao "..posicao)
-          end              
+          end
           desenha()
       else
         if evt.key == "ENTER" then
             print ("pressionou enter, valor guarda:" .. tostring(posicao))
               writeText() 
             end
-          
+
             if evt.key == "CURSOR_UP" then
             print ("pressionou up, valor guarda:" .. tostring(posicao))
              desenha()
             end
-        end          
+        end
       end
   end
 end
