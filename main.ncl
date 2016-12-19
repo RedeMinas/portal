@@ -68,7 +68,7 @@
     <!-- MIDIAS -->
 
     <media id="icone"
-     src="midia/icon3.png"           descriptor="deIcone"/>
+           src="midia/icon3.png"           descriptor="deIcone"/>
     <media id="iconetest"       src="midia/icon.png"            descriptor="deIconetest"/>
     <media id="voltar"          src="midia/voltar.png"          descriptor="deVoltar"/>
     
@@ -84,7 +84,7 @@
     <media id="btnOk"  src="midia/ok.png"      descriptor="debtnOk"/>
     <media id="sair"   src="midia/sair.png"    descriptor="deSair"/>
     <media id="sairMenuScroll"   src="midia/sair.png"    descriptor="deSair"/>
-     <media id="sairMenuSlide"   src="midia/sair.png"    descriptor="deSair"/>
+    <media id="sairMenuSlide"   src="midia/sair.png"    descriptor="deSair"/>
     <!-- FIM DOS BOTOES (TEXTO NCL) -->
     <media id="conteudo1"  src="midia/conteudo1.txt"  descriptor="deconteudoBtn01">
       <property name="background" value="transparent"/>
@@ -108,7 +108,7 @@
       <property name="service.currentKeyMaster" value=""/>
       <property name="service.currentFocus" value=""/>
     </media>
-  
+    
 
     <link id="link_icon"         xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="icone" >
@@ -147,7 +147,7 @@
       <bind role="start"          component="btn2on"/>
       <bind role="start"          component="scroll"/>
       <bind role="start"          component="sairMenuScroll"/>
-       <bind role="stop"          component="sair"/>
+      <bind role="stop"          component="sair"/>
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn3on"/>
       <bind role="stop"           component="btn4on"/>
@@ -161,13 +161,13 @@
       <bind role="stop"           component="btn1on"/>
       <bind role="stop"           component="btn2on"/>
       <bind role="stop"           component="btn4on"/>
-     <bind role="stop"           component="conteudo1"/>   
+      <bind role="stop"           component="conteudo1"/>   
     </link>
 
     <link id="link_btn4" xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection"    component="btn4" >   
       </bind>
-     
+      
       <bind role="start"          component="btn4on"/>
       <bind role="start"          component="slide"/>
       <bind role="stop"           component="conteudo1"/>
@@ -179,7 +179,7 @@
       <bind role="start"          component="sairMenuSlide"/>    
     </link>
     
- 
+    
     
     <!-- CONTROLE LUA -->
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
@@ -210,26 +210,26 @@
       </bind>
     </link>
 
-     <link id="link_SairMenuScroll"  xconnector="conBase#onSelectionStartStop">
+    <link id="link_SairMenuScroll"  xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="sairMenuScroll">
         <bindParam name="keyCode" value="EXIT"/>
       </bind>
-       <bind role="stop"          component="sairMenuScroll"/>
-       <bind role="stop"          component="btn2on"/>      
-       <bind role="stop"          component="scroll"/>     
-       <bind role="stop"           component="btnOk"/>
-       <bind role="start"          component="btn2"/>
-       <bind role="start"          component="sair"/>
+      <bind role="stop"          component="sairMenuScroll"/>
+      <bind role="stop"          component="btn2on"/>      
+      <bind role="stop"          component="scroll"/>     
+      <bind role="stop"           component="btnOk"/>
+      <bind role="start"          component="btn2"/>
+      <bind role="start"          component="sair"/>
     </link>
     <link id="link_SairMenuSlide"  xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="sairMenuSlide">
         <bindParam name="keyCode" value="EXIT"/>
       </bind>
-       <bind role="stop"          component="sairMenuSlide"/>
-    <bind role="stop"          component="btn4on"/>
-    <bind role="stop"          component="slide"/>
-     <bind role="start"          component="sair"/>
-       <bind role="start"          component="btn4"/>  
+      <bind role="stop"          component="sairMenuSlide"/>
+      <bind role="stop"          component="btn4on"/>
+      <bind role="stop"          component="slide"/>
+      <bind role="start"          component="sair"/>
+      <bind role="start"          component="btn4"/>  
     </link>
     <!-- QUANDO BOTAO SAIR FOR SELECIONADO.. -->
     <link id="link_Sair"  xconnector="conBase#onSelectionStartStop">
