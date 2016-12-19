@@ -1,6 +1,6 @@
 local posicao = 1
 local guarda_min = 1
-local guarda_max = 22
+local guarda_max = 18
 --rever como calcular a partir das imagens do menu
 local distancia = 30
 local tamImagem = 180
@@ -14,7 +14,7 @@ local imagem = {}
 function criaVetor()
     -- cria vetor primario
    for i=guarda_min,guarda_max do
-      menu[i][canvas] = canvas:new('midia/menu2/'..tostring(i) .. 'off.jpg')
+      menu[i][canvas] = canvas:new('media/menu2/'..tostring(i) .. 'off.jpg')
       menu[i][dx]=(tamImagem *(i)  )
     end
     for i=guarda_min,guarda_max do
@@ -49,8 +49,8 @@ function desenha ()
     canvas:compose(menu[i][dx] + distancia*(i) ,dy/5,menu[i][canvas])
   end
   
-  icone = canvas:new('midia/selecao.png')
-   fundo = canvas:new('midia/transparent2.png')
+  icone = canvas:new('media/selecao.png')
+   fundo = canvas:new('media/transparent2.png')
 
    --canvas:attrColor('transparent')
    --local tamanhoicone = 30
@@ -65,9 +65,9 @@ function desenha ()
 
     canvas:compose(dx/2.05,dy/1.40,icone)
 
-    esquerda = canvas:new('midia/esquerda.png')
+    esquerda = canvas:new('media/esquerda.png')
 	canvas:compose(dx/100,dy/70,esquerda)
-    direita = canvas:new('midia/direita.png')
+    direita = canvas:new('media/direita.png')
     canvas:compose(dx/1.05,dy/70,direita)
     canvas:flush()
        end
@@ -87,7 +87,7 @@ function writeText()
         canvas:compose((dx/2 - dy/2)/5,dy/5,menu[posicao+2][canvas])
         canvas:flush()
     end
-         acima = canvas:new('midia/acima.png')
+         acima = canvas:new('media/acima.png')
          canvas:compose(dx/1920,dy/5,acima)
          canvas:attrColor('maroon')
       canvas:attrFont("vera", 22)
