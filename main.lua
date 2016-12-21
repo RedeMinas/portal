@@ -51,10 +51,14 @@ function handler (evt)
       m:pgmDrawInfo()
     elseif ( m.pos==3 and evt.key == "RED") then
       m:menuItem('red')
-    elseif ( m.pos==3 and evt.key == "GREEN") then
-      m:menuItem()
-    elseif evt.key == "RED" then
---      m:settings()
+    elseif ( m.pos==4 and evt.key == "RED") then
+      m:menuItem('red')
+    elseif ( m.pos==4 and evt.key == "GREEN") then
+      m:menuItem('green')
+    elseif ( m.pos==4 and evt.key == "YELLOW") then
+      m:menuItem('yellow')
+    elseif ( m.pos==4 and evt.key == "BLUE") then
+      m:menuItem('blue')
     end
   end
 end

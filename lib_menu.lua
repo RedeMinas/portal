@@ -95,13 +95,35 @@ function MainMenu:menuItem(par)
     local img = canvas:new("media/contato.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
+    if self.pos == 4 and par == 'red' then
+      local img = canvas:new("media/qrfb.png")
+      local dx,dy = img:attrSize()
+      canvas:compose(grid*32-dx, grid, img)
+      canvas:flush()
+    end
+    if self.pos == 4 and par == 'green' then
+      local img = canvas:new("media/qrtwitter.png")
+      local dx,dy = img:attrSize()
+      canvas:compose(grid*32-dx, grid, img)
+      canvas:flush()
+    end
+    if self.pos == 4 and par == 'yellow' then
+      local img = canvas:new("media/qrinsta.png")
+      local dx,dy = img:attrSize()
+      canvas:compose(grid*32-dx, grid, img)
+      canvas:flush()
+    end
+    if self.pos == 4 and par == 'blue' then
+      local img = canvas:new("media/qryoutube.png")
+      local dx,dy = img:attrSize()
+      canvas:compose(grid*32-dx, grid, img)
+      canvas:flush()
+    end
   end
 end
 
 -- sub menu pgm draw carrossel
 function MainMenu:pgmDraw(t)
-  print("debug")
-  print(t)
   canvas:attrColor(1,1,1,200)
   canvas:clear(grid*6,grid*11, grid*32, grid*18 )
   canvas:flush()

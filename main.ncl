@@ -13,7 +13,7 @@
       <descriptor id="deBgd"     region="rgBgd"/> 
       <descriptor id="deIcone"     region="rgIcone"/> 
       <descriptor id="deSair"      region="rgSair"/>
-      <descriptor id="deMain"    region="rgMain" focusBorderWidth="0" focusIndex="luaIdx" />
+      <descriptor id="deMain"    region="rgMain" focusBorderWidth="0" focusIndex="0" />
     </descriptorBase>
 
     <connectorBase>
@@ -27,10 +27,9 @@
     <port id="pMediaInitialPort" component="mIcon"/>
     <media id="mIcon"           src="media/icon.png"           descriptor="deIcone"/>
     <media id="voltar"          src="media/voltar.png"          descriptor="deVoltar"/>
-    <media id="mExit"   src="media/sair.png"    descriptor="deSair"/>
+    <media id="mExit"   src="media/btnsair.png"    descriptor="deSair"/>
     <media id="mMain"     src="main.lua"         descriptor="deMain"/>
-    <media id="mBgd"  src="media/fundo.png" descriptor="deBgd"/>
-    
+        
     <media id="settings" type="application/x-ginga-settings">
       <property name="service.currentKeyMaster" value="mMain"/>
       <property name="service.currentFocus" value="mMain"/>
