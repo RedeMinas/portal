@@ -38,7 +38,12 @@ function MainMenu:iconDraw(t)
   local iconpath=""
   local sumdy=0
   canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*18 )
+  canvas:clear(0,0, grid*32, grid*12)
+
+  canvas:attrColor(1,1,1,200)
+  canvas:clear(0,grid*11, grid*32, grid*18 )
+--  canvas:attrColor("white")
+--  canvas:drawRect("fill", 0,grid*12,grid*32,grid*18 )
   canvas:flush()
   for i=1,t  do
     if i==self.pos then
@@ -51,27 +56,45 @@ function MainMenu:iconDraw(t)
     canvas:compose(grid, grid*11.5+sumdy, icon )
     sumdy=sumdy+dy+grid/2
   end
+
+  local img = canvas:new("media/btnarrowv.png")
+  canvas:compose(grid, grid*15, img)
   canvas:flush()
 end
 
 -- main menu treatment
-function MainMenu:menuItem()
-  canvas:attrColor(0,0,0,0)
-  canvas:clear(grid*7,grid*10, grid*32, grid*18 )
+function MainMenu:menuItem(par)
+  --canvas:attrColor(0,0,0,0)
+  --canvas:clear(0,0, grid*32, grid*10 )
+
+-- a redeminas
   if self.pos==1 then
     local img = canvas:new("media/aredeminas.png")
-    canvas:compose(grid*6, grid*12, img)
+    canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
-  elseif self.pos==2 then
+    -- programas
+  elseif self.pos == 2 then
+    local img = canvas:new("media/btnarrowh.png")
+    canvas:compose(grid*1.5, grid*15, img)
+    canvas:flush()
     self:pgmDraw(pgmShowItens)
     self:pgmDrawInfo()
+-- Nova sede
   elseif self.pos==3 then
     local img = canvas:new("media/sede.png")
-    canvas:compose(grid*2, grid*2, img)
+    local dx,dy = img:attrSize()
+    canvas:compose(grid*32-dx, 0, img)
     canvas:flush()
+    if self.pos == 3 and par == 'red' then
+      print("chegou")
+      local img = canvas:new("media/contato.png")
+      canvas:compose(0, 0, img)
+      canvas:flush()
+    end
+-- 
   elseif self.pos==4 then
-    local img = canvas:new("media/aredeminas.png")
-    canvas:compose(grid*6, grid*12, img)
+    local img = canvas:new("media/contato.png")
+    canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
   end
 end
@@ -80,7 +103,7 @@ end
 function MainMenu:pgmDraw(t)
   print("debug")
   print(t)
-  canvas:attrColor(0,0,0,0)
+  canvas:attrColor(1,1,1,200)
   canvas:clear(grid*6,grid*11, grid*32, grid*18 )
   canvas:flush()
   for i=1,pgmShowItens  do
@@ -105,6 +128,9 @@ function MainMenu:pgmDrawItem(t, slot, ativo)
   if ativo then
     canvas:attrColor("red")
     canvas:drawRect("frame", grid*7, grid*11.5, item_h+1, item_w+1)
+    canvas:drawRect("frame", grid*7-1, grid*11.5-1, item_h+2, item_w+2)
+    canvas:drawRect("frame", grid*7-2, grid*11.5-2, item_h+3, item_w+3)
+    canvas:drawRect("frame", grid*7-2, grid*11.5-2, item_h+4, item_w+4)
   end
 
   canvas:flush()
@@ -114,17 +140,12 @@ end
 function MainMenu:pgmDrawInfo()
   local font_size = 21
 
-  canvas:attrColor(0,0,0,0)
+  canvas:attrColor(1,1,1,200)
   canvas:clear(grid*7,grid*14, grid*32, grid*18 )
 
   canvas:attrFont("Vera", font_size,"bold")
-
-  --shadow text
-  canvas:attrColor('black')
-  canvas:drawText(grid*7+1,grid*14+1, self.list[self.spos]["descricao"])
-
   --text
-  canvas:attrColor('red')
+  canvas:attrColor("white")
   canvas:drawText(grid*7,grid*14, self.list[self.spos]["descricao"])
   canvas:flush()
 end

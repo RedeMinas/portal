@@ -49,9 +49,15 @@ function handler (evt)
       m.spos=m:shift(m.spos,1, pgmTotalItens)
       m:pgmDraw(pgmShowItens)
       m:pgmDrawInfo()
+    elseif ( m.pos==3 and evt.key == "RED") then
+      m:menuItem('red')
+    elseif ( m.pos==3 and evt.key == "GREEN") then
+      m:menuItem()
     elseif evt.key == "RED" then
 --      m:settings()
     end
   end
 end
 event.register(handler)
+
+

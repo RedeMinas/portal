@@ -4,7 +4,7 @@
 
     <regionBase>
       <region id="rgIcone"     width="5%"  height="5%"   top="90%"  left="90%"  zIndex="2"/>
-      <region id="rgSair"      width="2.29%"  height="4.63%"  top="72%"  left="97%"    zIndex="4"/>
+      <region id="rgSair"      width="2.29%"  height="4.63%"  top="90%"  left="10%"    zIndex="4"/>
       <region id="rgBgd"       width="100%"   height="40%"    top="60%"  zIndex="2"/>
       <region id="rgScroll"    width="100%"    height="100%"       zIndex="3"/>
     </regionBase>
@@ -43,7 +43,6 @@
         </bind>1
         <bind role="start"      component="mMain"/>
         <bind role="start"      component="mExit"/>
-        <bind role="start"      component="mBgd"/>
         <bind role="stop"       component="mIcon"/>
     </link>
     
