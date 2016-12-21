@@ -58,7 +58,7 @@ function MainMenu:iconDraw(t)
   end
 
   local img = canvas:new("media/btnarrowv.png")
-  canvas:compose(grid, grid*15, img)
+  canvas:compose(grid, grid*16.2, img)
   canvas:flush()
 end
 
@@ -75,23 +75,22 @@ function MainMenu:menuItem(par)
     -- programas
   elseif self.pos == 2 then
     local img = canvas:new("media/btnarrowh.png")
-    canvas:compose(grid*1.5, grid*15, img)
+    canvas:compose(grid*2.5, grid*16.2, img)
     canvas:flush()
     self:pgmDraw(pgmShowItens)
     self:pgmDrawInfo()
 -- Nova sede
   elseif self.pos==3 then
     local img = canvas:new("media/sede.png")
-    local dx,dy = img:attrSize()
-    canvas:compose(grid*32-dx, 0, img)
+    canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
     if self.pos == 3 and par == 'red' then
-      print("chegou")
-      local img = canvas:new("media/contato.png")
-      canvas:compose(0, 0, img)
+      local img = canvas:new("media/sedezoom.png")
+      local dx,dy = img:attrSize()
+      canvas:compose(grid*32-dx, grid, img)
       canvas:flush()
     end
--- 
+--
   elseif self.pos==4 then
     local img = canvas:new("media/contato.png")
     canvas:compose(grid*6, grid*11.5, img)
