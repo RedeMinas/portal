@@ -84,14 +84,10 @@ function MainMenu:menuItem(par)
     local img = canvas:new("media/sede.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
-    if self.pos == 3 and par == 'red' then
-      local img = canvas:new("media/sedezoom.png")
-      local dx,dy = img:attrSize()
-      canvas:compose(grid*32-dx, grid, img)
-      canvas:flush()
-    end
---
   elseif self.pos==4 then
+    canvas:attrColor(1,1,1,200)
+    canvas:clear(grid*6,grid*11, grid*32, grid*18 )
+    canvas:flush()
     local img = canvas:new("media/contato.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()

@@ -9,7 +9,7 @@ menu = {
    },
    [5] = { nome="Coletânea", descricao = "O Coletânea é um programa musical dedicado à exibição de videoclipes.\nNele, você confere um panorama da música pop atual e suas novas\ntendências, além de revisitar grandes bandas e artistas da história\nda música. Tem espaço para todos os ritmos, sem preconceito!."
    },
-   [6] = { nome="Dango Balango", descricao = "As aventuras dos bonecos Sdruvs, Judoca, Druzila e seus amigos, que \nvivenciam situações inusitadas, lúdicas e, por vezes, absurdas."
+   [6] = { nome="Dango Balango", descricao = "As aventuras dos bonecos Sdruvs, Joduca, Druzila e seus amigos, que \nvivenciam situações inusitadas, lúdicas e, por vezes, absurdas."
    },
    [7] = { nome="Extra Classe", descricao = "O Extra-Classe debate temas relacionados à educação, à cidadania e a\ndiversos assuntos de interesse social."
    },

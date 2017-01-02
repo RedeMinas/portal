@@ -42,7 +42,6 @@ function handler (evt)
       m:menuItem()
     elseif ( m.pos==2 and evt.key == "CURSOR_LEFT") then
       m.spos=m:shift(m.spos,-1, pgmTotalItens)
-
       m:pgmDraw(pgmShowItens)
       m:pgmDrawInfo()
     elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT") then
@@ -59,9 +58,15 @@ function handler (evt)
       m:menuItem('yellow')
     elseif ( m.pos==4 and evt.key == "BLUE") then
       m:menuItem('blue')
+    elseif ( evt.key=="ENTER" or evt.key=="EXIT") then
+      event.post{
+        class = 'ncl',
+        type='presentation',
+        label='inc',
+        action='start'
+      }
+
     end
   end
 end
 event.register(handler)
-
-
