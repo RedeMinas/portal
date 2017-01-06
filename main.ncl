@@ -3,7 +3,7 @@
   <head>
 
     <regionBase>
-      <region id="rgIcone"     width="3%"  height="5%"   top="90%"  left="90%"  zIndex="2"/>
+      <region id="rgIcone"     width="5.077%"  height="9.0277%"   top="90%"  left="94%"  zIndex="2"/>
       <region id="rgSair"      width="3.125%"  height="5.55%"  top="90%"  left="12.4%"    zIndex="4"/>
       <region id="rgMain"    width="100%"    height="100%"       zIndex="3"/>
     </regionBase>
@@ -26,7 +26,7 @@
     <media id="mIcon"           src="media/icon.png"           descriptor="deIcone"/>
     <media id="mExit"   src="media/btnsair.png"    descriptor="deSair"/>
     <media id="mMain"     src="main.lua"         descriptor="deMain">
-      <area id="inc"/>
+      <area id="inc" label="lMain"/>
     </media>
 
     <media id="mFocus" type="application/x-ginga-settings">
