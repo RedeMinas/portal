@@ -4,7 +4,7 @@
 
     <regionBase>
       <region id="rgIcone"     width="5.077%"  height="9.0277%"   top="90%"  left="94%"  zIndex="2"/>
-      <region id="rgSair"      width="3.125%"  height="5.55%"  top="90%"  left="12.4%"    zIndex="4"/>
+      <region id="rgSair"      width="3.125%"  height="5.55%"  top="94.5%"  left="12.4%"    zIndex="4"/>
       <region id="rgMain"    width="100%"    height="100%"       zIndex="3"/>
     </regionBase>
 
@@ -29,15 +29,10 @@
       <area id="inc" label="lMain"/>
     </media>
 
-    <media id="mFocus" type="application/x-ginga-settings">
-      <property name="service.currentKeyMaster" value="idxLua"/>
-    </media>
-
     <media id="settings" type="application/x-ginga-settings">
-      <property name="service.currentKeyMaster" value="idxLua"/>
-      <property name="service.currentFocus" value=""/>
+      <property name="service.currentKeyMaster" value="mMain"/>
+      <property name="service.currentFocus" value="idXLua"/>
     </media>
-    
 
     <link id="link_icon"       xconnector="conBase#onSelectionStartStop">
       <bind role="onSelection" component="mIcon" >
@@ -47,8 +42,8 @@
         <bind role="start"      component="mExit"/>
         <bind role="stop"       component="mIcon"/>
     </link>
-    
-    
+
+    <!-- for sony DLC -->
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
       <bind role="onBegin"        component="mMain"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
@@ -71,7 +66,6 @@
       <bind component="mMain"        role="stop"/>
       <bind component="mExit"        role="stop"/>
     </link>
-
     
     <link id="link_Sair3"  xconnector="conBase#onBeginStopStart">
       <bind role="onBegin" component="mMain" interface="inc"/>

@@ -2,9 +2,13 @@
 screen_width, screen_height = canvas:attrSize()
 grid = screen_width/32
 
-
 -- reads table menu
-dofile("tbl_pgm.lua")
+
+dofile("lib_tables.lua")
+local tab = layoutPgmTable(ReadTable("tbl_pgm.txt"))
+
+-- metodo antigo:
+-- dofile("tbl_pgm.lua")
 
 -- how many itens to exibhit
 menu_itens = 4
@@ -13,9 +17,9 @@ icon_itens = 4
 -- how many itens to exibhit
 pgmShowItens = 6
 -- how many total pgms
-pgmTotalItens = 18
+pgmTotalItens = 19
 
-MainMenu = { pos = 1, spos = 1,  list=menu,  debug=false, settings=false }
+MainMenu = { pos = 1, spos = 1,  list=tab,  debug=false, settings=false }
 
 dofile("lib_menu.lua")
 
@@ -71,9 +75,6 @@ function handler (evt)
                    label='inc',
                    action='start'
       })
-
-
-
     end
   end
 end
