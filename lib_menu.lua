@@ -158,6 +158,7 @@ end
 function MainMenu:pgmDrawInfo()
   local font_size = 21
 
+  print (unpack(self.list[1]))
 
   canvas:attrColor(1,1,1,200)
   canvas:clear(grid*7,grid*14, grid*32, grid*18 )
@@ -165,24 +166,13 @@ function MainMenu:pgmDrawInfo()
   canvas:attrFont("Vera", font_size,"bold")
   --text
   canvas:attrColor("white")
-  local t = self.list[self.spos]["desc"]
-  local textSize=90
-   --x,y= canvas:measureText(texto)
+  canvas:drawText(grid*7, grid*14, self.list[self.spos]["desc1"] )
+  canvas:drawText(grid*7, grid*14.7, self.list[self.spos]["desc2"] )
+  canvas:drawText(grid*7, grid*15.4, self.list[self.spos]["desc3"] )
 
--- quebra 
-  for i=1,(string.len(t)/textSize)+1 do
-      if i==1 then
-         local saida=string.sub(t,i,textSize)
-         canvas:drawText(grid*7, grid*14, saida )
-      else
-         saida=string.sub(t,((i-1)*textSize)+1,(i*textSize))
-         if string.sub(saida,1,1) == " " then
-            saida = string.sub(saida,2,textSize)
-         end
-         --canvas:drawText(10, (i-1)*35, saida)
-         canvas:drawText(grid*7,grid*14+grid*((i-1)*0.7), saida)
-      end
-   end
+--  canvas:drawText(grid*7, grid*16.4, self.list[self.spos]["nome"] )
+--  canvas:drawText(grid*10, grid*16.4, self.list[self.spos]["site"] )
+--  canvas:drawText(grid*14, grid*16.4, self.list[self.spos]["youtube"] )
 
   canvas:drawText(grid*7,grid*17, self.list[self.spos]["grade"])
   canvas:flush()

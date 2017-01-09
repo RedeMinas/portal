@@ -62,7 +62,7 @@ function handler (evt)
       m:menuItem('yellow')
     elseif ( m.pos==4 and evt.key == "BLUE") then
       m:menuItem('blue')
-    elseif ( evt.key=="ENTER" or evt.key=="EXIT") then
+    elseif ( evt.key=="EXIT") then
       event.post("out",{
                    class = 'ncl',
                    type='presentation',
