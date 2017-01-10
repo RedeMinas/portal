@@ -3,14 +3,10 @@
   <head>
 
     <regionBase>
-      <region id="rgIcone"     width="5.077%"  height="9.0277%"   top="90%"  left="94%"  zIndex="2"/>
-      <region id="rgSair"      width="3.125%"  height="5.55%"  top="94.5%"  left="12.4%"    zIndex="4"/>
       <region id="rgMain"    width="100%"    height="100%"       zIndex="3"/>
     </regionBase>
 
     <descriptorBase>
-      <descriptor id="deIcone"     region="rgIcone"/> 
-      <descriptor id="deSair"      region="rgSair"/>
       <descriptor id="deMain"    region="rgMain" focusBorderWidth="0" focusIndex="idxLua" />
     </descriptorBase>
 
@@ -22,9 +18,8 @@
 
   <body>
 
-    <port id="pMediaInitialPort" component="mIcon"/>
-    <media id="mIcon"           src="media/icon.png"           descriptor="deIcone"/>
-    <media id="mExit"   src="media/btnsair.png"    descriptor="deSair"/>
+    <port id="pMediaInitialPort" component="mMain"/>
+
     <media id="mMain"     src="main.lua"         descriptor="deMain">
       <area id="inc" label="lMain"/>
     </media>
@@ -34,44 +29,12 @@
       <property name="service.currentFocus" value="idXLua"/>
     </media>
 
-    <link id="link_icon"       xconnector="conBase#onSelectionStartStop">
-      <bind role="onSelection" component="mIcon" >
-        <bindParam name="keyCode" value="ENTER"/>
-        </bind>
-        <bind role="start"      component="mMain"/>
-        <bind role="start"      component="mExit"/>
-        <bind role="stop"       component="mIcon"/>
-    </link>
-
     <!-- for sony DLC -->
     <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
       <bind role="onBegin"        component="mMain"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
         <bindParam name="value" value="idxLua"/>
       </bind>
-    </link>
-
-    <link id="link_focoScroll2END"    xconnector="conBase#onEndSet">
-      <bind role="onEnd"              component="mMain" />
-      <bind role="set"                component="settings" interface="service.currentKeyMaster">
-        <bindParam name="value" value=""/>
-      </bind>
-    </link>
-
-    <link id="link_Sair"  xconnector="conBase#onSelectionStartStop">
-      <bind role="onSelection" component="mExit">
-        <bindParam name="keyCode" value="EXIT"/>
-      </bind>
-      <bind component="mIcon"       role="start"/>
-      <bind component="mMain"        role="stop"/>
-      <bind component="mExit"        role="stop"/>
-    </link>
-    
-    <link id="link_Sair3"  xconnector="conBase#onBeginStopStart">
-      <bind role="onBegin" component="mMain" interface="inc"/>
-      <bind component="mMain"      role="stop"/>
-      <bind component="mIcon"      role="start"/>
-      <bind component="mExit"      role="stop"/>
     </link>
 
   </body>

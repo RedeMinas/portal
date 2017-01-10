@@ -1,3 +1,34 @@
+--main icon and tcp metrics
+function mainIcon()
+
+  canvas:attrColor(0,0,0,0)
+  canvas:clear(0,0, grid*32, grid*18)
+
+  local icon = canvas:new("media/icon.png")
+  canvas:compose(grid*28, grid*15, icon )
+
+  canvas:flush()
+  require 'lib_tcp'
+  if start == false then
+    tcp.execute(
+      function ()
+        tcp.connect('www.redeminas.mg.gov.br', 80)
+        tcp.send('get /ginga.php?aplicacao=portal' .. version .. '\n')
+        tcpresult = tcp.receive()
+        print(tcpresult)
+        if tcpresult then
+          tcpresult = tcpresult or '0'
+        else
+          tcpresult = 'er:' .. evt.error
+        end
+        canvas:flush()
+        tcp.disconnect()
+        start = true
+      end
+    )
+  end
+end
+
 --- Main Menu
 function MainMenu:new (o)
   o = o or {}
@@ -60,6 +91,8 @@ function MainMenu:iconDraw(t)
 
   local img = canvas:new("media/btnarrowv.png")
   canvas:compose(grid, grid*17, img)
+  local imgexit = canvas:new("media/btnsair.png")
+  canvas:compose(grid*4, grid*17, imgexit)
   canvas:flush()
 end
 
@@ -73,7 +106,7 @@ function MainMenu:menuItem(par)
     local img = canvas:new("media/aredeminas.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
-    -- programas
+    -- programsa
   elseif self.pos == 2 then
     local img = canvas:new("media/btnarrowh.png")
     canvas:compose(grid*2.5, grid*17, img)
@@ -88,9 +121,14 @@ function MainMenu:menuItem(par)
   elseif self.pos==4 then
     canvas:attrColor(1,1,1,200)
     canvas:clear(grid*6,grid*11, grid*32, grid*18 )
-    canvas:flush()
     local img = canvas:new("media/contato.png")
     canvas:compose(grid*6, grid*11.5, img)
+
+    -- results from tcp get
+    canvas:attrColor("white")
+    canvas:attrFont("Vera", 8,"bold")
+    canvas:drawText(grid*16, grid*17, "v: " .. version .. "/" .. tcpresult )
+
     canvas:flush()
     if self.pos == 4 and par == 'red' then
       local img = canvas:new("media/qrfb.png")

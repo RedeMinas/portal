@@ -1,6 +1,11 @@
 -- parametros globais
 screen_width, screen_height = canvas:attrSize()
 grid = screen_width/32
+version = 1.2
+
+start = false
+tcpresult = ""
+menuOn = false
 
 -- reads table menu
 
@@ -31,50 +36,47 @@ evento = {
 
 -- start
 m=MainMenu:new{}
-m:iconDraw(menu_itens)
-m:menuItem()
+
+mainIcon()
+
 
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
-    if evt.key == "CURSOR_UP" then
+    if evt.key == "ENTER" and menuOn == false then
+      menuOn = true
+      m:iconDraw(menu_itens)
+      m:menuItem()
+    end
+
+    if evt.key == "CURSOR_UP" and menuOn then
       m.pos=m:shift(m.pos,-1,menu_itens)
       m:iconDraw(menu_itens)
       m:menuItem()
-    elseif evt.key == "CURSOR_DOWN" then
+    elseif evt.key == "CURSOR_DOWN" and menuOn then
       m.pos=m:shift(m.pos,1, menu_itens )
       m:iconDraw(menu_itens)
       m:menuItem()
-    elseif ( m.pos==2 and evt.key == "CURSOR_LEFT") then
+    elseif ( m.pos==2 and evt.key == "CURSOR_LEFT" and menuOn) then
       m.spos=m:shift(m.spos,-1, pgmTotalItens)
       m:pgmDraw(pgmShowItens)
       m:pgmDrawInfo()
-    elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT") then
+    elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT" and menuOn) then
       m.spos=m:shift(m.spos,1, pgmTotalItens)
       m:pgmDraw(pgmShowItens)
       m:pgmDrawInfo()
-    elseif ( m.pos==3 and evt.key == "RED") then
+    elseif ( m.pos==3 and evt.key == "RED" and menuOn) then
       m:menuItem('red')
-    elseif ( m.pos==4 and evt.key == "RED") then
+    elseif ( m.pos==4 and evt.key == "RED" and menuOn) then
       m:menuItem('red')
-    elseif ( m.pos==4 and evt.key == "GREEN") then
+    elseif ( m.pos==4 and evt.key == "GREEN" and menuOn) then
       m:menuItem('green')
-    elseif ( m.pos==4 and evt.key == "YELLOW") then
+    elseif ( m.pos==4 and evt.key == "YELLOW" and menuOn) then
       m:menuItem('yellow')
-    elseif ( m.pos==4 and evt.key == "BLUE") then
+    elseif ( m.pos==4 and evt.key == "BLUE" and menuOn) then
       m:menuItem('blue')
-    elseif ( evt.key=="EXIT") then
-      event.post("out",{
-                   class = 'ncl',
-                   type='presentation',
-                   label='lMain',
-                   action='start'
-      })
-      event.post("out",{
-                   class = 'ncl',
-                   type='presentation',
-                   label='inc',
-                   action='start'
-      })
+    elseif ( evt.key=="EXIT" and menuOn) then
+      menuOn = false
+      mainIcon()
     end
   end
 end
