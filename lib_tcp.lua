@@ -80,7 +80,6 @@ function connect (host, port)
         host  = host,
         port  = port,
     }
-    
     return coroutine.yield()
 end
 
