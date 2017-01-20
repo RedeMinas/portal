@@ -1,5 +1,11 @@
+-- #author: Carlos Henrique G. Paulino
+-- #description: Portal Institucional redeminas
+-- #ginga - ncl / lua
+
+
 -- parametros globais
 screen_width, screen_height = canvas:attrSize()
+--canvas:attrAntiAlias("subpixel")
 grid = screen_width/32
 version = "1.2t"
 
@@ -9,33 +15,33 @@ menuOn = false
 pgmOn = false
 mainIconState = 1
 
-
--- how many itens to exibhit
-menu_itens = 4
-icon_itens = 4
-
--- how many itens to exibhit
-pgmShowItens = 6
--- how many total pgms
-pgmTotalItens = 19
-
-
 -- reads table menu
-
 dofile("lib_tables.lua")
 
-local tab = layoutPgmTable(ReadTable("tbl_pgm.txt"))
-
 ---- load objects
-MainMenu = { pos = 1, spos = 1,  list=tab,  debug=false, settings=false }
+MainMenu = {
+  pos = 1,
+  spos = 1,
+  icons = 4,
+  pgmicons = math.floor(screen_width/210),
+  list=layoutPgmTable(ReadTable("tbl_pgm.txt")),
+  debug=false,
+  settings=false
+}
 
+mulhereseMenu = {
+  pos = 1,
+  ppos = 1,
+  pages = 4,
+  debug=false,
+  settings=false
+}
 
--- TODO:  read from file!!!
-local tbl_mulherese = { "Mulhere-se", "Informe-se", "Mulheres Idosas","Mulheres Negras", "Mulheres em situação de rua", "Mulheres Encarceradas","Mulheres Deficientes", "Mulheres Usuárias da saúde mental", "Mulheres Lésbicas", "Mulheres Trans", "Mulheres Prostitutas", "Mulheres Refugiadas", "Mulheres do campo", "Mulheres Quilombolas", "Mulheres Jovens"}
-
-mulhereseMenu = { pos = 1, limit=#tbl_mulherese, pad=30, list=tbl_mulherese, debug=false, settings=false }
 
 dofile("lib_menu.lua")
+m=MainMenu:new{}
+
+print (m.pgmicons)
 
 evento = {
   class = 'ncl',
@@ -44,7 +50,7 @@ evento = {
 }
 
 -- start
-m=MainMenu:new{}
+
 countMetric()
 
 function handler (evt)
@@ -53,33 +59,37 @@ function handler (evt)
     if (evt.key == "ENTER" and menuOn ~= true and pgmOn ~=true)  then
       menuOn = true
       coroutine.resume(comainIcon)
-      m:iconDraw(menu_itens)
+      m:iconDraw(m.icons)
       m:menuItem()
       -- main menu
-    elseif (menuOn and pgmOn == false ) then
+    elseif (menuOn ==true and pgmOn == false ) then
       if (evt.key == "CURSOR_UP" )then
-        m.pos=shift(m.pos,-1,menu_itens)
-        m:iconDraw(menu_itens)
+        m.pos=shift(m.pos,-1,m.icons)
+        m:iconDraw()
         m:menuItem()
       elseif (evt.key == "CURSOR_DOWN") then
-        m.pos=shift(m.pos,1, menu_itens )
-        m:iconDraw(menu_itens)
+        m.pos=shift(m.pos,1,m.icons )
+        m:iconDraw()
         m:menuItem()
       elseif ( m.pos==2 and evt.key == "CURSOR_LEFT" ) then
-        m.spos=shift(m.spos,-1, pgmTotalItens)
-        m:pgmDraw(pgmShowItens)
+        m.spos=shift(m.spos,-1, #m.list)
+        m:pgmDraw()
         m:pgmDrawInfo()
       elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT" ) then
-        m.spos=shift(m.spos,1, pgmTotalItens)
-        m:pgmDraw(pgmShowItens)
+        print(#m.list)
+        m.spos=shift(m.spos,1, #m.list)
+        print (m.spos)
+        m:pgmDraw()
         m:pgmDrawInfo()
         -- PGM
       elseif  (m.pos==2 and m.spos==13 and evt.key == "ENTER" ) then
+        print("ok")
         pgmOn = true
         mse=mulhereseMenu:new{}
         mse:draw(9)
-        mse:text(mse.pos)
-      elseif ((m.pos>=1 and m.spos < 13)   and evt.key =="ENTER") then
+        mse:page()
+      elseif (m.pos ==2 and (m.spos>=1 and m.spos < 13) and evt.key =="ENTER") then
+        print("chegou")
         pgmOn = true
         dofile('lib_pgm.lua')
         pgm(m.spos)
@@ -98,26 +108,28 @@ function handler (evt)
         --comainIcon = coroutine.create(mainIcon)
         mainIcon()
       end
-      --pgm
+      --pgms
     elseif( menuOn and pgmOn) then
       if ( evt.key=="EXIT") then
         pgmOn = false
         m:iconDraw(menu_itens)
-      m:menuItem()
-        print ("saida")
+        m:menuItem()
         --browse on mulherese
       elseif ( m.spos == 13 and evt.key=="CURSOR_RIGHT") then
-        mse.pos=shift(mse.pos,1,mse.limit)
+        mse.pos=shift(mse.pos,1,#mse.list)
         mse:draw()
-        mse:text(mse.pos)
+        mse:page()
       elseif ( m.spos == 13 and evt.key=="CURSOR_LEFT") then
-        mse.pos=shift(mse.pos,-1,mse.limit)
+        mse.pos=shift(mse.pos,-1,#mse.list)
         mse:draw()
-        mse:text(mse.pos)
+        mse:page()
       elseif ( m.spos == 13 and evt.key=="CURSOR_UP") then
-        mse:text(mse.pos,1)
+        print("chegou")
+        mse.ppos=shift(mse.ppos,-1,mse.pages)
+        mse:page()
       elseif ( m.spos == 13 and evt.key=="CURSOR_DOWN") then
-        mse:text(mse.pos,-1)
+        mse.ppos=shift(mse.ppos,1,mse.pages)
+        mse:page()
       end
     end
   elseif (evt.action == "start") then
