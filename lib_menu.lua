@@ -36,7 +36,6 @@ function shift(x,v,limit)
   end
 end
 
-
 function mainIcon()
   local icon = canvas:new("media/icon.png")
 
@@ -44,7 +43,6 @@ function mainIcon()
   canvas:clear(0,0, grid*32, grid*18)
   canvas:compose(grid*28,grid*15,icon)
   canvas:flush()
-
 end
 
 -- disabled
@@ -79,10 +77,21 @@ function mainIconUpdate()
 end
 
 --- Main Menu
+
+MainMenu = {}
+
 function MainMenu:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.pos = 1
+  self.spos = 1
+  self.icons = 4
+  self.start = false
+  self.pgmicons = math.floor(screen_width/210)
+  self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
+  self.debug=false
+  self.settings=false
   return o
 end
 
@@ -163,7 +172,7 @@ function MainMenu:menuItem(par)
     -- results from tcp get
     canvas:attrColor("white")
     canvas:attrFont("Vera", 8,"bold")
-    canvas:drawText(grid*16, grid*17, "v: " .. version .. "/" .. tcpresult )
+    canvas:drawText(grid*15, grid*17.5, "v: " .. version .. "/" .. tcpresult )
     canvas:flush()
     if self.pos == 4 and par == 'red' then
       local img = canvas:new("media/qrfb.png")
@@ -222,14 +231,14 @@ function MainMenu:pgmDrawItem(t, slot, ativo)
   local item_w = 85
 
   local icon = canvas:new("media/" .. string.format("%02d" , t).. ".png")
-  canvas:compose((grid*7+(item_w*(slot-1))+(2*grid*(slot-1))), grid*11.5, icon )
+  canvas:compose((grid*6+(item_w*(slot-1))+(2*grid*(slot-1))), grid*11.5, icon )
 
   if ativo then
     canvas:attrColor("red")
-    canvas:drawRect("frame", grid*7, grid*11.5, item_h+1, item_w+1)
-    canvas:drawRect("frame", grid*7-1, grid*11.5-1, item_h+2, item_w+2)
-    canvas:drawRect("frame", grid*7-2, grid*11.5-2, item_h+3, item_w+3)
-    canvas:drawRect("frame", grid*7-2, grid*11.5-2, item_h+4, item_w+4)
+    canvas:drawRect("frame", grid*6, grid*11.5, item_h+1, item_w+1)
+    canvas:drawRect("frame", grid*6-1, grid*11.5-1, item_h+2, item_w+2)
+    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+3, item_w+3)
+    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+4, item_w+4)
   end
 
   canvas:flush()
@@ -247,15 +256,15 @@ function MainMenu:pgmDrawInfo()
   canvas:attrFont("Vera", font_size,"bold")
   --text
   canvas:attrColor("white")
-  canvas:drawText(grid*7, grid*14, self.list[self.spos]["desc1"] )
-  canvas:drawText(grid*7, grid*14.7, self.list[self.spos]["desc2"] )
-  canvas:drawText(grid*7, grid*15.4, self.list[self.spos]["desc3"] )
+  canvas:drawText(grid*6, grid*14, self.list[self.spos]["desc1"] )
+  canvas:drawText(grid*6, grid*14.7, self.list[self.spos]["desc2"] )
+  canvas:drawText(grid*6, grid*15.4, self.list[self.spos]["desc3"] )
 
   --  canvas:drawText(grid*7, grid*16.4, self.list[self.spos]["nome"] )
   --  canvas:drawText(grid*10, grid*16.4, self.list[self.spos]["site"] )
   --  canvas:drawText(grid*14, grid*16.4, self.list[self.spos]["youtube"] )
 
-  canvas:drawText(grid*7,grid*17, self.list[self.spos]["grade"])
+  canvas:drawText(grid*6,grid*17, self.list[self.spos]["grade"])
   canvas:flush()
 end
 
@@ -264,11 +273,19 @@ end
 ----------- MULHERE-SE ------------------------
 
 --- mulherese
+
+mulhereseMenu = {}
+
 function mulhereseMenu:new (o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
   self.list = { "Mulhere-se", "Informe-se", "Mulheres Idosas","Mulheres Negras", "Mulheres em situação de rua", "Mulheres Encarceradas","Mulheres Deficientes", "Mulheres Usuárias da saúde mental", "Mulheres Lésbicas", "Mulheres Trans", "Mulheres Prostitutas", "Mulheres Refugiadas", "Mulheres do campo", "Mulheres Quilombolas", "Mulheres Jovens"}
+  self.pos = 1
+  self.ppos = 1
+  self.pages = 4
+  self.debug=false
+  self.settings=false
   return o
 end
 
@@ -312,7 +329,7 @@ function wrap(s, w, i1, i2)
   i1 = i1 or 0
   i2 = i2 or 0
   --affirm(i1 < w and i2 < w,
-    --     "wrap: the indents must be less than the line width")
+  --     "wrap: the indents must be less than the line width")
   s = string.gsub(" ", i1) .. s
   local lstart, len = 1, strlen(s)
   while len - lstart > w do
@@ -345,10 +362,10 @@ function mulhereseMenu:textDraw(text,size,pos_x,pos_y)
     local offset=0
     if i==1 then
       result=string.sub(text,i,size)
---      print( canvas:measureText (result))
-      canvas:drawText(grid*2, grid*2.5 , result)
+      --      print( canvas:measureText (result))
+      canvas:drawText(grid*7, grid*2.5 , result)
     else
---      print(string.sub(result,size-1,size-1))
+      --      print(string.sub(result,size-1,size-1))
       print(string.sub(result,size,size))
       result=string.sub(text,((i-1)*size),(i*size))
       if string.sub(result,1,1) == " " then
@@ -359,7 +376,7 @@ function mulhereseMenu:textDraw(text,size,pos_x,pos_y)
         print("rolou")
         offset=offset+1
       end
-      canvas:drawText(grid*2, grid*1.8+i*grid*0.7 , result)
+      canvas:drawText(grid*7, grid*1.8+i*grid*0.7 , result)
     end
   end
 end
@@ -373,41 +390,62 @@ function mulhereseMenu:page()
   local font_size = 20
   local icon_size = 100
   --Draw Group Background
-  canvas:attrColor(153,151,204,200)
+  --roxo
+  canvas:attrColor(41,19,69,204)
   canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
+
 
   --test margin - remove!
 
-  canvas:attrColor("red")
-  canvas:drawRect("frame", grid*2, grid*2, grid*24, grid*12 )
+--  canvas:attrColor("red")
+  --canvas:drawRect("frame", grid*6, grid*2, grid*24, grid*12 )
 
   -- Draw Group Icon
+
   local str = string.format("%02d" , self.pos)
-  local icone = canvas:new("media/mulherese/icon" .. str .. ".png")
-  canvas:compose(((grid*30.5)-icon_size), (grid*5)-icon_size, icone )
+--  local icone = canvas:new("media/mulherese/icon" .. str .. ".png")
+--  canvas:compose(grid*1, grid*5, icone )
+
+
+  -- Draw Ilustration
+    local il = canvas:new("media/mulherese/il" .. str .. ".png")
+  canvas:compose(grid*1, grid*1, il )
+
+  -- Draw nav buttons
+  local btnarrowv = canvas:new("media/btnarrowv.png")
+  local btnarrowh = canvas:new("media/btnarrowh.png")
+  local btnexit = canvas:new("media/btnsair.png")
+
+  canvas:compose(grid*1.5, grid*13.5, btnarrowv)
+  canvas:compose(grid*2.7, grid*13.5, btnarrowh)
+  canvas:compose(grid*4, grid*13.5, btnexit)
+
+
+  local logo = canvas:new("media/btn1off.png")
+  canvas:compose(grid*26.8, grid*1.3, logo )
 
   -- Draw Group Title
   canvas:attrColor(255,255,255,255)
-  canvas:attrFont("GFS Artemisia", font_size,"normal")
+  canvas:attrFont("Tiresias", font_size,"bold")
   local textSizeWidth, textSizeHeight = canvas:measureText (self.list[self.pos])
-  --print( canvas:measureText (self.list[t]))
-  canvas:drawText((grid*30.5-textSizeWidth), grid*2-textSizeHeight, self.list[self.pos])
+  canvas:drawText((grid*7), grid*1.2, self.list[self.pos] .. ": ")
+
+  local textx, texty =  canvas:measureText (self.list[self.pos] .. ": ")
 
   local text=""
   if (self.ppos == 1)   then
-     text = "info"
+    text = "Leis"
   elseif (self.ppos == 2)   then
-     text = "leis"
+    text = "Acesso à Justiça"
   elseif (self.ppos == 3)   then
-     text = "diretos"
+    text = "Serviços públicos disponíveis"
   elseif (self.ppos == 4)   then
-     text = "slot livre"
+    text = "slot livre"
   end
 
-  canvas:drawText(grid*27, grid*8,  text)
+  canvas:drawText(grid*7+textx, grid*1.2, text)
 
   -- Draw Group Text using textDraw() function
-  self:textDraw(test,100,grid*2,grid*2)
-    canvas:flush()
-
+  self:textDraw(test,100,grid*1.2,grid*2)
+  canvas:flush()
 end
