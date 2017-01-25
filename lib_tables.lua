@@ -39,9 +39,13 @@ function layoutPgmTable(table)
       elseif w == 8  then
         tab[i-1]["youtube"] = regexp
       elseif w == 9  then
-        tab[i-1]["youtube"] = regexp
+        tab[i-1]["facebook"] = regexp
       elseif w == 10 then
-        tab[i-1]["youtube"] = regexp
+        tab[i-1]["instagram"] = regexp
+      elseif w == 11 then
+        tab[i-1]["instagram"] = regexp
+      elseif w == 12 then
+        tab[i-1]["instagram"] = regexp
       end
       -- controle dos campos (rever???)
       if w < 13 then
@@ -55,33 +59,21 @@ function layoutPgmTable(table)
 end
 -- ex: local tab = layoutPgmTable(ReadTable("table.txt"))
 
-
-
-function tabelaMulherese(tabela)
+function layoutPgmMulherese(table)
   local tab={}
-  for i = 2, #tabela, 1 do
+  for i = 2, #table, 1 do
     tab[i-1]={}
     local w=1
 
-    for regexp in tabela[i]:gmatch("[^\t]+") do
+    for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
         tab[i-1]["id"] = regexp
       elseif w == 2 then
-        tab[i-1]["nome"] = regexp
+        tab[i-1]["page1"] = regexp
       elseif w == 3 then
-        tab[i-1]["url1"] = regexp
+        tab[i-1]["page2"] = regexp
       elseif w == 4 then
-        tab[i-1]["url2"] = regexp
-      elseif w == 5 then
-        tab[i-1]["desc1"] = regexp
-      elseif w == 6 then
-        tab[i-1]["desc2"] = regexp
-      elseif w == 7 then
-        tab[i-1]["exib"] = regexp
-      elseif w == 8 then
-        tab[i-1]["reap"] = regexp
-      elseif w == 9 then
-        tab[i-1]["rep"] = regexp
+        tab[i-1]["page3"] = regexp
       end
       -- controle dos campos
       if w < 10 then
@@ -94,4 +86,4 @@ function tabelaMulherese(tabela)
   return tab
 end
 
--- exemplo: local tab = tabelaMulherese(ReadTable("table.txt"))
+-- exemplo: local tab = layoutPgmMulherese(ReadTable("table.txt"))

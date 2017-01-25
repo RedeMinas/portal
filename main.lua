@@ -15,9 +15,9 @@ menuOn = false
 pgmOn = false
 mainIconState = 1
 
--- reads table menu
+-- reads functions
+dofile("lib_main.lua")
 dofile("lib_tables.lua")
-
 dofile("lib_menu.lua")
 
 m=MainMenu:new{}
@@ -54,23 +54,27 @@ function handler (evt)
         m:pgmDraw()
         m:pgmDrawInfo()
       elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT" ) then
-        print(#m.list)
         m.spos=shift(m.spos,1, #m.list)
-        print (m.spos)
         m:pgmDraw()
         m:pgmDrawInfo()
         -- PGM
+      elseif(m.pos == 2 and m.spos==6 and evt.key=="ENTER") then
+        canvas:attrColor(1,1,1,200)
+  --      canvas:clear(grid*6,grid*11, grid*32, grid*18 )
+        local img = canvas:new("media/pgm06.png")
+        canvas:compose(grid*5, 0, img)
+        canvas:flush()
+--     elseif (m.pos ==2 and (m.spos>=3 and m.spos < 13) and evt.key =="ENTER") then
+        --pgmOn = true
+        --dofile('lib_pgm.lua')
+        --pgm(m.spos)
+
       elseif  (m.pos==2 and m.spos==13 and evt.key == "ENTER" ) then
         print("ok")
-        pgmOn = true
+        --        pgmOn = true
+        dofile("lib_mulherese.lua")
         mse=mulhereseMenu:new{}
-        mse:draw()
-        mse:page()
-      elseif (m.pos ==2 and (m.spos>=3 and m.spos < 13) and evt.key =="ENTER") then
-        print("chegou")
-        pgmOn = true
-        dofile('lib_pgm.lua')
-        pgm(m.spos)
+        mse:iconsDraw()
       elseif ( m.pos==4 and evt.key == "RED" ) then
         m:menuItem('red')
       elseif ( m.pos==4 and evt.key == "GREEN" ) then
@@ -83,47 +87,29 @@ function handler (evt)
         print ("menu exit")
         mainIconState=1
         menuOn = false
-        --comainIcon = coroutine.create(mainIcon)
-        mainIcon()
+        comainIcon = coroutine.create(mainIconAnim)
+        mainIconUpdate()
       end
     --pgms
     elseif( menuOn and pgmOn) then
       if ( evt.key=="EXIT") then
         pgmOn = false
-        m:iconDraw(menu_itens)
+        m:iconDraw()
         m:menuItem()
       --browse on mulherese
       elseif (m.spos == 13) then
         if (evt.key=="CURSOR_RIGHT") then
           mse.pos=shift(mse.pos,1,#mse.list)
-          mse:draw()
-          mse:page()
+          mse:iconsDraw()
         elseif (evt.key=="CURSOR_LEFT") then
           mse.pos=shift(mse.pos,-1,#mse.list)
-          mse:draw()
-          mse:page()
+          mse:iconsDraw()
         elseif (evt.key=="CURSOR_UP") then
           mse.ppos=shift(mse.ppos,-1,mse.pages)
-          mse:page()
+          mse:pageDraw()
         elseif ( evt.key=="CURSOR_DOWN") then
           mse.ppos=shift(mse.ppos,1,mse.pages)
-          mse:page()
-        end
-      elseif (m.spos == 1) then
-        if (evt.key=="CURSOR_RIGHT") then
-          mse.pos=shift(mse.pos,1,#mse.list)
-          mse:draw()
-          mse:page()
-        elseif (evt.key=="CURSOR_LEFT") then
-          mse.pos=shift(mse.pos,-1,#mse.list)
-          mse:draw()
-          mse:page()
-        elseif (evt.key=="CURSOR_UP") then
-          mse.ppos=shift(mse.ppos,-1,mse.pages)
-          mse:page()
-        elseif ( evt.key=="CURSOR_DOWN") then
-          mse.ppos=shift(mse.ppos,1,mse.pages)
-          mse:page()
+          mse:pageDraw()
         end
       end
     end

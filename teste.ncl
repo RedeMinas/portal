@@ -20,7 +20,7 @@
 
     <port id="pMediaInitialPort" component="mMain"/>
 
-    <media id="mMain"     src="teste.lua"         descriptor="deMain">
+    <media id="mMain"     src="testetxt.lua"         descriptor="deMain">
       <area id="inc" label="lMain"/>
     </media>
 
