@@ -1,5 +1,22 @@
---main icon and tcp metrics
 
+-- main global parameteres
+screen_width, screen_height = canvas:attrSize()
+
+
+grid = screen_width/32
+
+start = false
+
+tcpresult = ""
+
+menuOn = false
+pgmOn = false
+mainIconState = 1
+
+
+version = "1.2.4t"
+
+-- tcp metrics
 require 'lib_tcp'
 
 function countMetric()
@@ -24,6 +41,8 @@ function countMetric()
   end
 end
 
+
+
 function shift(x,v,limit)
   -- not as num?
   if v == nil then v = 0 end
@@ -36,64 +55,46 @@ function shift(x,v,limit)
   end
 end
 
-function mainIcon()
-  local icon = canvas:new("media/icon.png")
-  canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*18)
-  canvas:compose(grid*28,grid*15,icon)
-  canvas:flush()
-end
 
-function mainIconAnim()
-  local icon = canvas:new("media/icon.png")
-  local icon2 = canvas:new("media/icon2.png")
-  while( menuOn == false) do
-    canvas:attrColor(0,0,0,0)
-    canvas:clear(0,0, grid*32, grid*18)
-    if mainIconState < 50 then
-      mainIconState=mainIconState+1
-      canvas:compose(grid*28,grid*15,icon)
-    elseif mainIconState >= 50 and mainIconState < 100 then
-      mainIconState = mainIconState+1
-      canvas:compose(grid*28,grid*15,icon2)
-    elseif mainIconState == 100 then
-      mainIconState =1
+--input a string, get a lefty list
+
+function textWrap(text,size)
+  local list = {}
+  local offset = 0
+  local offsetSum = 0
+  local lasti =0
+  local lines = (math.floor(string.len(text)/size)+1)
+  for i=1,lines do
+    if (i==1) then
+      result=string.sub(text,((i-1)*size),(i*size))
+    else
+      result=string.sub(text,(((i-1)*size-offsetSum)),(i*size+offsetSum))
     end
-    canvas:flush()
-    coroutine.yield() -- sleep...
+    -- calculate offset
+    offset = 0
+    if i ~= lines then
+      while (string.sub(result,size-offset,size-offset) ~= " " ) do
+        if offset < size then
+          offset = offset +1
+        end
+      end
+    end
+
+    result = string.sub(result,0,size-offset)
+
+    -- if line starts with space, remove it
+    if string.sub(result,1,1) == " " or string.sub(result,1,1) == "," then
+      result = string.sub(result,2,size+offset)
+      --      elseif (string.sub(result,size+1,size+1) == ",") then
+    end
+    offsetSum = offsetSum + offset
+    canvas:drawText(grid*6, grid*1.7+i*grid*0.7 , result)
+    lasti = i
+    list[i]=result
   end
-end
 
-comainIcon = coroutine.create(mainIconAnim)
-
-function mainIconUpdate()
-    print (coroutine.status(comainIcon))
-  coroutine.resume(comainIcon)
-  if   coroutine.status(comainIcon) ~= 'dead' then
-    event.timer(100,mainIconUpdate)
-  end
-end
-
--- protoype wrap text
-
-function wrap(s, w, i1, i2)
-  w = w or 78
-  i1 = i1 or 0
-  i2 = i2 or 0
-  --affirm(i1 < w and i2 < w,
-  --     "wrap: the indents must be less than the line width")
-  s = string.gsub(" ", i1) .. s
-  local lstart, len = 1, strlen(s)
-  while len - lstart > w do
-    local i = lstart + w
-    while i > lstart and strsub(s, i, i) ~= " " do i = i - 1 end
-    local j = i
-    while j > lstart and strsub(s, j, j) == " " do j = j - 1 end
-    s = strsub(s, 1, j) .. "\n" .. strrep(" ", i2) ..
-      strsub(s, i + 1, -1)
-    local change = i2 + 1 - (i - j)
-    lstart = j + change
-    len = len + change
-  end
-  return s
+  --resto
+  result=string.sub(text,(((lasti)*size-offsetSum)),(lasti*size+offsetSum))
+  list[lasti+1]=result
+  return(list)
 end

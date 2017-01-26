@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ncl id="portal" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+<ncl id="portal:somente menu mulherese" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
   <head>
 
     <regionBase>
@@ -20,7 +20,7 @@
 
     <port id="pMediaInitialPort" component="mMain"/>
 
-    <media id="mMain"     src="teste.lua"         descriptor="deMain">
+    <media id="mMain"     src="mulherese.lua"         descriptor="deMain">
       <area id="inc" label="lMain"/>
     </media>
 

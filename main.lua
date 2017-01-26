@@ -1,40 +1,25 @@
 -- #author: Carlos Henrique G. Paulino
--- #description: Portal Institucional redeminas
+-- #description: Portal Institucional Rede Minas
 -- #ginga - ncl / lua
 
 
--- parametros globais
-screen_width, screen_height = canvas:attrSize()
---canvas:attrAntiAlias("subpixel")
-grid = screen_width/32
-version = "1.2t"
-
-start = false
-tcpresult = ""
-menuOn = false
-pgmOn = false
-mainIconState = 1
-
 -- reads functions
 dofile("lib_main.lua")
+dofile("lib_icon.lua")
+
 dofile("lib_tables.lua")
 dofile("lib_menu.lua")
 
+
 m=MainMenu:new{}
 
---evento = {
---  class = 'ncl',
---  type  = 'attribution',
---  name  = 'propriedade'
---}
-
--- start
 countMetric()
 
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and menuOn ~= true and pgmOn ~=true)  then
+    if (evt.key == "ENTER" and menuOn
+        ~= true and pgmOn ~=true)  then
       menuOn = true
       coroutine.resume(comainIcon)
       m:iconDraw(m.icons)
@@ -52,17 +37,15 @@ function handler (evt)
       elseif ( m.pos==2 and evt.key == "CURSOR_LEFT" ) then
         m.spos=shift(m.spos,-1, #m.list)
         m:pgmDraw()
-        m:pgmDrawInfo()
       elseif ( m.pos==2 and evt.key == "CURSOR_RIGHT" ) then
         m.spos=shift(m.spos,1, #m.list)
         m:pgmDraw()
-        m:pgmDrawInfo()
         -- PGM
       elseif(m.pos == 2 and m.spos==6 and evt.key=="ENTER") then
         canvas:attrColor(1,1,1,200)
   --      canvas:clear(grid*6,grid*11, grid*32, grid*18 )
         local img = canvas:new("media/pgm06.png")
-        canvas:compose(grid*5, 0, img)
+        canvas:compose(0, 0, img)
         canvas:flush()
 --     elseif (m.pos ==2 and (m.spos>=3 and m.spos < 13) and evt.key =="ENTER") then
         --pgmOn = true
@@ -70,7 +53,6 @@ function handler (evt)
         --pgm(m.spos)
 
       elseif  (m.pos==2 and m.spos==13 and evt.key == "ENTER" ) then
-        print("ok")
         --        pgmOn = true
         dofile("lib_mulherese.lua")
         mse=mulhereseMenu:new{}
@@ -84,7 +66,6 @@ function handler (evt)
       elseif ( m.pos==4 and evt.key == "BLUE" ) then
         m:menuItem('blue')
       elseif ( evt.key=="EXIT" ) then
-        print ("menu exit")
         mainIconState=1
         menuOn = false
         comainIcon = coroutine.create(mainIconAnim)
@@ -115,6 +96,7 @@ function handler (evt)
     end
   elseif (evt.action == "start") then
     mainIconUpdate()
+    
   end
 end
 event.register(handler)

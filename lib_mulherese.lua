@@ -35,6 +35,7 @@ function mulhereseMenu:iconsDraw(nItens)
     end
   end
   mse:pageDraw()
+  canvas:flush()
 end
 
 function mulhereseMenu:iconsDrawItens(t, slot, ativo)
@@ -52,10 +53,10 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
     canvas:attrColor(255,255,255,255)
     canvas:drawRect("frame", grid+(item_w*(slot-1))+(grid*(slot-1)), grid*17.5-item_h, 100, 100)
   end
-  canvas:flush()
+
 end
 
-function mulhereseMenu:textDraw(text,size)
+function mulhereseMenu:textDraw(text)
 
   canvas:attrColor(41,19,69,200)
   canvas:clear(grid*6,grid*2, grid*25, grid*12.5 )
@@ -64,48 +65,19 @@ function mulhereseMenu:textDraw(text,size)
   canvas:attrFont("Tiresias", 20 , "normal")
   canvas:attrColor(255,255,255,200)
 
-  local offset = 0
-  local offsetSum = 0
-  local lasti =0
-  local lines = (math.floor(string.len(text)/size)+1)
-  for i=1,lines do
-    if (i==1) then
-      result=string.sub(text,((i-1)*size),(i*size))
-    else
-      result=string.sub(text,(((i-1)*size-offsetSum)),(i*size+offsetSum))
-    end
+  list=textWrap(text,screen_width/20)
 
-    -- calculate offset
-    offset = 0
-    if i ~= lines then
-      while (string.sub(result,size-offset,size-offset) ~= " " ) do
-        if offset < size then
-          offset = offset +1
-        end
-      end
-    end
+  --for i in ipairs(list) do
+  --    print(list[i])
+  --  end
 
-    result = string.sub(result,0,size-offset)
-
-    -- if line starts with space, remove it
-    if string.sub(result,1,1) == " " or string.sub(result,1,1) == "," then
-      result = string.sub(result,2,size+offset)
-      --      elseif (string.sub(result,size+1,size+1) == ",") then
-    end
-
-    offsetSum = offsetSum + offset
-    canvas:drawText(grid*6, grid*1.7+i*grid*0.7 , result)
-    lasti = i
-  end
-  --resto
-  result=string.sub(text,(((lasti)*size-offsetSum)),(lasti*size+offsetSum))
-  canvas:drawText(grid*6, grid*1.7+((lasti+1)*grid*0.7) , result)
+  --canvas:drawText(grid*6, grid*1.7+((lasti+1)*grid*0.7) , result)
 
 end
 
 
 function mulhereseMenu:pageReset()
-  
+
   -- clear
   canvas:attrColor(41,19,69,200)
   canvas:clear(grid,grid,grid*30,grid*13.5 )
@@ -128,7 +100,7 @@ function mulhereseMenu:pageReset()
 end
 
 function mulhereseMenu:pageDraw()
- 
+
   if (not pgmOn) then
     self.pageReset()
     pgmOn = true
@@ -137,11 +109,10 @@ function mulhereseMenu:pageDraw()
   -- Draw Ilustrations on left
   canvas:attrColor(41,19,69,200)
   canvas:clear(grid*1,grid*1,grid*5,grid*12.5 )
-  if (self.pos > 2) then
-    local str = string.format("%02d" , self.pos)
-    local il = canvas:new("media/mulherese/il" .. str .. ".png")
-    canvas:compose(grid*1, grid*1, il )
-  end
+  local str = string.format("%02d" , self.pos)
+  local imgil = canvas:new("media/mulherese/il" .. str .. ".png")
+  print(str)
+  canvas:compose(grid*1, grid*1, imgil)
 
   -- Draw Group Title
   canvas:attrColor(41,19,69,200)
@@ -165,7 +136,7 @@ function mulhereseMenu:pageDraw()
   end
   canvas:drawText(grid*6, grid*1.2, self.list[self.pos]["id"] .. ": " ..texttitle)
 
-    self:textDraw(text,60)
+  self:textDraw(text)
 
   canvas:flush()
 end

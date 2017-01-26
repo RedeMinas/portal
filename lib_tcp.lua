@@ -3,6 +3,7 @@
 -- * nao aceita `tcp.execute` reentrante
 --]]
 
+
 local _G, coroutine, event, assert, pairs, type
     = _G, coroutine, event, assert, pairs, type
 local s_sub = string.sub
@@ -120,3 +121,4 @@ function receive (pattern)
         end
     end
 end
+

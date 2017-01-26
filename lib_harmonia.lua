@@ -1,9 +1,8 @@
+--- Harmonia object
 
---- Main Menu object
+harmoniaMenu = {}
 
-MainMenu = {}
-
-function MainMenu:new(o)
+function harmoniaMenu:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
@@ -18,29 +17,12 @@ function MainMenu:new(o)
   return o
 end
 
--- debugger
-function settings()
-  if (self.debug==true) then
-    canvas:attrColor("red")
-    canvas:drawRect("fill",screen_width-(screen_width/6),0,200,200)
-    canvas:attrColor("white")
-    canvas:attrFont("Vera", 12,"normal")
-    canvas:drawText(pos_x,pos_y, screen_width .. "x" .. screen_height .. "\n" .. self.pos)
-  else
-    canvas:attrColor(0,0,0,0)
-    canvas:clear(grid*16,grid*5,200,200)
-  end
-  canvas:flush()
-end
-
--- main menu icons vert scroll
-function MainMenu:iconDraw()
+-- harmonia icons vert scroll
+function harmoniaMenu:iconDraw()
   local iconpath=""
   local sumdy=0
   --conferir
-  canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*12)
-
+  
   canvas:attrColor(1,1,1,200)
   canvas:clear(0,grid*11, grid*32, grid*18 )
   --  canvas:attrColor("white")
@@ -62,11 +44,12 @@ function MainMenu:iconDraw()
   canvas:compose(grid, grid*17, img)
   local imgexit = canvas:new("media/btnsair.png")
   canvas:compose(grid*4, grid*17, imgexit)
+  self.menuItem("teste")
   canvas:flush()
 end
 
 -- main menu treatment
-function MainMenu:menuItem(par)
+function harmoniaMenu:menuItem(par)
   --canvas:attrColor(0,0,0,0)
   --canvas:clear(0,0, grid*32, grid*10 )
 
@@ -75,12 +58,13 @@ function MainMenu:menuItem(par)
     local img = canvas:new("media/aredeminas.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
-    -- programas
+    -- programsa
   elseif self.pos == 2 then
     local img = canvas:new("media/btnarrowh.png")
     canvas:compose(grid*2.5, grid*17, img)
-    self:pgmDraw()
     canvas:flush()
+    self:pgmDraw(pgmShowItens)
+    self:pgmDrawInfo()
     -- Nova sede
   elseif self.pos==3 then
     local img = canvas:new("media/sede.png")
@@ -132,64 +116,22 @@ function MainMenu:menuItem(par)
 end
 
 -- sub menu pgm draw carrossel
-function MainMenu:pgmDraw()
-
+function harmoniaMenu:pgmDraw()
   canvas:attrColor(1,1,1,200)
-  canvas:clear(grid*6,grid*11.5, grid*32, grid*18 )
-
+  canvas:clear(grid*6,grid*11, grid*32, grid*18 )
+  canvas:flush()
   for i=1,self.pgmicons  do
     if i==1 then
-      self:pgmDrawIcons(shift(self.spos-1,i,#self.list),i,true)
+      self:pgmDrawItem(shift(self.spos-1,i,#self.list),i,true)
     else
-      self:pgmDrawIcons(shift(self.spos-1,i,#self.list),i,false)
+      self:pgmDrawItem(shift(self.spos-1,i,#self.list),i,false)
     end
   end
-
-  -- icone +info
-  if (self.list[self.spos]["info"] == true) then
-    local imginfo = canvas:new("media/pgminfo.png")
-    canvas:compose(grid*26.5, grid*17, imginfo )
-  end
-  -- icone youtube
-  if (self.list[self.spos]["youtube"] == true) then
-    local imginfo = canvas:new("media/btnred.png")
-    canvas:compose(grid*28, grid*17, imginfo )
-  end
-  -- icone site
-  if (self.list[self.spos]["site"] == true) then
-    local imginfo = canvas:new("media/btngreen.png")
-    canvas:compose(grid*29, grid*17, imginfo )
-  end
-  -- icone facebook
-  if (self.list[self.spos]["facebook"] == true) then
-    local imginfo = canvas:new("media/btnyellow.png")
-    canvas:compose(grid*30, grid*17, imginfo )
-  end
-  -- icone twitter
-  if (self.list[self.spos]["twitter"] == true) then
-    print("chegou na bagaça")
-    local imginfo = canvas:new("media/btnblue.png")
-    canvas:compose(grid*31, grid*17, imginfo )
-  end
-
-  --text
-  canvas:attrFont("Vera", 21,"bold")
-  canvas:attrColor("white")
-
-  canvas:drawText(grid*6, grid*14, self.list[self.spos]["desc1"] )
-  canvas:drawText(grid*6, grid*14.7, self.list[self.spos]["desc2"] )
-  canvas:drawText(grid*6, grid*15.4, self.list[self.spos]["desc3"] )
-
-
-  --texto grade
-  canvas:drawText(grid*6,grid*17, self.list[self.spos]["grade"])
-
   canvas:flush()
 end
 
 -- sub menu pgm draw carrossel icons
-
-function MainMenu:pgmDrawIcons(t, slot, ativo)
+function harmoniaMenu:pgmDrawItem(t, slot, ativo)
   --setup parameters
   local item_h = 154
   local item_w = 85
@@ -206,4 +148,26 @@ function MainMenu:pgmDrawIcons(t, slot, ativo)
   end
 end
 
+-- sub menu pgm draw information
+function harmoniaMenu:pgmDrawInfo()
+  local font_size = 21
 
+  --print (unpack(self.list[1]))
+
+  canvas:attrColor(1,1,1,200)
+  canvas:clear(grid*7,grid*14, grid*32, grid*18 )
+
+  canvas:attrFont("Vera", font_size,"bold")
+  --text
+  canvas:attrColor("white")
+  canvas:drawText(grid*6, grid*14, self.list[self.spos]["desc1"] )
+  canvas:drawText(grid*6, grid*14.7, self.list[self.spos]["desc2"] )
+  canvas:drawText(grid*6, grid*15.4, self.list[self.spos]["desc3"] )
+
+  --  canvas:drawText(grid*7, grid*16.4, self.list[self.spos]["nome"] )
+  --  canvas:drawText(grid*10, grid*16.4, self.list[self.spos]["site"] )
+  --  canvas:drawText(grid*14, grid*16.4, self.list[self.spos]["youtube"] )
+
+  canvas:drawText(grid*6,grid*17, self.list[self.spos]["grade"])
+  canvas:flush()
+end

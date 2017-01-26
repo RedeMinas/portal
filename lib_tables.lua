@@ -35,17 +35,42 @@ function layoutPgmTable(table)
       elseif w == 6 then
         tab[i-1]["class"] = regexp
       elseif w == 7 then
-        tab[i-1]["site"] = regexp
+        if regexp == "TRUE" then
+          tab[i-1]["info"] = true
+        else
+          tab[i-1]["info"] = false
+        end
       elseif w == 8  then
-        tab[i-1]["youtube"] = regexp
+        if regexp == "TRUE" then
+          tab[i-1]["site"] = true
+        else
+          tab[i-1]["site"] = false
+        end
       elseif w == 9  then
-        tab[i-1]["facebook"] = regexp
+        if regexp == "TRUE" then
+          tab[i-1]["youtube"] = true
+        else
+          tab[i-1]["youtube"] = false
+        end
       elseif w == 10 then
-        tab[i-1]["instagram"] = regexp
+        if regexp == "TRUE" then
+          tab[i-1]["facebook"] = true
+        else
+          tab[i-1]["facebook"] = false
+        end
       elseif w == 11 then
-        tab[i-1]["instagram"] = regexp
+        if regexp == "TRUE" then
+          print(regexp)
+          tab[i-1]["twitter"] = true
+        else
+          tab[i-1]["twitter"] = false
+        end
       elseif w == 12 then
-        tab[i-1]["instagram"] = regexp
+        if regexp == "TRUE" then
+          tab[i-1]["spotify"] = true
+        else
+          tab[i-1]["spotify"] = false
+        end
       end
       -- controle dos campos (rever???)
       if w < 13 then
