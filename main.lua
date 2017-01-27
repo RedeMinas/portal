@@ -2,17 +2,13 @@
 -- #description: Portal Institucional Rede Minas
 -- #ginga - ncl / lua
 
-
 -- reads functions
 dofile("lib_main.lua")
 dofile("lib_icon.lua")
-
 dofile("lib_tables.lua")
 dofile("lib_menu.lua")
 
-
 m=MainMenu:new{}
-
 
 countMetric()
 
@@ -42,23 +38,20 @@ function handler (evt)
         m.spos=shift(m.spos,1, #m.list)
         m:pgmDraw()
         -- PGM
+        --dangobalango start
       elseif(m.pos == 2 and m.list[m.spos]["img"]==6 and evt.key=="ENTER") then
-        canvas:attrColor(1,1,1,200)
-        canvas:clear(0,0, grid*32, grid*11.5 )
+        canvas:attrColor(0,0,0,0)
+        canvas:clear(0,0, grid*32, grid*11 )
         local img = canvas:new("media/pgm06.png")
         canvas:compose(0, 0, img)
         canvas:flush()
---     elseif (m.pos ==2 and (m.spos>=3 and m.spos < 13) and evt.key =="ENTER") then
-        --pgmOn = true
-        --dofile('lib_pgm.lua')
-        --pgm(m.spos)
+        --harmonia start
       elseif  (m.pos==2 and m.list[m.spos]["img"]==8 and evt.key == "ENTER" ) then
-        pgmOn = true
         dofile("lib_harmonia.lua")
         harmonia=harmoniaMenu:new{}
         harmonia:iconDraw()
+        --mulherese start
       elseif  (m.pos==2 and m.list[m.spos]["img"]==13 and evt.key == "ENTER" ) then
-        pgmOn = true
         dofile("lib_mulherese.lua")
         mse=mulhereseMenu:new{}
         mse:iconsDraw()
@@ -76,13 +69,13 @@ function handler (evt)
         comainIcon = coroutine.create(mainIconAnim)
         mainIconUpdate()
       end
-    --pgms
+      --pgms
     elseif( menuOn and pgmOn) then
       if ( evt.key=="EXIT") then
         pgmOn = false
         m:iconDraw()
         m:menuItem()
-      --browse on mulherese
+        --browse on mulherese
       elseif (m.spos == 13) then
         if (evt.key=="CURSOR_RIGHT") then
           mse.pos=shift(mse.pos,1,#mse.list)
@@ -99,18 +92,12 @@ function handler (evt)
         end
         --browse on harmonia
       elseif (m.spos == 8) then
-        if (evt.key=="CURSOR_RIGHT") then
-          harmonia.pos=shift(harmonia.pos,1,#harmonia.list)
+        if (evt.key=="CURSOR_UP") then
+          harmonia.pos=shift(harmonia.pos,-1,harmonia.icons)
           harmonia:iconDraw()
-        elseif (evt.key=="CURSOR_LEFT") then
-          harmonia.pos=shift(harmonia.pos,-1,#harmonia.list)
-          harmonia:iconDraw()
-        elseif (evt.key=="CURSOR_UP") then
-          harmonia.ppos=shift(harmonia.ppos,-1,harmonia.pages)
-          harmonia:pageDraw()
         elseif ( evt.key=="CURSOR_DOWN") then
-          harmonia.ppos=shift(harmonia.ppos,1,harmonia.pages)
-          harmonia:pageDraw()
+          harmonia.pos=shift(harmonia.pos,1,harmonia.icons)
+          harmonia:iconDraw()
         end
       end
     end

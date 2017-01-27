@@ -19,14 +19,13 @@ end
 
 
 function mulhereseMenu:iconsDraw(nItens)
-    --selective clear all on start or partial on icons area
+  --selective clear all on start or partial on icons area
   canvas:attrColor(0,0,0,200)
   if (not pgmOn) then
     canvas:clear(0,0, grid*32, grid*18 )
   else
     canvas:clear(0,grid*14.5, grid*32, grid*18 )
   end
-
   for i=1,self.iconsDisplay  do
     if i==1 then
       self:iconsDrawItens(shift(self.pos-1,i,#self.list),i,true)
@@ -34,7 +33,7 @@ function mulhereseMenu:iconsDraw(nItens)
       self:iconsDrawItens(shift(self.pos-1,i,#self.list),i)
     end
   end
-  mse:pageDraw()
+  self:pageDraw()
   canvas:flush()
 end
 

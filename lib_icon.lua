@@ -30,7 +30,7 @@ end
 comainIcon = coroutine.create(mainIconAnim)
 
 function mainIconUpdate()
-  print (coroutine.status(comainIcon))
+  --print (coroutine.status(comainIcon))
   coroutine.resume(comainIcon)
   if   coroutine.status(comainIcon) ~= 'dead' then
     event.timer(100,mainIconUpdate)

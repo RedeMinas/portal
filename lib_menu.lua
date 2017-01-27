@@ -131,8 +131,9 @@ end
 -- sub menu pgm draw carrossel
 function MainMenu:pgmDraw()
 
+  canvas:attrColor(0,0,0,0)
+  canvas:clear(0,0, grid*32, grid*11 )
   canvas:attrColor(1,1,1,200)
-  canvas:clear(0,0, grid*32, grid*11.5 )
   canvas:clear(grid*6,grid*11.5, grid*32, grid*18 )
 
   for i=1,self.pgmicons  do
@@ -176,6 +177,7 @@ function MainMenu:pgmDraw()
   canvas:drawText(grid*6, grid*14, self.list[self.spos]["desc1"] )
   canvas:drawText(grid*6, grid*14.7, self.list[self.spos]["desc2"] )
   canvas:drawText(grid*6, grid*15.4, self.list[self.spos]["desc3"] )
+  canvas:drawText(grid*6, grid*16.1, self.list[self.spos]["desc4"] )
 
 
   --texto grade

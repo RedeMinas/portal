@@ -1,11 +1,9 @@
 -- #author: Carlos Henrique G. Paulino
 -- #description: Portal Institucional redeminas
--- #description: harmonia
+-- #description: mulherese teste
 -- #ginga - ncl / lua
 
-
-
-version = "harmonia teste"
+version = "mulherese teste"
 
 start = false
 menuOn = false
@@ -13,6 +11,7 @@ pgmOn = false
 mainIconState = 1
 
 -- reads table menu
+
 dofile("lib_icon.lua")
 dofile("lib_main.lua")
 dofile("lib_tables.lua")

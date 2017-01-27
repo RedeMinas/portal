@@ -18,17 +18,16 @@ function handler (evt)
     -- icon
     if (evt.key == "ENTER" and menuOn ~= true and pgmOn ~=true)  then
       menuOn = true
-      pgmOn = true
       coroutine.resume(comainIcon)
       harmonia:iconDraw()
-      harmonia:menuItem()
       -- main menu
     elseif( menuOn and pgmOn) then
       if ( evt.key=="EXIT") then
+        mainIconState=1
         pgmOn = false
-        harmonia:iconDraw()
-        harmonia:menuItem()
-      --browse on mulherese
+        menuOn = false
+        comainIcon = coroutine.create(mainIconAnim)
+        mainIconUpdate()
       elseif (evt.key=="CURSOR_UP") then
         harmonia.pos=shift(harmonia.pos,-1,harmonia.icons)
         harmonia:iconDraw()
