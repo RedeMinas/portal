@@ -18,62 +18,66 @@ end
 
 function layoutPgmTable(table)
   local tab={}
+  local id = 0
   for i = 2, #table, 1 do
-    tab[i-1]={}
     local w=1
     for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
-        tab[i-1]["nome"] = regexp
+        id = tonumber(regexp)
+        tab[id]={}
+        tab[id]["img"] = i-1
       elseif w == 2 then
-        tab[i-1]["grade"] = regexp
+        tab[id]["nome"] = regexp
       elseif w == 3 then
-        tab[i-1]["desc1"] = regexp
+        tab[id]["grade"] = regexp
       elseif w == 4 then
-        tab[i-1]["desc2"] = regexp
+        tab[id]["desc1"] = regexp
       elseif w == 5 then
-        tab[i-1]["desc3"] = regexp
+        tab[id]["desc2"] = regexp
       elseif w == 6 then
-        tab[i-1]["class"] = regexp
+        tab[id]["desc3"] = regexp
       elseif w == 7 then
+        tab[id]["class"] = regexp
+      elseif w == 8 then
         if regexp == "TRUE" then
-          tab[i-1]["info"] = true
+          tab[id]["info"] = true
         else
-          tab[i-1]["info"] = false
-        end
-      elseif w == 8  then
-        if regexp == "TRUE" then
-          tab[i-1]["site"] = true
-        else
-          tab[i-1]["site"] = false
+          tab[id]["info"] = false
         end
       elseif w == 9  then
         if regexp == "TRUE" then
-          tab[i-1]["youtube"] = true
+          tab[id]["site"] = true
         else
-          tab[i-1]["youtube"] = false
+          tab[id]["site"] = false
         end
-      elseif w == 10 then
+      elseif w == 10  then
         if regexp == "TRUE" then
-          tab[i-1]["facebook"] = true
+          tab[id]["youtube"] = true
         else
-          tab[i-1]["facebook"] = false
+          tab[id]["youtube"] = false
         end
       elseif w == 11 then
         if regexp == "TRUE" then
-          print(regexp)
-          tab[i-1]["twitter"] = true
+          tab[id]["facebook"] = true
         else
-          tab[i-1]["twitter"] = false
+          tab[id]["facebook"] = false
         end
       elseif w == 12 then
         if regexp == "TRUE" then
-          tab[i-1]["spotify"] = true
+          tab[id]["twitter"] = true
         else
-          tab[i-1]["spotify"] = false
+          tab[id]["twitter"] = false
+        end
+      elseif w == 13 then
+        if regexp == "TRUE" then
+          tab[id]["spotify"] = true
+        else
+          tab[id]["spotify"] = false
         end
       end
       -- controle dos campos (rever???)
-      if w < 13 then
+      if w < 13
+      then
         w=w+1
       else
         w=1

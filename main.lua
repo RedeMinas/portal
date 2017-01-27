@@ -13,6 +13,7 @@ dofile("lib_menu.lua")
 
 m=MainMenu:new{}
 
+
 countMetric()
 
 function handler (evt)
@@ -41,9 +42,9 @@ function handler (evt)
         m.spos=shift(m.spos,1, #m.list)
         m:pgmDraw()
         -- PGM
-      elseif(m.pos == 2 and m.spos==6 and evt.key=="ENTER") then
+      elseif(m.pos == 2 and m.list[m.spos]["img"]==6 and evt.key=="ENTER") then
         canvas:attrColor(1,1,1,200)
-  --      canvas:clear(grid*6,grid*11, grid*32, grid*18 )
+        canvas:clear(0,0, grid*32, grid*11.5 )
         local img = canvas:new("media/pgm06.png")
         canvas:compose(0, 0, img)
         canvas:flush()
@@ -51,9 +52,13 @@ function handler (evt)
         --pgmOn = true
         --dofile('lib_pgm.lua')
         --pgm(m.spos)
-
-      elseif  (m.pos==2 and m.spos==13 and evt.key == "ENTER" ) then
-        --        pgmOn = true
+      elseif  (m.pos==2 and m.list[m.spos]["img"]==8 and evt.key == "ENTER" ) then
+        pgmOn = true
+        dofile("lib_harmonia.lua")
+        harmonia=harmoniaMenu:new{}
+        harmonia:iconDraw()
+      elseif  (m.pos==2 and m.list[m.spos]["img"]==13 and evt.key == "ENTER" ) then
+        pgmOn = true
         dofile("lib_mulherese.lua")
         mse=mulhereseMenu:new{}
         mse:iconsDraw()
@@ -92,11 +97,25 @@ function handler (evt)
           mse.ppos=shift(mse.ppos,1,mse.pages)
           mse:pageDraw()
         end
+        --browse on harmonia
+      elseif (m.spos == 8) then
+        if (evt.key=="CURSOR_RIGHT") then
+          harmonia.pos=shift(harmonia.pos,1,#harmonia.list)
+          harmonia:iconDraw()
+        elseif (evt.key=="CURSOR_LEFT") then
+          harmonia.pos=shift(harmonia.pos,-1,#harmonia.list)
+          harmonia:iconDraw()
+        elseif (evt.key=="CURSOR_UP") then
+          harmonia.ppos=shift(harmonia.ppos,-1,harmonia.pages)
+          harmonia:pageDraw()
+        elseif ( evt.key=="CURSOR_DOWN") then
+          harmonia.ppos=shift(harmonia.ppos,1,harmonia.pages)
+          harmonia:pageDraw()
+        end
       end
     end
   elseif (evt.action == "start") then
     mainIconUpdate()
-    
   end
 end
 event.register(handler)

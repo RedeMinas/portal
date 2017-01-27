@@ -96,31 +96,28 @@ function MainMenu:menuItem(par)
     canvas:attrFont("Vera", 8,"bold")
     canvas:drawText(grid*15, grid*17.5, "v: " .. version .. "/" .. tcpresult )
     canvas:flush()
-    if self.pos == 4 and par == 'red' then
+    if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
       canvas:clear(grid*32-dx,grid, dx, dy )
       canvas:compose(grid*32-dx, grid, img)
       canvas:flush()
-    end
-    if self.pos == 4 and par == 'green' then
+    elseif  par == 'green' then
       local img = canvas:new("media/qrtwitter.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
       canvas:clear(grid*32-dx,grid, dx, dy )
       canvas:compose(grid*32-dx, grid, img)
       canvas:flush()
-    end
-    if self.pos == 4 and par == 'yellow' then
+    elseif  par == 'yellow' then
       local img = canvas:new("media/qrinsta.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
       canvas:clear(grid*32-dx,grid, dx, dy )
       canvas:compose(grid*32-dx, grid, img)
       canvas:flush()
-    end
-    if self.pos == 4 and par == 'blue' then
+    elseif  par == 'blue' then
       local img = canvas:new("media/qryoutube.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
@@ -135,6 +132,7 @@ end
 function MainMenu:pgmDraw()
 
   canvas:attrColor(1,1,1,200)
+  canvas:clear(0,0, grid*32, grid*11.5 )
   canvas:clear(grid*6,grid*11.5, grid*32, grid*18 )
 
   for i=1,self.pgmicons  do
@@ -167,7 +165,6 @@ function MainMenu:pgmDraw()
   end
   -- icone twitter
   if (self.list[self.spos]["twitter"] == true) then
-    print("chegou na bagaça")
     local imginfo = canvas:new("media/btnblue.png")
     canvas:compose(grid*31, grid*17, imginfo )
   end
@@ -193,8 +190,8 @@ function MainMenu:pgmDrawIcons(t, slot, ativo)
   --setup parameters
   local item_h = 154
   local item_w = 85
+  local icon = canvas:new("media/" .. string.format("%02d" , self.list[t]["img"]).. ".png")
 
-  local icon = canvas:new("media/" .. string.format("%02d" , t).. ".png")
   canvas:compose((grid*6+(item_w*(slot-1))+(2*grid*(slot-1))), grid*11.5, icon )
 
   if ativo then
