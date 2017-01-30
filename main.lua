@@ -47,9 +47,9 @@ function handler (evt)
         canvas:flush()
         --harmonia start
       elseif  (m.pos==2 and m.list[m.spos]["img"]==8 and evt.key == "ENTER" ) then
-        dofile("lib_harmonia.lua")
         harmonia=harmoniaMenu:new{}
         harmonia:iconDraw()
+        harmonia:menuItem()
         --mulherese start
       elseif  (m.pos==2 and m.list[m.spos]["img"]==13 and evt.key == "ENTER" ) then
         dofile("lib_mulherese.lua")
@@ -95,9 +95,11 @@ function handler (evt)
         if (evt.key=="CURSOR_UP") then
           harmonia.pos=shift(harmonia.pos,-1,harmonia.icons)
           harmonia:iconDraw()
+          harmonia:menuItem()
         elseif ( evt.key=="CURSOR_DOWN") then
           harmonia.pos=shift(harmonia.pos,1,harmonia.icons)
           harmonia:iconDraw()
+          harmonia:menuItem()
         end
       end
     end

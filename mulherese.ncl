@@ -11,7 +11,11 @@
     </descriptorBase>
 
     <connectorBase>
-      <importBase documentURI="connector.ncl" alias="conBase"/>
+      <causalConnector id="onBeginSet">
+        <connectorParam name="value"/>
+        <simpleCondition role="onBegin"/>
+        <simpleAction role="set" value="$value"/>
+      </causalConnector>
     </connectorBase>
 
   </head>
@@ -30,7 +34,7 @@
     </media>
 
     <!-- for sony DLC -->
-    <link id="link_focoScroll2BEGIN"    xconnector="conBase#onBeginSet">
+    <link id="link_focoScroll2BEGIN"    xconnector="onBeginSet">
       <bind role="onBegin"        component="mMain"/>
       <bind role="set"            component="settings" interface="service.currentKeyMaster">
         <bindParam name="value" value="idxLua"/>
