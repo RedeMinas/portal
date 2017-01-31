@@ -204,18 +204,6 @@ function agendaMenu:menuItem(par)
     local img = canvas:new("media/harmonia/contatos.png")
     canvas:compose(grid*6, grid*11.5, img)
     canvas:flush()
-
-
-  elseif self.pos==5 then
-    canvas:attrColor(1,1,1,200)
-    canvas:clear(grid*6,grid*11, grid*32, grid*18 )
-    local img = canvas:new("media/contato.png")
-    canvas:compose(grid*6, grid*11.5, img)
-    -- results from tcp get
-    canvas:attrColor("white")
-    canvas:attrFont("Vera", 8,"bold")
-    canvas:drawText(grid*15, grid*17.5, "v: " .. version .. "/" .. tcpresult )
-    canvas:flush()
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()

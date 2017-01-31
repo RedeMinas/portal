@@ -121,8 +121,6 @@ function harmoniaMenu:menuItem(par)
     local img = canvas:new("media/harmonia/especialdomes.png")
     canvas:compose(grid*6, grid*11.5, img)
   elseif (self.pos==4) then
-    canvas:attrColor(1,1,1,200)
-    canvas:clear(grid*6,grid*11, grid*32, grid*18 )
     local img = canvas:new("media/harmonia/contatos.png")
     canvas:compose(grid*6, grid*11.5, img)
     -- results from tcp get
