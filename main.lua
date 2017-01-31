@@ -64,6 +64,7 @@ function handler (evt)
         dofile("lib_mulherese.lua")
         mse=mulhereseMenu:new{}
         mse:iconsDraw()
+        --qrcodes on contatos 
       elseif ( m.pos==4 and evt.key == "RED" ) then
         m:menuItem('red')
       elseif ( m.pos==4 and evt.key == "GREEN" ) then
@@ -102,13 +103,24 @@ function handler (evt)
         --browse on harmonia
       elseif (m.spos == 8) then
         if (evt.key=="CURSOR_UP") then
+          print("up")
           harmonia.pos=shift(harmonia.pos,-1,harmonia.icons)
           harmonia:iconDraw()
           harmonia:menuItem()
         elseif ( evt.key=="CURSOR_DOWN") then
+          print("down")
           harmonia.pos=shift(harmonia.pos,1,harmonia.icons)
           harmonia:iconDraw()
           harmonia:menuItem()
+        elseif ( harmonia.pos==4 and evt.key == "RED" ) then
+          print("ok")
+          harmonia:menuItem('red')
+        elseif ( harmonia.pos==4 and evt.key == "GREEN" ) then
+          harmonia:menuItem('green')
+        elseif ( harmonia.pos==4 and evt.key == "YELLOW" ) then
+          harmonia:menuItem('yellow')
+        elseif ( harmonia.pos==4 and evt.key == "BLUE" ) then
+          harmonia:menuItem('blue')
         end
       end
     end
