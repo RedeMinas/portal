@@ -15,12 +15,20 @@ countMetric()
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and menuOn
-        ~= true and pgmOn ~=true)  then
+    if (evt.key == "ENTER" and not menuOn and not pgmOn)  then
       menuOn = true
       coroutine.resume(comainIcon)
       m:iconDraw(m.icons)
       m:menuItem()
+      -- realocate icon
+    elseif (evt.key == "CURSOR_UP" and not menuOn and not pgmOn )then
+      mainIconPos=shift(mainIconPos,1,4)
+    elseif (evt.key == "CURSOR_DOWN" and not menuOn and not pgmOn) then
+      mainIconPos=shift(mainIconPos,-1,4)
+    elseif (evt.key == "CURSOR_LEFT" and not menuOn and not pgmOn ) then
+      mainIconPos=shift(mainIconPos,-1,4)
+    elseif ( evt.key == "CURSOR_RIGHT" and not menuOn and not pgmOn ) then
+      mainIconPos=shift(mainIconPos,1,4)
       -- main menu
     elseif (menuOn ==true and pgmOn == false ) then
       if (evt.key == "CURSOR_UP" )then
@@ -47,6 +55,7 @@ function handler (evt)
         canvas:flush()
         --harmonia start
       elseif  (m.pos==2 and m.list[m.spos]["img"]==8 and evt.key == "ENTER" ) then
+        dofile("lib_harmonia.lua")
         harmonia=harmoniaMenu:new{}
         harmonia:iconDraw()
         harmonia:menuItem()

@@ -2,9 +2,7 @@
 -- main global parameteres
 screen_width, screen_height = canvas:attrSize()
 
-
 grid = screen_width/32
-
 start = false
 
 tcpresult = ""
@@ -12,7 +10,7 @@ tcpresult = ""
 menuOn = false
 pgmOn = false
 mainIconState = 1
-
+mainIconPos =1
 
 version = "1.2.4t"
 
