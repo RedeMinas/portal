@@ -31,7 +31,6 @@ end
 
 function mainIconAnim()
   canvas:attrColor(0,0,0,0)
-
   canvas:clear(0,0, grid*32, grid*18)
   local icon = canvas:new("media/icon.png")
   local icon2 = canvas:new("media/icon2.png")
