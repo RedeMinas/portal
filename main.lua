@@ -103,17 +103,15 @@ function handler (evt)
         --browse on harmonia
       elseif (m.spos == 8) then
         if (evt.key=="CURSOR_UP") then
-          print("up")
+
           harmonia.pos=shift(harmonia.pos,-1,harmonia.icons)
           harmonia:iconDraw()
           harmonia:menuItem()
         elseif ( evt.key=="CURSOR_DOWN") then
-          print("down")
           harmonia.pos=shift(harmonia.pos,1,harmonia.icons)
           harmonia:iconDraw()
           harmonia:menuItem()
         elseif ( harmonia.pos==4 and evt.key == "RED" ) then
-          print("ok")
           harmonia:menuItem('red')
         elseif ( harmonia.pos==4 and evt.key == "GREEN" ) then
           harmonia:menuItem('green')
