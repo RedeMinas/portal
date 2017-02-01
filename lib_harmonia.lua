@@ -28,16 +28,7 @@ function harmoniaMenu:iconDraw()
   local sumdy=0
 
   for i=1,self.icons  do
-    local text
-    if i == 1 then
-      text="Edição da semana"
-    elseif i == 2 then
-      text="Repertório"
-    elseif i == 3 then
-      text="Especial do mês"
-    else
-      text="Contatos"
-    end
+    --remover?
     if i==self.pos then
       iconpath = "media/harmonia/btn" ..  tostring(i) .. "on.png"
       canvas:attrColor(255,255,255,255)
@@ -48,16 +39,12 @@ function harmoniaMenu:iconDraw()
     local icon = canvas:new(iconpath)
     local dx,dy = icon:attrSize()
 
-    canvas:attrFont("Vera", 15,"bold")
-    canvas:drawText(grid,grid*10.5+(grid*i),text)
---    canvas:compose(0, grid*11+sumdy, icon )
+    canvas:compose(0, grid*11+sumdy, icon )
     sumdy=sumdy+dy
   end
   self:pageDraw()
   canvas:flush()
 end
-
-
 
 function harmoniaMenu:pageDraw()
   canvas:attrColor(93,196,179,217)
@@ -67,26 +54,25 @@ function harmoniaMenu:pageDraw()
   if self.pos == 1 then
     print ("chegou")
   end
+
 end
-
-
 
 function harmoniaMenu:pageReset()
   canvas:attrColor(0,0,0,0)
   canvas:clear(0,0, grid*32, grid*18 )
+  canvas:attrColor(93,196,179,217)
+  canvas:clear(0,grid*11, grid*32, grid*18 )
 
-  local logo = canvas:new("media/harmonia/fundo.png")
-  canvas:compose(0, grid*11, logo )
+  local imgbgdleft = canvas:new("media/harmonia/bgd00.png")
+  canvas:compose(0, grid*11, imgbgdleft )
 
---  canvas:attrColor(93,196,179,217)
---  canvas:clear(0,grid*11, grid*32, grid*18 )
 
   --canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
   --  canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
 
   -- draw redeminas logo
   local logo = canvas:new("media/btn1off.png")
-  canvas:compose(grid, grid*16, logo )
+  canvas:compose(grid*1.5, grid*16, logo )
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
@@ -97,8 +83,6 @@ function harmoniaMenu:pageReset()
   canvas:compose(grid*4, grid*17, btnexit)
 end
 
-
-
 -- main menu treatment
 function harmoniaMenu:menuItem(par)
   --canvas:attrColor(0,0,0,0)
@@ -106,23 +90,30 @@ function harmoniaMenu:menuItem(par)
 
   -- edicao da semana
   if (self.pos==1) then
-    local logo = canvas:new("media/btn1off.png")
-    canvas:compose(grid, grid*16, logo )
     local img = canvas:new("media/harmonia/edicaodasemana.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd01.png")
+    canvas:compose(grid*7, grid*11.5, img)
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- repertorio - agenda semanal
+
   elseif (self.pos == 2) then
     --local img = canvas:new("media/btnarrowh.png")
 --    canvas:compose(grid*2.5, grid*17, img)
     local img = canvas:new("media/harmonia/repertorio.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(grid*7, grid*11.5, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd02.png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- especial do mes
   elseif (self.pos==3) then
     local img = canvas:new("media/harmonia/especialdomes.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(grid*7, grid*11.5, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd03.png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
   elseif (self.pos==4) then
     local img = canvas:new("media/harmonia/contatos.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(grid*7, grid*11.5, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd04.png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- results from tcp get
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
@@ -152,3 +143,4 @@ function harmoniaMenu:menuItem(par)
   end
   canvas:flush()
 end
+
