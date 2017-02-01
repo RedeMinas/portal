@@ -54,6 +54,10 @@ function harmoniaMenu:pageDraw()
   if self.pos == 1 then
     print ("chegou")
   end
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
 end
 
 function harmoniaMenu:pageReset()
@@ -91,7 +95,11 @@ function harmoniaMenu:menuItem(par)
   if (self.pos==1) then
     local img = canvas:new("media/harmonia/edicaodasemana.png")
     local imgbgdr = canvas:new("media/harmonia/bgd01.png")
+<<<<<<< HEAD
 --    canvas:compose(grid*7, grid*11.5, img)
+=======
+    canvas:compose(grid*7, grid*11.5, img)
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- repertorio - agenda semanal
 
@@ -99,18 +107,30 @@ function harmoniaMenu:menuItem(par)
     --local img = canvas:new("media/btnarrowh.png")
 --    canvas:compose(grid*2.5, grid*17, img)
     local img = canvas:new("media/harmonia/repertorio.png")
+<<<<<<< HEAD
     canvas:compose(grid*6, grid*11.5, img)
+=======
+    canvas:compose(grid*7, grid*11.5, img)
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
     local imgbgdr = canvas:new("media/harmonia/bgd02.png")
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- especial do mes
   elseif (self.pos==3) then
     local img = canvas:new("media/harmonia/especialdomes.png")
+<<<<<<< HEAD
     canvas:compose(grid*6, grid*11.5, img)
+=======
+    canvas:compose(grid*7, grid*11.5, img)
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
     local imgbgdr = canvas:new("media/harmonia/bgd03.png")
     canvas:compose(grid*7, grid*11.5, imgbgdr)
   elseif (self.pos==4) then
     local img = canvas:new("media/harmonia/contatos.png")
+<<<<<<< HEAD
     canvas:compose(grid*6, grid*11.5, img)
+=======
+    canvas:compose(grid*7, grid*11.5, img)
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
     local imgbgdr = canvas:new("media/harmonia/bgd04.png")
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- results from tcp get
@@ -142,3 +162,4 @@ function harmoniaMenu:menuItem(par)
   end
   canvas:flush()
 end
+
