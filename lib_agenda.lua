@@ -19,18 +19,15 @@ end
 --deal with keys
 function agendaMenu:input(evt)
   if (evt.key=="CURSOR_UP") then
-    print("up")
     self.pos=shift(self.pos,-1,self.icons)
     self:iconDraw()
     self:menuItem()
   elseif ( evt.key=="CURSOR_DOWN") then
-    print("down")
     self.pos=shift(self.pos,1,self.icons)
     self:iconDraw()
     self:menuItem()
   elseif ( self.pos==4 ) then
     if ( evt.key == "RED" ) then
-      print("ok")
       self:menuItem('red')
     elseif ( self.pos==4 and evt.key == "GREEN" ) then
       self:menuItem('green')
