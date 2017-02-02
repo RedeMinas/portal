@@ -8,8 +8,6 @@ function mainIcon()
 end
 
 
-
-
 function mainIconAnimBak()
   local icon = canvas:new("media/icon.png")
   local icon2 = canvas:new("media/icon2.png")

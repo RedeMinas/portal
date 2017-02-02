@@ -103,7 +103,6 @@ function mulhereseMenu:pageReset()
   local logo = canvas:new("media/btn1off.png")
   canvas:compose(grid*26.8, grid*1.3, logo )
 
-
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
   local btnarrowh = canvas:new("media/btnarrowh.png")

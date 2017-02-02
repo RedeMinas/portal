@@ -40,7 +40,6 @@ function harmoniaMenu:input (evt)
   end
 end
 
-
 -- harmonia icons vert scroll
 function harmoniaMenu:iconDraw()
   if (not pgmOn) then
@@ -52,20 +51,19 @@ function harmoniaMenu:iconDraw()
   local iconpath=""
   local sumdy=0
 
+  local menu ={"Edição do mês","Repertório", "Bla", "blu"}
+  canvas:attrFont("Vera", 20,"bold")
+
   for i=1,self.icons  do
     --remover?
     if i==self.pos then
-      iconpath = "media/harmonia/btn" ..  tostring(i) .. "on.png"
-      canvas:attrColor(255,255,255,255)
+      canvas:attrColor("grey")
+      canvas:drawText(grid*1.5,grid*11+(grid*i), menu[i])
+      barHorizontal(grid*11+(grid*i+30))
     else
-      iconpath = "media/harmonia/btn" ..  tostring(i) .. "off.png"
-      canvas:attrColor(0,0,0,255)
+      canvas:attrColor(255,255,255,200)
+      canvas:drawText(grid*1,grid*11+(grid*i), menu[i])
     end
-    local icon = canvas:new(iconpath)
-    local dx,dy = icon:attrSize()
-
-    canvas:compose(0, grid*11+sumdy, icon )
-    sumdy=sumdy+dy
   end
   self:pageDraw()
   canvas:flush()
@@ -118,8 +116,6 @@ function harmoniaMenu:menuItem(par)
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/repertorio.png")
     canvas:compose(grid*7, grid*11.5, img)
-    local imgbgdr = canvas:new("media/harmonia/bgd02.png")
-    canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- especial do mes
   elseif (self.pos==3) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
@@ -158,4 +154,35 @@ function harmoniaMenu:menuItem(par)
     end
   end
   canvas:flush()
+end
+
+function barHorizontalAnim(y)
+  icon = canvas:new("media/harmonia/barh.png")
+  for i=1,280 do
+    if (pgmOn) then
+      icon:attrCrop(0,0,i,4)
+      canvas:compose(0,y,icon)
+      canvas:attrColor("black")
+      canvas:clear(0,y-500,grid*10,grid*2)
+      canvas:attrFont("Vera", 20,"bold")
+      canvas:attrColor("white")
+      canvas:drawText(grid*1,y-500, i)
+      canvas:flush()
+      coroutine.yield() -- sleep...
+    end
+  end
+end
+
+
+function barHorizontalUpdate(y)
+  --  print (coroutine.status(barHorizontalCoroutine))
+  coroutine.resume(barHorizontalCoroutine,y)
+  if   coroutine.status(barHorizontalCoroutine) ~= 'dead' then
+    event.timer(3,barHorizontalUpdate,y)
+  end
+end
+
+function barHorizontal(y)
+  barHorizontalCoroutine= coroutine.create(barHorizontalAnim)
+  barHorizontalUpdate(y)
 end
