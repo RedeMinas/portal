@@ -198,4 +198,59 @@ function MainMenu:pgmDrawIcons(t, slot, ativo)
   end
 end
 
-
+function MainMenu:input(evt)
+  if (evt.key == "CURSOR_UP" )then
+    self.pos=shift(self.pos,-1,self.icons)
+    self:iconDraw()
+    self:menuItem()
+  elseif (evt.key == "CURSOR_DOWN") then
+    self.pos=shift(self.pos,1,self.icons )
+    self:iconDraw()
+    self:menuItem()
+  elseif ( self.pos==2 and evt.key == "CURSOR_LEFT" ) then
+    self.spos=shift(self.spos,-1, #self.list)
+    self:pgmDraw()
+  elseif ( self.pos==2 and evt.key == "CURSOR_RIGHT" ) then
+    self.spos=shift(self.spos,1, #self.list)
+    self:pgmDraw()
+    -- PGM
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==1 and evt.key == "ENTER" ) then
+    --agenda start
+    dofile("lib_agenda.lua")
+    agenda=agendaMenu:new{}
+    agenda:iconDraw()
+    agenda:menuItem()
+  elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and evt.key=="ENTER") then
+    --dango start
+    canvas:attrColor(0,0,0,0)
+    canvas:clear(0,0, grid*32, grid*11 )
+    local img = canvas:new("media/pgm06.png")
+    canvas:compose(0, 0, img)
+    canvas:flush()
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==8 and evt.key == "ENTER" ) then
+    --harmonia start
+    dofile("lib_harmonia.lua")
+    harmonia=harmoniaMenu:new{}
+    harmonia:iconDraw()
+    harmonia:menuItem()
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==13 and evt.key == "ENTER" ) then
+    --mulherese start
+    dofile("lib_mulherese.lua")
+    mse=mulhereseMenu:new{}
+    mse:iconsDraw()
+    --qrcodes on contatos 
+  elseif ( self.pos==4 and evt.key == "RED" ) then
+    self:menuItem('red')
+  elseif ( self.pos==4 and evt.key == "GREEN" ) then
+    self:menuItem('green')
+  elseif ( self.pos==4 and evt.key == "YELLOW" ) then
+    self:menuItem('yellow')
+  elseif ( self.pos==4 and evt.key == "BLUE" ) then
+    self:menuItem('blue')
+  elseif ( evt.key=="EXIT" ) then
+    mainIconState=1
+    menuOn = false
+    comainIcon = coroutine.create(mainIconAnim)
+    mainIconUpdate()
+  end
+end

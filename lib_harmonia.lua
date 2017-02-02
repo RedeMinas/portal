@@ -16,6 +16,34 @@ function harmoniaMenu:new(o)
   return o
 end
 
+
+--deal with keys
+function harmoniaMenu:input (evt)
+  if (evt.key=="CURSOR_UP") then
+    print("up")
+    self.pos=shift(self.pos,-1,self.icons)
+    self:iconDraw()
+    self:menuItem()
+  elseif ( evt.key=="CURSOR_DOWN") then
+    print("down")
+    self.pos=shift(self.pos,1,self.icons)
+    self:iconDraw()
+    self:menuItem()
+  elseif ( self.pos==4 ) then
+    if ( evt.key == "RED" ) then
+      print("ok")
+      self:menuItem('red')
+    elseif ( self.pos==4 and evt.key == "GREEN" ) then
+      self:menuItem('green')
+    elseif ( self.pos==4 and evt.key == "YELLOW" ) then
+      self:menuItem('yellow')
+    elseif ( self.pos==4 and evt.key == "BLUE" ) then
+      self:menuItem('blue')
+    end
+  end
+end
+
+
 -- harmonia icons vert scroll
 function harmoniaMenu:iconDraw()
   if (not pgmOn) then
@@ -66,20 +94,16 @@ function harmoniaMenu:pageReset()
   local imgbgdleft = canvas:new("media/harmonia/bgd00.png")
   canvas:compose(0, grid*11, imgbgdleft )
 
-
-  --canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  --  canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
-
   -- draw redeminas logo
   local logo = canvas:new("media/btn1off.png")
   canvas:compose(grid*1.5, grid*16, logo )
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
-  local btnarrowh = canvas:new("media/btnarrowh.png")
+  --local btnarrowh = canvas:new("media/btnarrowh.png")
   local btnexit = canvas:new("media/btnsair.png")
   canvas:compose(grid, grid*17, btnarrowv)
-  canvas:compose(grid*2.5, grid*17, btnarrowh)
+--  canvas:compose(grid*2.5, grid*17, btnarrowh)
   canvas:compose(grid*4, grid*17, btnexit)
 end
 
@@ -90,31 +114,30 @@ function harmoniaMenu:menuItem(par)
 
   -- edicao da semana
   if (self.pos==1) then
-    local img = canvas:new("media/harmonia/edicaodasemana.png")
-    local imgbgdr = canvas:new("media/harmonia/bgd01.png")
-    canvas:compose(grid*7, grid*11.5, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
     canvas:compose(grid*7, grid*11.5, imgbgdr)
-    -- repertorio - agenda semanal
-
+    local img = canvas:new("media/harmonia/edicaodasemana.png")
+    canvas:compose(grid*7, grid*11.5, img)
+ -- repertorio - agenda semanal
   elseif (self.pos == 2) then
-    --local img = canvas:new("media/btnarrowh.png")
---    canvas:compose(grid*2.5, grid*17, img)
+    local img = canvas:new("media/btnarrowh.png")
+    canvas:compose(grid*2.5, grid*17, img)
+    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/repertorio.png")
     canvas:compose(grid*7, grid*11.5, img)
-    local imgbgdr = canvas:new("media/harmonia/bgd02.png")
-    canvas:compose(grid*7, grid*11.5, imgbgdr)
     -- especial do mes
   elseif (self.pos==3) then
+    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/especialdomes.png")
     canvas:compose(grid*7, grid*11.5, img)
-    local imgbgdr = canvas:new("media/harmonia/bgd03.png")
-    canvas:compose(grid*7, grid*11.5, imgbgdr)
   elseif (self.pos==4) then
+    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/contatos.png")
     canvas:compose(grid*7, grid*11.5, img)
-    local imgbgdr = canvas:new("media/harmonia/bgd04.png")
-    canvas:compose(grid*7, grid*11.5, imgbgdr)
-    -- results from tcp get
+
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()
@@ -143,4 +166,3 @@ function harmoniaMenu:menuItem(par)
   end
   canvas:flush()
 end
-

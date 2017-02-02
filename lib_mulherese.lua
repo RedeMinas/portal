@@ -17,6 +17,22 @@ function mulhereseMenu:new (o)
   return o
 end
 
+--deal with keys
+function mulhereseMenu:input()
+  if (evt.key=="CURSOR_RIGHT") then
+    self.pos=shift(self.pos,1,#self.list)
+    self:iconsDraw()
+  elseif (evt.key=="CURSOR_LEFT") then
+    self.pos=shift(self.pos,-1,#self.list)
+    self:iconsDraw()
+  elseif (evt.key=="CURSOR_UP") then
+    self.ppos=shift(self.ppos,-1,self.pages)
+    self:pageDraw()
+  elseif ( evt.key=="CURSOR_DOWN") then
+    self.ppos=shift(self.ppos,1,self.pages)
+    self:pageDraw()
+  end
+end
 
 function mulhereseMenu:iconsDraw(nItens)
   --selective clear all on start or partial on icons area

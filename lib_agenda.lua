@@ -16,10 +16,37 @@ function agendaMenu:new(o)
   return o
 end
 
--- harmonia icons vert scroll
+--deal with keys
+function agendaMenu:input(evt)
+  if (evt.key=="CURSOR_UP") then
+    print("up")
+    self.pos=shift(self.pos,-1,self.icons)
+    self:iconDraw()
+    self:menuItem()
+  elseif ( evt.key=="CURSOR_DOWN") then
+    print("down")
+    self.pos=shift(self.pos,1,self.icons)
+    self:iconDraw()
+    self:menuItem()
+  elseif ( self.pos==4 ) then
+    if ( evt.key == "RED" ) then
+      print("ok")
+      self:menuItem('red')
+    elseif ( self.pos==4 and evt.key == "GREEN" ) then
+      self:menuItem('green')
+    elseif ( self.pos==4 and evt.key == "YELLOW" ) then
+      self:menuItem('yellow')
+    elseif ( self.pos==4 and evt.key == "BLUE" ) then
+      self:menuItem('blue')
+    end
+  end
+end
+
+
+-- agenda icons vert scroll
 function agendaMenu:iconDraw()
   if (not pgmOn) then
-    --self:pageReset()
+    self:pageReset()
     pgmOn = true
   end
 
@@ -30,11 +57,21 @@ function agendaMenu:iconDraw()
   local menu={"agenda","sobre","teste","bla"}
 
   canvas:attrFont("Vera", 15,"bold")
-  canvas:attrColor("red")
-  canvas:drawText(grid,grid*10.5+(grid*i),menu[self.pos])
 
-  canvas:compose(0, grid*11+sumdy, icon )
-  sumdy=sumdy+dy
+  for i=1,4 do
+    if (i == self.pos) then
+      canvas:attrColor("red")
+
+    else
+      canvas:attrColor("white")
+    end
+    canvas:drawRect("fill", grid, grid*11+grid*i, grid, grid )
+    canvas:drawText(grid*2.5,grid*11+grid*i,menu[i])
+
+  end
+
+--  canvas:compose(0, grid*11+sumdy, icon )
+  --sumdy=sumdy+dy
 
   self:pageDraw()
   canvas:flush()
@@ -45,27 +82,23 @@ function agendaMenu:pageDraw()
 --  canvas:attrColor("blue")
 --  canvas:clear(grid*7,grid*11, grid*32, grid*18 )
 
-  if self.pos == 1 then
-    print ("chegou")
-  end
+
 end
 
 function agendaMenu:pageReset()
-  canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*18 )
+  canvas:attrColor(255,141,47,200)
+  canvas:clear(0,0, grid*32, grid*18)
 
-  local logo = canvas:new("media/harmonia/fundo.png")
-  canvas:compose(0, grid*11, logo )
-
---  canvas:attrColor(93,196,179,217)
---  canvas:clear(0,grid*11, grid*32, grid*18 )
-
-  --canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  --  canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
+--  canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
 
   -- draw redeminas logo
-  local logo = canvas:new("media/btn1off.png")
-  canvas:compose(grid, grid*16, logo )
+  local logorm = canvas:new("media/btn1off.png")
+  canvas:compose(grid, grid, logorm )
+
+  local logo = canvas:new("media/agenda/bgd1.png")
+
+  local dx,dy = logo:attrSize()
+  canvas:compose(0, grid*18-dy, logo)
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
@@ -83,20 +116,17 @@ function agendaMenu:menuItem(par)
 
   -- edicao da semana
   if (self.pos==1) then
-    local logo = canvas:new("media/btn1off.png")
-    canvas:compose(grid, grid*16, logo )
-    local img = canvas:new("media/harmonia/edicaodasemana.png")
-    canvas:compose(grid*6, grid*11.5, img)
+
     -- repertorio - agenda semanal
   elseif (self.pos == 2) then
     --local img = canvas:new("media/btnarrowh.png")
 --    canvas:compose(grid*2.5, grid*17, img)
-    local img = canvas:new("media/harmonia/repertorio.png")
-    canvas:compose(grid*6, grid*11.5, img)
+--    local img = canvas:new("media/harmonia/repertorio.png")
+    --canvas:compose(grid*6, grid*11.5, img)
     -- especial do mes
   elseif (self.pos==3) then
-    local img = canvas:new("media/harmonia/especialdomes.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    --local img = canvas:new("media/harmonia/especialdomes.png")
+    --canvas:compose(grid*6, grid*11.5, img)
   elseif (self.pos==4) then
     local img = canvas:new("media/harmonia/contatos.png")
     canvas:compose(grid*6, grid*11.5, img)
