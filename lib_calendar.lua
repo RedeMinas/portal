@@ -1,4 +1,12 @@
 
+<<<<<<< HEAD
+
+--- agenda object
+
+calendar = {}
+
+function calendar:new(o)
+=======
 --based on http://lua-users.org/wiki/DayOfWeekAndDaysInMonthExample
 
 function get_day_of_week(dd, mm, yy)
@@ -16,6 +24,7 @@ end
 agendaMenu = {}
 
 function agendaMenu:new(o)
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   o = o or {}
   setmetatable(o, self)
   self.__index = self
@@ -31,7 +40,11 @@ function agendaMenu:new(o)
   return o
 end
 
+<<<<<<< HEAD
+function calendar:agenda()
+=======
 function agendaMenu:agenda()
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   self:agendaGrid()
 
   self:agendaDisplayDay()
@@ -39,7 +52,11 @@ end
 
 
 -- based  on http://lua-users.org/wiki/DisplayCalendarInHtml
+<<<<<<< HEAD
+function calendar:agendaGrid()
+=======
 function agendaMenu:agendaGrid()
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   canvas:attrColor(0,0,0,0)
   canvas:clear(0,0,grid*32,grid*16)
 
@@ -99,7 +116,11 @@ function agendaMenu:agendaGrid()
   end
 end
 
+<<<<<<< HEAD
+function calendar:agendaDisplayDay()
+=======
 function agendaMenu:agendaDisplayDay()
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   canvas:attrColor("yellow")
   canvas:clear(0,grid*17,screen_width,grid*18)
   canvas:attrColor("black")
@@ -113,7 +134,11 @@ end
 
 
 -- harmonia icons vert scroll
+<<<<<<< HEAD
+function calendar:iconDraw()
+=======
 function agendaMenu:iconDraw()
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   if (not pgmOn) then
     self.pageReset()
     pgmOn = true
@@ -139,7 +164,11 @@ end
 
 
 
+<<<<<<< HEAD
+function calendar:pageDraw()
+=======
 function agendaMenu:pageDraw()
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07
   canvas:attrColor(93,196,179,217)
   canvas:attrColor("blue")
   canvas:clear(grid*7,grid*11, grid*32, grid*18 )
@@ -174,6 +203,8 @@ function agendaMenu:pageReset()
   canvas:compose(grid*4, grid*17, btnexit)
   canvas:flush()
 end
+<<<<<<< HEAD
+=======
 
 
 
@@ -235,3 +266,4 @@ function agendaMenu:menuItem(par)
     end
   end
 end
+>>>>>>> aa53f9dc93437c3a96fb43971c3afe9597075b07

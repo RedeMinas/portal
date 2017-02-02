@@ -1,4 +1,3 @@
-
 -- main global parameteres
 screen_width, screen_height = canvas:attrSize()
 
@@ -39,8 +38,6 @@ function countMetric()
   end
 end
 
-
-
 function shift(x,v,limit)
   -- not as num?
   if v == nil then v = 0 end
@@ -54,8 +51,7 @@ function shift(x,v,limit)
 end
 
 
---input a string, get a lefty list
-
+--input a text string, get a lefty list
 function textWrap(text,size)
   local list = {}
   local offset = 0
@@ -95,4 +91,16 @@ function textWrap(text,size)
   result=string.sub(text,(((lasti)*size-offsetSum)),(lasti*size+offsetSum))
   list[lasti+1]=result
   return(list)
+end
+
+
+
+--based on http://lua-users.org/wiki/DayOfWeekAndDaysInMonthExample
+function get_day_of_week(dd, mm, yy)
+  dw=os.date('*t',os.time{year=yy,month=mm,day=dd})['wday']
+  return dw,({"Dom","Seg","Ter","Qua","Qui","Sex","Sab" })[dw]
+end
+
+function get_days_in_month(mnth, yr)
+  return os.date('*t',os.time{year=yr,month=mnth+1,day=0})['day']
 end
