@@ -10,7 +10,7 @@ menuOn = false
 pgmOn = false
 mainIconState = 1
 mainIconPos =1
-
+_debug_ = true
 version = "1.2.4t"
 
 -- tcp metrics

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ncl id="portal:somente menu agenda" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+<ncl id="portal:teste calendar" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
   <head>
 
     <regionBase>
@@ -24,7 +24,7 @@
 
     <port id="pMediaInitialPort" component="mMain"/>
 
-    <media id="mMain"     src="agenda.lua"         descriptor="deMain">
+    <media id="mMain"     src="calendar.lua"         descriptor="deMain">
       <area id="inc" label="lMain"/>
     </media>
 
