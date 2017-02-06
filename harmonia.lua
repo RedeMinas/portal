@@ -23,6 +23,16 @@ function handler (evt)
       coroutine.resume(comainIcon)
       --barHorizontal()
       -- main menu
+    elseif (evt.key == "EXIT" and menuOn and pgmOn)  then
+      mainIconState=1
+      menuOn = false
+      pgmOn = false
+      comainIcon = coroutine.create(mainIconAnim)
+      mainIconUpdate()
+
+      coroutine.resume(comainIcon)
+      --barHorizontal()
+      -- main menu
     elseif( menuOn and pgmOn) then
       harmonia:input(evt)
     end
