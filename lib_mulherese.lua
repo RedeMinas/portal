@@ -18,7 +18,7 @@ function mulhereseMenu:new (o)
 end
 
 --deal with keys
-function mulhereseMenu:input()
+function mulhereseMenu:input(evt)
   if (evt.key=="CURSOR_RIGHT") then
     self.pos=shift(self.pos,1,#self.list)
     self:iconsDraw()

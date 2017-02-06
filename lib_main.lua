@@ -50,7 +50,6 @@ function shift(x,v,limit)
   end
 end
 
-
 --input a text string, get a lefty list
 function textWrap(text,size)
   local list = {}
@@ -92,8 +91,6 @@ function textWrap(text,size)
   list[lasti+1]=result
   return(list)
 end
-
-
 
 --based on http://lua-users.org/wiki/DayOfWeekAndDaysInMonthExample
 function get_day_of_week(dd, mm, yy)

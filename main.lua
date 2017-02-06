@@ -46,7 +46,7 @@ function handler (evt)
         harmonia:input(evt)
       elseif (m.list[m.spos]["img"]==13) then
         --browse on mulherese
-        mulherese:input(evt)
+        mse:input(evt)
       end
     end
   elseif (evt.action == "start") then

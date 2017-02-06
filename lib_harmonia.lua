@@ -8,10 +8,12 @@ function harmoniaMenu:new(o)
   self.__index = self
   self.pos = 1
   self.spos = 1
-  self.icons = 4
+  self.icons=4
 --  self.pgmicons = math.floor(screen_width/210)
 --  self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
   self.debug=false
+  self.bar={}
+  self.bar.stop=false
 --  self.settings=false
   return o
 end
@@ -21,11 +23,11 @@ end
 function harmoniaMenu:input (evt)
   if (evt.key=="CURSOR_UP") then
     self.pos=shift(self.pos,-1,self.icons)
-    STOP=true
+    self.bar.stop=true
     self:iconDraw()
   elseif ( evt.key=="CURSOR_DOWN") then
     self.pos=shift(self.pos,1,self.icons)
-    STOP=true
+    self.bar.stop=true
     self:iconDraw()
   elseif ( self.pos==4 ) then
     if ( evt.key == "RED" ) then
@@ -46,44 +48,56 @@ function harmoniaMenu:iconDraw()
     --self:pageReset()
     pgmOn = true
   end
+  
 
   self:pageReset()
-  local iconpath=""
+
+  self:menuItem()
+
   local sumdy=0
 
   local menu ={
-    {desc="Edição da semana",width=1200},
-    {desc="Especial do mês",width=500},
+    {desc="Edição da semana",width=500},
+    {desc="Especial do mês",width=800},
     {desc="Repertório",width=1200},
-    {desc="Contatos",width=400}
+    {desc="Contatos",width=200}
   }
-  local param = {}
-  canvas:attrFont("Vera", 20,"bold")
 
-  for i=1,self.icons  do
-    --remover?
+  canvas:attrFont("Vera", 18,"bold")
+
+  for i=1,#menu  do
+    -- icon on
     if i==self.pos then
-      local dx,dy = canvas:measureText(menu[i].desc)
-      --draw barHorizontal for each menu icon entry
-      -- CHANGE CONDITIONS TO  TABLE menu!!!!
-      param.y = ((grid*11)+((grid*i)))
-      param.width = menu[i].width
-      print ("ok")
-      barHorizontal(param)
-      --canvas:attrColor(255,195,111,200)
---      canvas:drawText((menu[i].width-dx),(grid*10.5+(grid*i)), menu[i].desc)
-      local imgbtn = canvas:new("media/harmonia/btn" .. i .. "on.png")
-      canvas:compose(0, grid*10+grid*i, imgbtn)
-      --end
+      if i == 4 then
+        local imgbtn = canvas:new("media/harmonia/btn4on.png")
+        local dx,dy = canvas:attrSize(imbtn)
+        canvas:compose(0, grid*10+grid*i, imgbtn)
+      else
+        canvas:attrColor(255,195,111,200)
+        local dx,dy = canvas:measureText(menu[i].desc)
+        canvas:drawText((menu[i].width-dx),(grid*10.5+(grid*i)), menu[i].desc)
+        --draw barHorizontal for each menu icon entry
+        -- CHANGE CONDITIONS TO  TABLE menu!!!!
+      end
+      self.bar.y = ((grid*11)+((grid*i)))
+      self.bar.width = menu[i].width
+      barHorizontal()
+      --icon off
     else
-      local imgbtn = canvas:new("media/harmonia/btn" .. i .. "off.png")
-      canvas:compose(0, grid*10+grid*i, imgbtn)
-      --canvas:attrColor(255,255,255,150)
-      --canvas:drawText((grid*1.5),(grid*10.5+(grid*i)), menu[i].desc)
+      if i == 4 then
+        local imgbtn = canvas:new("media/harmonia/btn4off.png")
+        canvas:compose(0, grid*10+grid*i, imgbtn)
+      else
+        canvas:attrColor(255,195,111,200)
+        local dx,dy = canvas:measureText(menu[i].desc)
+        canvas:drawText((grid*2),(grid*10.5+(grid*i)), menu[i].desc)
+
+      end
     end
   end
-  self:menuItem()
+  
   canvas:flush()
+  
 end
 
 function harmoniaMenu:pageReset()
@@ -110,8 +124,10 @@ end
 
 -- main menu treatment
 function harmoniaMenu:menuItem(par)
-  --canvas:attrColor(0,0,0,0)
-  --canvas:clear(0,0, grid*32, grid*10 )
+--  canvas:attrColor(0,0,0,0)
+--  canvas:clear(0,0, grid*32, grid*10 )
+  canvas:attrColor(93,196,179,217)
+  canvas:clear(grid*7,grid*11, grid*32, grid*18 )
 
   -- edicao da semana
   if (self.pos==1) then
@@ -119,21 +135,22 @@ function harmoniaMenu:menuItem(par)
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/edicaodasemana.png")
     canvas:compose(grid*7, grid*11.5, img)
+    -- especial do mes
+  elseif (self.pos==2) then
+    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+    canvas:compose(grid*7, grid*11.5, imgbgdr)
+    local img = canvas:new("media/harmonia/especialdomes.png")
+    canvas:compose(grid*7, grid*11.5, img)
     -- repertorio - agenda semanal
-  elseif (self.pos == 2) then
+
+  elseif (self.pos == 3) then
     local imgbtnarrowh = canvas:new("media/btnarrowh.png")
     canvas:compose(grid*2.5, grid*17, imgbtnarrowh)
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
     canvas:compose(grid*7, grid*11.5, imgbgdr)
     local img = canvas:new("media/harmonia/repertorio.png")
     canvas:compose(grid*7, grid*11.5, img)
-    -- especial do mes
-  elseif (self.pos==3) then
-    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(grid*7, grid*11.5, imgbgdr)
 
-    local img = canvas:new("media/harmonia/especialdomes.png")
-    canvas:compose(grid*7, grid*11.5, img)
     -- contatos
   elseif (self.pos==4) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
@@ -169,42 +186,33 @@ function harmoniaMenu:menuItem(par)
   canvas:flush()
 end
 
-function barHorizontalAnim(param)
-  canvas:attrColor("black",100)
-  local mult = 100
-  for i=1,(param.width/mult) do
-    if (pgmOn and not STOP) then
+--function barHorizontalAnim(param)
+function barHorizontalAnim()
+  local mult = 10
+  for i=1,(harmonia.bar.width/mult) do
+    if (pgmOn and not harmonia.bar.stop) then
       canvas:attrColor(255,255,255,200)
-      canvas:clear(10,param.y,(i*mult),10)
-
-      --DEBUG
-      if (_debug_) then
-          canvas:attrFont("Vera", 20,"bold")
-        canvas:attrColor(0,0,0,255)
-        canvas:clear(0,param.y-500,grid*20,grid*2)
-        canvas:attrColor(255,120,120,200)
-        canvas:drawText(grid*1,param.y-500, i*mult)
-      end
-        canvas:flush()
+       canvas:drawRect("fill",10,harmonia.bar.y,(i*mult),10)
+      canvas:flush()
       coroutine.yield(i) -- sleep...
     end
   end
+  --    canvas:flush(10,param.y,(i*mult),10)
 end
 
-function barHorizontalUpdate(param)
-  --    print (coroutine.status(barHorizontalCoroutine))
-  errorfree, value = coroutine.resume(barHorizontalCoroutine,param)
+
+function barHorizontalUpdate()
+  --   print (coroutine.status(barHorizontalCoroutine))
+  coroutine.resume(barHorizontalCoroutine)
   if   coroutine.status(barHorizontalCoroutine) ~= 'dead'  then
-    event.timer(160,barHorizontalUpdate,param)
+    --    event.timer(30,barHorizontalUpdate,param)
+    event.timer(30,barHorizontalUpdate)
   end
-  return value
 end
 
-STOP=false
-
-_debug_=true
-function barHorizontal(param)
-    barHorizontalCoroutine=coroutine.create(barHorizontalAnim)
-    return barHorizontalUpdate(param)
+--function barHorizontal(param)
+function barHorizontal()
+  harmonia.bar.stop=false
+  barHorizontalCoroutine=coroutine.create(barHorizontalAnim)
+  barHorizontalUpdate()
 end
-
