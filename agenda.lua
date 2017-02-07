@@ -29,45 +29,7 @@ function handler (evt)
       agenda:menuItem()
       -- main menu
     elseif( MENUON and PGMON) then
-      if ( evt.key=="EXIT") then
-        ICON.state=1
-        PGMON = false
-        MENUON = false
-        comainIcon = coroutine.create(mainIconAnim)
-        mainIconUpdate()
-      elseif (evt.key=="CURSOR_UP") then
-        agenda.pos=shift(agenda.pos,-1,5)
-        agenda:iconDraw()
-        agenda:menuItem()
-      elseif ( evt.key=="CURSOR_DOWN") then
-        agenda.pos=shift(agenda.pos,1,5)
-        agenda:iconDraw()
-        agenda:menuItem()
---      elseif (evt.key=="CURSOR_LEFT") then
---        agenda.aposh=shift(agenda.aposh,-1,7)
---        agenda:agenda()
---      elseif ( evt.key=="CURSOR_RIGHT") then
---        agenda.aposh=shift(agenda.aposh,1,7)
---        agenda:agenda()
-        print("up")
-        agenda.pos=shift(agenda.pos,-1,agenda.icons)
-        agenda:iconDraw()
-        agenda:menuItem()
-      elseif ( evt.key=="CURSOR_DOWN") then
-        print("down")
-        agenda.pos=shift(agenda.pos,1,agenda.icons)
-        agenda:iconDraw()
-        agenda:menuItem()
-      elseif ( agenda.pos==4 and evt.key == "RED" ) then
-        print("ok")
-        agenda:menuItem('red')
-      elseif ( agenda.pos==4 and evt.key == "GREEN" ) then
-        agenda:menuItem('green')
-      elseif ( agenda.pos==4 and evt.key == "YELLOW" ) then
-        agenda:menuItem('yellow')
-      elseif ( agenda.pos==4 and evt.key == "BLUE" ) then
-        agenda:menuItem('blue')
-      end
+      agenda:input(evt)
     end
   elseif (evt.action == "start") then
     mainIconUpdate()

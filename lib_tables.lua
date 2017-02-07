@@ -170,3 +170,47 @@ function layoutPgmHarmonia(table)
   return tab
 end
 -- ex: local tab = layoutPgmHarmonia(ReadTable("table.txt"))
+
+
+
+
+
+function layoutPgmAgenda(table)
+  local tab={}
+  local id = 0
+  for i = 2, #table, 1 do
+    local w=1
+    for regexp in table[i]:gmatch("[^\t\t]+") do
+      if w == 1 then
+        id = tonumber(regexp)
+        tab[id]={}
+        tab[id]["img"] = i-1
+      elseif w == 2 then
+        tab[id]["nome"] = regexp
+      elseif w == 3 then
+        tab[id]["desc"] = regexp
+      elseif w == 4 then
+        tab[id]["data"] = regexp
+      elseif w == 5 then
+        tab[id]["hora"] = regexp
+      elseif w == 6 then
+        tab[id]["valor"] = regexp
+      elseif w == 7 then
+        if regexp == "TRUE" then
+          tab[id]["info"] = true
+        else
+          tab[id]["info"] = false
+        end
+      end
+      -- controle dos campos (rever???)
+      if w < 8
+      then
+        w=w+1
+      else
+        w=1
+      end
+    end
+  end
+  return tab
+end
+-- ex: local tab = layoutPgmAgenda(ReadTable("table.txt"))

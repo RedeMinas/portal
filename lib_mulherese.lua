@@ -80,13 +80,13 @@ function mulhereseMenu:textDraw(text)
   canvas:attrFont("Tiresias", 20 , "normal")
   canvas:attrColor(255,255,255,200)
 
-  list=textWrap(text,SCREEN_WIDTH/20)
+  local list=textWrap(text,SCREEN_WIDTH/20)
 
-  --for i in ipairs(list) do
-  --    print(list[i])
-  --  end
+  for i=1,#list do
+    print("debug ", i )
+    canvas:drawText(GRID*6, (GRID*1.7+i*GRID*0.7) , list[i])
+  end
 
-  --canvas:drawText(GRID*6, GRID*1.7+((lasti+1)*GRID*0.7) , result)
 
 end
 
@@ -123,7 +123,6 @@ function mulhereseMenu:pageDraw()
   canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
   local str = string.format("%02d" , self.pos)
   local imgil = canvas:new("media/mulherese/il" .. str .. ".png")
-  print(str)
   canvas:compose(GRID*1, GRID*1, imgil)
 
   -- Draw Group Title

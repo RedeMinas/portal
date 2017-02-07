@@ -8,8 +8,6 @@ VERSION = "mulherese teste"
 START = false
 MENUON = false
 PGMON = false
-ICON.state = 1
-
 -- reads table menu
 
 dofile("lib_icon.lua")
@@ -26,26 +24,7 @@ function handler (evt)
       mse=mulhereseMenu:new{}
       mse:iconsDraw()
     elseif (PGMON == true) then
-      if ( evt.key=="EXIT") then
-        print ("menu exit")
-        ICON.state=1
-        MENUON = false
-        comainIcon = coroutine.create(mainIconAnim)
-        mainIconUpdate()
-        --browse on mulherese
-      elseif (evt.key=="CURSOR_RIGHT") then
-        mse.pos=shift(mse.pos,1,#mse.list)
-        mse:iconsDraw()
-      elseif (evt.key=="CURSOR_LEFT") then
-        mse.pos=shift(mse.pos,-1,#mse.list)
-        mse:iconsDraw()
-      elseif (evt.key=="CURSOR_UP") then
-        mse.ppos=shift(mse.ppos,-1,mse.pages)
-        mse:pageDraw()
-      elseif ( evt.key=="CURSOR_DOWN") then
-        mse.ppos=shift(mse.ppos,1,mse.pages)
-        mse:pageDraw()
-      end
+      mse:input(evt)
     end
   elseif (evt.action == "start") then
     mainIconUpdate()

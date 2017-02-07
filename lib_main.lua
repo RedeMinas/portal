@@ -1,4 +1,4 @@
--- main global parameteres
+--- main global parameteres
 SCREEN_WIDTH, SCREEN_HEIGHT = canvas:attrSize()
 
 GRID = SCREEN_WIDTH/32
@@ -12,9 +12,10 @@ ICON.pos =1
 DEBUG = true
 VERSION = "1.2.4t"
 
--- tcp metrics
+--- tcp metrics
 require 'lib_tcp'
 
+--- Send Info over tcpip
 function countMetric()
   -- ping internet
   if start == false then
@@ -49,7 +50,9 @@ function shift(x,v,limit)
   end
 end
 
---input a text string, get a lefty list
+---Input a text string, get a lefty list
+-- @parameter text (string)
+-- @parameter size (integer)
 function textWrap(text,size)
   local list = {}
   local offset = 0
@@ -80,7 +83,7 @@ function textWrap(text,size)
       --      elseif (string.sub(result,size+1,size+1) == ",") then
     end
     offsetSum = offsetSum + offset
-    canvas:drawText(GRID*6, GRID*1.7+i*GRID*0.7 , result)
+--    canvas:drawText(GRID*6, GRID*1.7+i*GRID*0.7 , result)
     lasti = i
     list[i]=result
   end

@@ -1,4 +1,3 @@
-
 --- agenda object
 
 agendaMenu = {}
@@ -10,10 +9,8 @@ function agendaMenu:new(o)
   self.pos = 1
   self.spos = 1
   self.icons = 4
---  self.pgmicons = math.floor(SCREEN_WIDTH/210)
---  self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
-  self.debug=false
---  self.settings=false
+  self.list=layoutPgmAgenda(ReadTable("tbl_agenda.txt"))
+  --  self.settings=false
   return o
 end
 
@@ -114,8 +111,7 @@ function agendaMenu:menuItem(par)
 
   -- edicao da semana
   if (self.pos==1) then
-
-    -- repertorio - agenda semanal
+    -- agenda semanal
   elseif (self.pos == 2) then
     --local img = canvas:new("media/btnarrowh.png")
 --    canvas:compose(GRID*2.5, GRID*17, img)

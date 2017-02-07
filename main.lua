@@ -1,8 +1,9 @@
--- #author: Carlos Henrique G. Paulino
--- #description: Portal Institucional Rede Minas
--- #ginga - ncl / lua
+---  Portal Institucional Rede Minas
+-- @author: Carlos Henrique G. Paulino
+-- @copyright: Aphero GPL - Fundação TV Minas Cultural e Educativa
+-- ginga - ncl / lua
 
--- reads functions
+--- reads functions
 dofile("lib_main.lua")
 dofile("lib_icon.lua")
 dofile("lib_tables.lua")
@@ -12,10 +13,14 @@ m=MainMenu:new{}
 
 countMetric()
 
+--- deal with keys
+-- Some description, can be over several lines.
+-- @param evt first parameter
+-- @return nil
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and not MENUON and not PGMON)  then
+    if (evt.key == "ENTER" and not MENUON and not PGMON)  then 
       MENUON = true
       coroutine.resume(comainIcon)
       m:iconDraw(m.icons)
@@ -29,10 +34,10 @@ function handler (evt)
       ICON.pos=shift(ICON.pos,-1,4)
     elseif ( evt.key == "CURSOR_RIGHT" and not MENUON and not PGMON ) then
       ICON.pos=shift(ICON.pos,1,4)
-      -- main menu
+      --- main menu
     elseif (MENUON ==true and PGMON == false ) then
       m:input(evt)
-      --pgms
+     ---pgms
     elseif( MENUON and PGMON) then
       if ( evt.key=="EXIT") then
         PGMON = false
