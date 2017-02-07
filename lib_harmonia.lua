@@ -14,12 +14,17 @@ function harmoniaMenu:new(o)
   self.debug=false
   self.bar={}
   self.bar.stop=false
+  self.repertorioItens=4
+  --remove
+  self.list=layoutPgmHarmonia(ReadTable("tbl_harmoniarepertorio.txt"))
 --  self.settings=false
   return o
 end
 
 --deal with keys
 function harmoniaMenu:input (evt)
+
+
   if (evt.key=="CURSOR_UP") then
     self.pos=shift(self.pos,-1,self.icons)
     self.bar.stop=true
@@ -28,6 +33,13 @@ function harmoniaMenu:input (evt)
     self.pos=shift(self.pos,1,self.icons)
     self.bar.stop=true
     self:iconDraw()
+  elseif ( self.pos==2 and evt.key == "CURSOR_LEFT" ) then
+    self.spos=shift(self.spos,-1, #self.list)
+    self:repertorio()
+  elseif ( self.pos==2 and evt.key == "CURSOR_RIGHT" ) then
+    self.spos=shift(self.spos,1, #self.list)
+    self:repertorio()
+    -- PGM
   elseif ( self.pos==4 ) then
     if ( evt.key == "RED" ) then
       self:menuItem('red')
@@ -49,12 +61,12 @@ function harmoniaMenu:iconDraw()
     pgmOn = true
   end
 
-  local sumdy=0
+  local sumdy=01
 
   local menu ={
     {desc="Edição da semana",width=250},
     {desc="Repertório",width=200},
-    {desc="Especial do mês",width=250},
+    {desc="Villa Lobos",width=250},
     {desc="Contatos",width=220}
   }
 
@@ -73,8 +85,12 @@ function harmoniaMenu:iconDraw()
         menu[i].desc= ""
       end
       canvas:drawText((grid),(grid*11.8+(grid*(i-1))), menu[i].desc)
-         barHorizontal()
+      barHorizontal()
+    else
+      if (i < 4) then
+        canvas:drawText((grid),(grid*11.8+(grid*(i-1))), menu[i].desc)
       end
+    end
   end
 
   local imgbgdleft = canvas:new("media/harmonia/bgd00.png")
@@ -92,6 +108,84 @@ function harmoniaMenu:iconDraw()
   --canvas:flush()
 end
 
+-- sub menu pgm draw carrossel
+function harmoniaMenu:repertorio()
+--  canvas:attrColor(0,0,0,0)
+--  canvas:clear(0,0, grid*32, grid*11 )
+--  canvas:attrColor(1,1,1,200)
+--  canvas:clear(grid*6,grid*11.5, grid*32, grid*18 )
+
+  for i=1,self.repertorioItens  do
+    if i==1 then
+      self:repertorioIcons(shift(self.spos-1,i,#self.list),i,true)
+    else
+      self:repertorioIcons(shift(self.spos-1,i,#self.list),i,false)
+    end
+  end
+
+  -- icone +info
+  if (self.list[self.spos]["info"] == true) then
+    local imginfo = canvas:new("media/pgminfo.png")
+    canvas:compose(grid*26.5, grid*17, imginfo )
+  end
+  -- icone youtube
+  if (self.list[self.spos]["youtube"] == true) then
+    local imginfo = canvas:new("media/btnred.png")
+    canvas:compose(grid*28, grid*17, imginfo )
+  end
+  -- icone site
+  if (self.list[self.spos]["site"] == true) then
+    local imginfo = canvas:new("media/btngreen.png")
+    canvas:compose(grid*29, grid*17, imginfo )
+  end
+  -- icone facebook
+  if (self.list[self.spos]["facebook"] == true) then
+    local imginfo = canvas:new("media/btnyellow.png")
+    canvas:compose(grid*30, grid*17, imginfo )
+  end
+  -- icone twitter
+  if (self.list[self.spos]["twitter"] == true) then
+    local imginfo = canvas:new("media/btnblue.png")
+    canvas:compose(grid*31, grid*17, imginfo )
+  end
+
+  --text
+  canvas:attrFont("Vera", 21,"bold")
+  canvas:attrColor("white")
+  canvas:drawText(grid*6,grid*14, self.list[self.spos]["grupo"] )
+  canvas:drawText(grid*18,grid*14, self.list[self.spos]["regente"])
+  canvas:drawText(grid*24,grid*14, self.list[self.spos]["obras"])
+  canvas:drawText(grid*6,grid*15, self.list[self.spos]["compositores"])
+  canvas:drawText(grid*18,grid*15, self.list[self.spos]["data"])
+  canvas:drawText(grid*24,grid*15, self.list[self.spos]["horario"])
+  canvas:drawText(grid*6,grid*16, self.list[self.spos]["local"])
+--  canvas:drawText(grid*18,grid*16, self.list[self.spos]["ingressso"])
+--  canvas:drawText(grid*24,grid*16, self.list[self.spos]["info"])
+  
+  
+  --texto grade
+  canvas:drawText(grid*6,grid*17, self.list[self.spos]["desc"])
+
+
+  canvas:flush()
+end
+
+function harmoniaMenu:repertorioIcons(t, slot, ativo)
+  --setup parameters
+  local item_h = 154
+  local item_w = 85
+  local icon = canvas:new("media/" .. string.format("%02d" , self.list[t]["img"]).. ".png")
+
+  canvas:compose((grid*6+(item_w*(slot-1))+(2*grid*(slot-1))), grid*11.5, icon )
+
+  if ativo then
+    canvas:attrColor("red")
+    canvas:drawRect("frame", grid*6, grid*11.5, item_h+1, item_w+1)
+    canvas:drawRect("frame", grid*6-1, grid*11.5-1, item_h+2, item_w+2)
+    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+3, item_w+3)
+    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+4, item_w+4)
+  end
+end
 
 -- main menu treatment
 function harmoniaMenu:menuItem(par)
@@ -112,8 +206,9 @@ function harmoniaMenu:menuItem(par)
     canvas:compose(grid*2.5, grid*17, imgbtnarrowh)
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
     canvas:compose(grid*7, grid*11, imgbgdr)
-    local img = canvas:new("media/harmonia/repertorio.png")
-    canvas:compose(grid*7, grid*11, img)
+--    local img = canvas:new("media/harmonia/repertorio.png")
+  --  canvas:compose(grid*7, grid*11, img)
+    self:repertorio()
     -- especial do mes
   elseif (self.pos==3) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
@@ -162,7 +257,6 @@ function barHorizontalAnim()
       canvas:attrColor(255,255,255,255)
       canvas:clear(grid/2-3,harmonia.bar.y,(i*mult),2)
       canvas:flush()
-      print("debug", i,harmonia.bar.y)
       coroutine.yield(i) -- sleep...
     end
   end
