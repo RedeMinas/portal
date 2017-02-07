@@ -72,9 +72,9 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
 end
 
 function mulhereseMenu:textDraw(text)
-
   canvas:attrColor(41,19,69,200)
   canvas:clear(grid*6,grid*2, grid*25, grid*12.5 )
+
   --display text margin - remove!
 
   canvas:attrFont("Tiresias", 20 , "normal")
@@ -92,7 +92,6 @@ end
 
 
 function mulhereseMenu:pageReset()
-
   -- clear
   canvas:attrColor(41,19,69,200)
   canvas:clear(grid,grid,grid*30,grid*13.5 )
@@ -114,7 +113,6 @@ function mulhereseMenu:pageReset()
 end
 
 function mulhereseMenu:pageDraw()
-
   if (not pgmOn) then
     self.pageReset()
     pgmOn = true

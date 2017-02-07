@@ -18,7 +18,6 @@ function harmoniaMenu:new(o)
   return o
 end
 
-
 --deal with keys
 function harmoniaMenu:input (evt)
   if (evt.key=="CURSOR_UP") then
@@ -50,7 +49,6 @@ function harmoniaMenu:iconDraw()
     pgmOn = true
   end
 
-
   local sumdy=0
 
   local menu ={
@@ -59,7 +57,6 @@ function harmoniaMenu:iconDraw()
     {desc="Especial do mês",width=250},
     {desc="Contatos",width=220}
   }
-
 
   canvas:attrColor(93,196,179,217)
   canvas:clear(0,grid*11, grid*32, grid*18 )
@@ -76,13 +73,8 @@ function harmoniaMenu:iconDraw()
         menu[i].desc= ""
       end
       canvas:drawText((grid),(grid*11.8+(grid*(i-1))), menu[i].desc)
-      --icon off
-    else
-      if i < 4 then
-        --canvas:drawText((grid),(grid*11.8+(grid*(i-1))), menu[i].desc)
+         barHorizontal()
       end
-    end
-    barHorizontal()
   end
 
   local imgbgdleft = canvas:new("media/harmonia/bgd00.png")
@@ -128,7 +120,6 @@ function harmoniaMenu:menuItem(par)
     canvas:compose(grid*7, grid*11, imgbgdr)
     local img = canvas:new("media/harmonia/especialdomes.png")
     canvas:compose(grid*7, grid*11, img)
-
     -- contatos
   elseif (self.pos==4) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
@@ -168,19 +159,17 @@ function barHorizontalAnim()
   local mult = 10
   for i=1,(harmonia.bar.width/mult) do
     if (pgmOn and not harmonia.bar.stop) then
-
-
       canvas:attrColor(255,255,255,255)
-      canvas:clear(grid/2,harmonia.bar.y,(i*mult),2)
+      canvas:clear(grid/2-3,harmonia.bar.y,(i*mult),2)
       canvas:flush()
+      print("debug", i,harmonia.bar.y)
       coroutine.yield(i) -- sleep...
     end
   end
 end
 
-
 function barHorizontalUpdate()
-  --   print (coroutine.status(barHorizontalCoroutine))
+  print (coroutine.status(barHorizontalCoroutine))
   coroutine.resume(barHorizontalCoroutine)
   if   coroutine.status(barHorizontalCoroutine) ~= 'dead'  then
     event.timer(30,barHorizontalUpdate)
@@ -193,4 +182,3 @@ function barHorizontal()
   barHorizontalCoroutine=coroutine.create(barHorizontalAnim)
   barHorizontalUpdate()
 end
-

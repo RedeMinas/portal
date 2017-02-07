@@ -20,8 +20,6 @@ function handler (evt)
     if (evt.key == "ENTER" and menuOn ~= true and pgmOn ~=true)  then
       menuOn = true
       harmonia:iconDraw()
-      coroutine.resume(comainIcon)
-      --barHorizontal()
       -- main menu
     elseif (evt.key == "EXIT" and menuOn and pgmOn)  then
       mainIconState=1
@@ -29,7 +27,6 @@ function handler (evt)
       pgmOn = false
       comainIcon = coroutine.create(mainIconAnim)
       mainIconUpdate()
-
       coroutine.resume(comainIcon)
       --barHorizontal()
       -- main menu
