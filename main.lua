@@ -15,27 +15,27 @@ countMetric()
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and not menuOn and not pgmOn)  then
-      menuOn = true
+    if (evt.key == "ENTER" and not MENUON and not PGMON)  then
+      MENUON = true
       coroutine.resume(comainIcon)
       m:iconDraw(m.icons)
       m:menuItem()
       -- realocate icon
-    elseif (evt.key == "CURSOR_UP" and not menuOn and not pgmOn )then
-      mainIconPos=shift(mainIconPos,1,4)
-    elseif (evt.key == "CURSOR_DOWN" and not menuOn and not pgmOn) then
-      mainIconPos=shift(mainIconPos,-1,4)
-    elseif (evt.key == "CURSOR_LEFT" and not menuOn and not pgmOn ) then
-      mainIconPos=shift(mainIconPos,-1,4)
-    elseif ( evt.key == "CURSOR_RIGHT" and not menuOn and not pgmOn ) then
-      mainIconPos=shift(mainIconPos,1,4)
+    elseif (evt.key == "CURSOR_UP" and not MENUON and not PGMON )then
+      ICON.pos=shift(ICON.pos,1,4)
+    elseif (evt.key == "CURSOR_DOWN" and not MENUON and not PGMON) then
+      ICON.pos=shift(ICON.pos,-1,4)
+    elseif (evt.key == "CURSOR_LEFT" and not MENUON and not PGMON ) then
+      ICON.pos=shift(ICON.pos,-1,4)
+    elseif ( evt.key == "CURSOR_RIGHT" and not MENUON and not PGMON ) then
+      ICON.pos=shift(ICON.pos,1,4)
       -- main menu
-    elseif (menuOn ==true and pgmOn == false ) then
+    elseif (MENUON ==true and PGMON == false ) then
       m:input(evt)
       --pgms
-    elseif( menuOn and pgmOn) then
+    elseif( MENUON and PGMON) then
       if ( evt.key=="EXIT") then
-        pgmOn = false
+        PGMON = false
         m:iconDraw()
         m:menuItem()
       elseif (m.list[m.spos]["img"]==1) then

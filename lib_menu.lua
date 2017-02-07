@@ -11,7 +11,7 @@ function MainMenu:new(o)
   self.spos = 1
   self.icons = 4
   self.start = false
-  self.pgmicons = math.floor(screen_width/210)
+  self.pgmicons = math.floor(SCREEN_WIDTH/210)
   self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
   self.debug=false
   self.settings=false
@@ -22,13 +22,13 @@ end
 function settings()
   if (self.debug==true) then
     canvas:attrColor("red")
-    canvas:drawRect("fill",screen_width-(screen_width/6),0,200,200)
+    canvas:drawRect("fill",SCREEN_WIDTH-(SCREEN_WIDTH/6),0,200,200)
     canvas:attrColor("white")
     canvas:attrFont("Vera", 12,"normal")
-    canvas:drawText(pos_x,pos_y, screen_width .. "x" .. screen_height .. "\n" .. self.pos)
+    canvas:drawText(pos_x,pos_y, SCREEN_WIDTH .. "x" .. SCREEN_HEIGHT .. "\n" .. self.pos)
   else
     canvas:attrColor(0,0,0,0)
-    canvas:clear(grid*16,grid*5,200,200)
+    canvas:clear(GRID*16,GRID*5,200,200)
   end
   canvas:flush()
 end
@@ -39,12 +39,12 @@ function MainMenu:iconDraw()
   local sumdy=0
   --conferir
   canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*12)
+  canvas:clear(0,0, GRID*32, GRID*12)
 
   canvas:attrColor(1,1,1,200)
-  canvas:clear(0,grid*11, grid*32, grid*18 )
+  canvas:clear(0,GRID*11, GRID*32, GRID*18 )
   --  canvas:attrColor("white")
-  --  canvas:drawRect("fill", 0,grid*12,grid*32,grid*18 )
+  --  canvas:drawRect("fill", 0,GRID*12,GRID*32,GRID*18 )
   canvas:flush()
   for i=1,self.icons  do
     if i==self.pos then
@@ -54,68 +54,68 @@ function MainMenu:iconDraw()
     end
     local icon = canvas:new(iconpath)
     local dx,dy = icon:attrSize()
-    canvas:compose(grid, grid*11.5+sumdy, icon )
-    sumdy=sumdy+dy+grid/2
+    canvas:compose(GRID, GRID*11.5+sumdy, icon )
+    sumdy=sumdy+dy+GRID/2
   end
 
   local img = canvas:new("media/btnarrowv.png")
-  canvas:compose(grid, grid*17, img)
+  canvas:compose(GRID, GRID*17, img)
   local imgexit = canvas:new("media/btnsair.png")
-  canvas:compose(grid*4, grid*17, imgexit)
+  canvas:compose(GRID*4, GRID*17, imgexit)
   canvas:flush()
 end
 
 -- main menu treatment
 function MainMenu:menuItem(par)
   --canvas:attrColor(0,0,0,0)
-  --canvas:clear(0,0, grid*32, grid*10 )
+  --canvas:clear(0,0, GRID*32, GRID*10 )
 
   -- a redeminas
   if self.pos==1 then
     local img = canvas:new("media/aredeminas.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(GRID*6, GRID*11.5, img)
     -- programas
   elseif self.pos == 2 then
     local img = canvas:new("media/btnarrowh.png")
-    canvas:compose(grid*2.5, grid*17, img)
+    canvas:compose(GRID*2.5, GRID*17, img)
     self:pgmDraw()
     -- Nova sede
   elseif self.pos==3 then
     local img = canvas:new("media/sede.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(GRID*6, GRID*11.5, img)
   elseif self.pos==4 then
     canvas:attrColor(1,1,1,200)
-    canvas:clear(grid*6,grid*11, grid*32, grid*18 )
+    canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
     local img = canvas:new("media/contato.png")
-    canvas:compose(grid*6, grid*11.5, img)
+    canvas:compose(GRID*6, GRID*11.5, img)
     -- results from tcp get
     canvas:attrColor("white")
     canvas:attrFont("Vera", 8,"bold")
-    canvas:drawText(grid*15, grid*17.5, "v: " .. version .. "/" .. tcpresult )
+    canvas:drawText(GRID*15, GRID*17.5, "v: " .. VERSION .. "/" .. tcpresult )
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(grid*32-dx,grid, dx, dy )
-      canvas:compose(grid*32-dx, grid, img)
+      canvas:clear(GRID*32-dx,GRID, dx, dy )
+      canvas:compose(GRID*32-dx, GRID, img)
     elseif  par == 'green' then
       local img = canvas:new("media/qrtwitter.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(grid*32-dx,grid, dx, dy )
-      canvas:compose(grid*32-dx, grid, img)
+      canvas:clear(GRID*32-dx,GRID, dx, dy )
+      canvas:compose(GRID*32-dx, GRID, img)
     elseif  par == 'yellow' then
       local img = canvas:new("media/qrinsta.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(grid*32-dx,grid, dx, dy )
-      canvas:compose(grid*32-dx, grid, img)
+      canvas:clear(GRID*32-dx,GRID, dx, dy )
+      canvas:compose(GRID*32-dx, GRID, img)
     elseif  par == 'blue' then
       local img = canvas:new("media/qryoutube.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(grid*32-dx,grid, dx, dy )
-      canvas:compose(grid*32-dx, grid, img)
+      canvas:clear(GRID*32-dx,GRID, dx, dy )
+      canvas:compose(GRID*32-dx, GRID, img)
     end
   end
   canvas:flush()
@@ -125,9 +125,9 @@ end
 function MainMenu:pgmDraw()
 
   canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0, grid*32, grid*11 )
+  canvas:clear(0,0, GRID*32, GRID*11 )
   canvas:attrColor(1,1,1,200)
-  canvas:clear(grid*6,grid*11.5, grid*32, grid*18 )
+  canvas:clear(GRID*6,GRID*11.5, GRID*32, GRID*18 )
 
   for i=1,self.pgmicons  do
     if i==1 then
@@ -140,41 +140,41 @@ function MainMenu:pgmDraw()
   -- icone +info
   if (self.list[self.spos]["info"] == true) then
     local imginfo = canvas:new("media/pgminfo.png")
-    canvas:compose(grid*26.5, grid*17, imginfo )
+    canvas:compose(GRID*26.5, GRID*17, imginfo )
   end
   -- icone youtube
   if (self.list[self.spos]["youtube"] == true) then
     local imginfo = canvas:new("media/btnred.png")
-    canvas:compose(grid*28, grid*17, imginfo )
+    canvas:compose(GRID*28, GRID*17, imginfo )
   end
   -- icone site
   if (self.list[self.spos]["site"] == true) then
     local imginfo = canvas:new("media/btngreen.png")
-    canvas:compose(grid*29, grid*17, imginfo )
+    canvas:compose(GRID*29, GRID*17, imginfo )
   end
   -- icone facebook
   if (self.list[self.spos]["facebook"] == true) then
     local imginfo = canvas:new("media/btnyellow.png")
-    canvas:compose(grid*30, grid*17, imginfo )
+    canvas:compose(GRID*30, GRID*17, imginfo )
   end
   -- icone twitter
   if (self.list[self.spos]["twitter"] == true) then
     local imginfo = canvas:new("media/btnblue.png")
-    canvas:compose(grid*31, grid*17, imginfo )
+    canvas:compose(GRID*31, GRID*17, imginfo )
   end
 
   --text
   canvas:attrFont("Vera", 21,"bold")
   canvas:attrColor("white")
 
-  canvas:drawText(grid*6, grid*14, self.list[self.spos]["desc1"] )
-  canvas:drawText(grid*6, grid*14.7, self.list[self.spos]["desc2"] )
-  canvas:drawText(grid*6, grid*15.4, self.list[self.spos]["desc3"] )
-  canvas:drawText(grid*6, grid*16.1, self.list[self.spos]["desc4"] )
+  canvas:drawText(GRID*6, GRID*14, self.list[self.spos]["desc1"] )
+  canvas:drawText(GRID*6, GRID*14.7, self.list[self.spos]["desc2"] )
+  canvas:drawText(GRID*6, GRID*15.4, self.list[self.spos]["desc3"] )
+  canvas:drawText(GRID*6, GRID*16.1, self.list[self.spos]["desc4"] )
 
 
   --texto grade
-  canvas:drawText(grid*6,grid*17, self.list[self.spos]["grade"])
+  canvas:drawText(GRID*6,GRID*17, self.list[self.spos]["grade"])
 
   canvas:flush()
 end
@@ -187,14 +187,14 @@ function MainMenu:pgmDrawIcons(t, slot, ativo)
   local item_w = 85
   local icon = canvas:new("media/" .. string.format("%02d" , self.list[t]["img"]).. ".png")
 
-  canvas:compose((grid*6+(item_w*(slot-1))+(2*grid*(slot-1))), grid*11.5, icon )
+  canvas:compose((GRID*6+(item_w*(slot-1))+(2*GRID*(slot-1))), GRID*11.5, icon )
 
   if ativo then
     canvas:attrColor("red")
-    canvas:drawRect("frame", grid*6, grid*11.5, item_h+1, item_w+1)
-    canvas:drawRect("frame", grid*6-1, grid*11.5-1, item_h+2, item_w+2)
-    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+3, item_w+3)
-    canvas:drawRect("frame", grid*6-2, grid*11.5-2, item_h+4, item_w+4)
+    canvas:drawRect("frame", GRID*6, GRID*11.5, item_h+1, item_w+1)
+    canvas:drawRect("frame", GRID*6-1, GRID*11.5-1, item_h+2, item_w+2)
+    canvas:drawRect("frame", GRID*6-2, GRID*11.5-2, item_h+3, item_w+3)
+    canvas:drawRect("frame", GRID*6-2, GRID*11.5-2, item_h+4, item_w+4)
   end
 end
 
@@ -223,7 +223,7 @@ function MainMenu:input(evt)
   elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
-    canvas:clear(0,0, grid*32, grid*11 )
+    canvas:clear(0,0, GRID*32, GRID*11 )
     local img = canvas:new("media/pgm06.png")
     canvas:compose(0, 0, img)
     canvas:flush()
@@ -248,8 +248,8 @@ function MainMenu:input(evt)
   elseif ( self.pos==4 and evt.key == "BLUE" ) then
     self:menuItem('blue')
   elseif ( evt.key=="EXIT" ) then
-    mainIconState=1
-    menuOn = false
+    ICON.state=1
+    MENUON = false
     comainIcon = coroutine.create(mainIconAnim)
     mainIconUpdate()
   end

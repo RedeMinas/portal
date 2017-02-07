@@ -37,10 +37,10 @@ end
 function mulhereseMenu:iconsDraw(nItens)
   --selective clear all on start or partial on icons area
   canvas:attrColor(0,0,0,200)
-  if (not pgmOn) then
-    canvas:clear(0,0, grid*32, grid*18 )
+  if (not PGMON) then
+    canvas:clear(0,0, GRID*32, GRID*18 )
   else
-    canvas:clear(0,grid*14.5, grid*32, grid*18 )
+    canvas:clear(0,GRID*14.5, GRID*32, GRID*18 )
   end
   for i=1,self.iconsDisplay  do
     if i==1 then
@@ -60,33 +60,33 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
   local font_size = 12
 
   local icon = canvas:new("media/mulherese/icon" .. string.format("%02d" , t) .. ".png")
-  canvas:compose((grid+(item_w*(slot-1))+(0.92*grid*(slot-1))), grid*17.5-item_h, icon )
+  canvas:compose((GRID+(item_w*(slot-1))+(0.92*GRID*(slot-1))), GRID*17.5-item_h, icon )
   canvas:attrColor("blue")
   canvas:attrFont("Vera", font_size,"bold")
 
   if ativo then
     canvas:attrColor(255,255,255,255)
-    canvas:drawRect("frame", grid+(item_w*(slot-1))+(grid*(slot-1)), grid*17.5-item_h, 100, 100)
+    canvas:drawRect("frame", GRID+(item_w*(slot-1))+(GRID*(slot-1)), GRID*17.5-item_h, 100, 100)
   end
 
 end
 
 function mulhereseMenu:textDraw(text)
   canvas:attrColor(41,19,69,200)
-  canvas:clear(grid*6,grid*2, grid*25, grid*12.5 )
+  canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
 
   --display text margin - remove!
 
   canvas:attrFont("Tiresias", 20 , "normal")
   canvas:attrColor(255,255,255,200)
 
-  list=textWrap(text,screen_width/20)
+  list=textWrap(text,SCREEN_WIDTH/20)
 
   --for i in ipairs(list) do
   --    print(list[i])
   --  end
 
-  --canvas:drawText(grid*6, grid*1.7+((lasti+1)*grid*0.7) , result)
+  --canvas:drawText(GRID*6, GRID*1.7+((lasti+1)*GRID*0.7) , result)
 
 end
 
@@ -94,41 +94,41 @@ end
 function mulhereseMenu:pageReset()
   -- clear
   canvas:attrColor(41,19,69,200)
-  canvas:clear(grid,grid,grid*30,grid*13.5 )
+  canvas:clear(GRID,GRID,GRID*30,GRID*13.5 )
   --canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
---  canvas:drawRect("fill", grid, grid, grid*30, grid*13.5 )
+--  canvas:drawRect("fill", GRID, GRID, GRID*30, GRID*13.5 )
 
   -- draw redeminas logo
   local logo = canvas:new("media/btn1off.png")
-  canvas:compose(grid*26.8, grid*1.3, logo )
+  canvas:compose(GRID*26.8, GRID*1.3, logo )
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
   local btnarrowh = canvas:new("media/btnarrowh.png")
   local btnexit = canvas:new("media/btnsair.png")
-  canvas:compose(grid*1.5, grid*13.5, btnarrowv)
-  canvas:compose(grid*2.7, grid*13.5, btnarrowh)
-  canvas:compose(grid*4, grid*13.5, btnexit)
+  canvas:compose(GRID*1.5, GRID*13.5, btnarrowv)
+  canvas:compose(GRID*2.7, GRID*13.5, btnarrowh)
+  canvas:compose(GRID*4, GRID*13.5, btnexit)
   canvas:flush()
 end
 
 function mulhereseMenu:pageDraw()
-  if (not pgmOn) then
+  if (not PGMON) then
     self.pageReset()
-    pgmOn = true
+    PGMON = true
   end
 
   -- Draw Ilustrations on left
   canvas:attrColor(41,19,69,200)
-  canvas:clear(grid*1,grid*1,grid*5,grid*12.5 )
+  canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
   local str = string.format("%02d" , self.pos)
   local imgil = canvas:new("media/mulherese/il" .. str .. ".png")
   print(str)
-  canvas:compose(grid*1, grid*1, imgil)
+  canvas:compose(GRID*1, GRID*1, imgil)
 
   -- Draw Group Title
   canvas:attrColor(41,19,69,200)
-    canvas:clear(grid*6,grid*1.2,grid*19,grid )
+    canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
 
   --draw title
   canvas:attrColor(255,255,255,255)
@@ -146,7 +146,7 @@ function mulhereseMenu:pageDraw()
     texttitle = "Serviços públicos"
     text = self.list[self.pos]["page3"]
   end
-  canvas:drawText(grid*6, grid*1.2, self.list[self.pos]["id"] .. ": " ..texttitle)
+  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos]["id"] .. ": " ..texttitle)
 
   self:textDraw(text)
 

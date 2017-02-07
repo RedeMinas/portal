@@ -10,7 +10,6 @@ function ReadTable(pathFile)
     file:close()
 
     return tab
-
   else
     print( pathFile .. " not found.")
   end
@@ -19,8 +18,11 @@ end
 function layoutPgmTable(table)
   local tab={}
   local id = 0
+  --linha a linha
   for i = 2, #table, 1 do
     local w=1
+    --campo a campo
+    
     for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
         id = tonumber(regexp)

@@ -1,17 +1,16 @@
 -- main global parameteres
-screen_width, screen_height = canvas:attrSize()
+SCREEN_WIDTH, SCREEN_HEIGHT = canvas:attrSize()
 
-grid = screen_width/32
-start = false
-
+GRID = SCREEN_WIDTH/32
+--review!!!
 tcpresult = ""
-
-menuOn = false
-pgmOn = false
-mainIconState = 1
-mainIconPos =1
-_debug_ = true
-version = "1.2.4t"
+MENUON = false
+PGMON = false
+ICON = {}
+ICON.state = 1
+ICON.pos =1
+DEBUG = true
+VERSION = "1.2.4t"
 
 -- tcp metrics
 require 'lib_tcp'
@@ -22,7 +21,7 @@ function countMetric()
     tcp.execute(
       function ()
         tcp.connect('www.redeminas.mg.gov.br', 80)
-        tcp.send('get /ginga.php?aplicacao=portal' .. version .. '\n')
+        tcp.send('get /ginga.php?aplicacao=portal' .. VERSION .. '\n')
         tcpresult = tcp.receive()
         --print(tcpresult)
         if tcpresult then
@@ -81,7 +80,7 @@ function textWrap(text,size)
       --      elseif (string.sub(result,size+1,size+1) == ",") then
     end
     offsetSum = offsetSum + offset
-    canvas:drawText(grid*6, grid*1.7+i*grid*0.7 , result)
+    canvas:drawText(GRID*6, GRID*1.7+i*GRID*0.7 , result)
     lasti = i
     list[i]=result
   end

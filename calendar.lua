@@ -3,7 +3,7 @@
 -- #description: somente menu agenda 
 -- #ginga - ncl / lua
 
-version = "calendar"
+VERSION = "calendar"
 
 -- reads functions
 dofile("lib_icon.lua")
@@ -17,19 +17,19 @@ cal=calendar:new{}
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and menuOn ~= true and pgmOn ~=true)  then
-      --      menuOn = true
-      pgmOn = true
+    if (evt.key == "ENTER" and MENUON ~= true and PGMON ~=true)  then
+      --      MENUON = true
+      PGMON = true
       coroutine.resume(comainIcon)
       --      agenda:iconDraw()
       --      agenda:menuItem()
       cal:agenda()
       --testes agenda
-    elseif(pgmOn) then
+    elseif(PGMON) then
       if ( evt.key=="EXIT") then
-        mainIconState=1
-        pgmOn = false
-        menuOn = false
+        ICON.state=1
+        PGMON = false
+        MENUON = false
         comainIcon = coroutine.create(mainIconAnim)
         mainIconUpdate()
       elseif (evt.key=="CURSOR_UP") then

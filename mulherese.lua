@@ -3,12 +3,12 @@
 -- #description: mulherese teste
 -- #ginga - ncl / lua
 
-version = "mulherese teste"
+VERSION = "mulherese teste"
 
-start = false
-menuOn = false
-pgmOn = false
-mainIconState = 1
+START = false
+MENUON = false
+PGMON = false
+ICON.state = 1
 
 -- reads table menu
 
@@ -19,17 +19,17 @@ dofile("lib_tables.lua")
 function handler (evt)
   if (evt.class == 'key' and evt.type == 'press') then
     -- icon
-    if (evt.key == "ENTER" and not menuOn)  then
+    if (evt.key == "ENTER" and not MENUON)  then
       dofile("lib_mulherese.lua")
-      menuOn=true
+      MENUON=true
       coroutine.resume(comainIcon)
       mse=mulhereseMenu:new{}
       mse:iconsDraw()
-    elseif (pgmOn == true) then
+    elseif (PGMON == true) then
       if ( evt.key=="EXIT") then
         print ("menu exit")
-        mainIconState=1
-        menuOn = false
+        ICON.state=1
+        MENUON = false
         comainIcon = coroutine.create(mainIconAnim)
         mainIconUpdate()
         --browse on mulherese

@@ -12,7 +12,7 @@ function calendar:new(o)
   self.icons = 7
   self.aposh = 1
   self.aposv = 1
---  self.pgmicons = math.floor(screen_width/210)
+--  self.pgmicons = math.floor(SCREEN_WIDTH/210)
 --  self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
   self.debug=false
 --  self.settings=false
@@ -29,7 +29,7 @@ end
 -- based  on http://lua-users.org/wiki/DisplayCalendarInHtml
 function calendar:agendaGrid()
   canvas:attrColor(0,0,0,0)
-  canvas:clear(0,0,grid*32,grid*16)
+  canvas:clear(0,0,GRID*32,GRID*16)
 
   local d=0
   local yy,mm,dd, M = os.date("%Y"), os.date("%m"), os.date("%d"), os.date("%w")
@@ -51,7 +51,7 @@ function calendar:agendaGrid()
   for i,v in ipairs(days_of_week_ordered) do
     canvas:attrColor("red")
     canvas:attrFont("Vera", 20,"bold")
-    canvas:drawText(grid*4*(i-1)+grid, 10 , v.dayname)
+    canvas:drawText(GRID*4*(i-1)+GRID, 10 , v.dayname)
     if (day_week == v.daynum) then
       d= -i+2
     end
@@ -65,19 +65,19 @@ function calendar:agendaGrid()
       if (d>=1 and d<=month_days) then
         if (d==tonumber(dd)) then
           canvas:attrColor("red")
-          canvas:drawRect("frame",(grid*(i-1)*4)+grid+1,(grid*(w-1)*3)+grid+1,grid*4-2,grid*3-2)
-          canvas:drawText((grid*(i-1)*4)+grid*1.5, (grid*(w-1)*3)+grid*1.5,  "!" .. d)
+          canvas:drawRect("frame",(GRID*(i-1)*4)+GRID+1,(GRID*(w-1)*3)+GRID+1,GRID*4-2,GRID*3-2)
+          canvas:drawText((GRID*(i-1)*4)+GRID*1.5, (GRID*(w-1)*3)+GRID*1.5,  "!" .. d)
         else
           canvas:attrColor("gray")
-          canvas:drawRect("frame",(grid*(i-1)*4)+grid,(grid*(w-1)*3)+grid,grid*4,grid*3)
-          canvas:drawText((grid*(i-1)*4)+grid*1.5, (grid*(w-1)*3)+grid*1.5,  d)
+          canvas:drawRect("frame",(GRID*(i-1)*4)+GRID,(GRID*(w-1)*3)+GRID,GRID*4,GRID*3)
+          canvas:drawText((GRID*(i-1)*4)+GRID*1.5, (GRID*(w-1)*3)+GRID*1.5,  d)
         end
         if(i==self.aposh and w==self.aposv) then
           print("ok")
           canvas:attrColor("yellow")
-          canvas:drawRect("fill",(grid*(self.aposh-1)*4)+grid,(grid*(self.aposv-1)*3)+grid,grid*4,grid*3)
+          canvas:drawRect("fill",(GRID*(self.aposh-1)*4)+GRID,(GRID*(self.aposv-1)*3)+GRID,GRID*4,GRID*3)
           canvas:attrColor("black")
-          canvas:drawText((grid*(i-1)*4)+grid*1.5, (grid*(w-1)*3)+grid*1.5,  d)
+          canvas:drawText((GRID*(i-1)*4)+GRID*1.5, (GRID*(w-1)*3)+GRID*1.5,  d)
         end
       end
       d = d+1
@@ -89,12 +89,12 @@ end
 
 function calendar:agendaDisplayDay()
   canvas:attrColor("yellow")
-  canvas:clear(0,grid*17,screen_width,grid*18)
+  canvas:clear(0,GRID*17,SCREEN_WIDTH,GRID*18)
   canvas:attrColor("black")
   canvas:attrFont("Vera", 20,"bold")
-  canvas:drawText(grid*1, grid*17, "aposh:" .. self.aposh)
-  canvas:drawText(grid*5, grid*17, "aposv:" .. self.aposv)
-  canvas:drawText(grid*15, grid*17, "data os:" .. os.date("%d.%m.%Y"))
+  canvas:drawText(GRID*1, GRID*17, "aposh:" .. self.aposh)
+  canvas:drawText(GRID*5, GRID*17, "aposv:" .. self.aposv)
+  canvas:drawText(GRID*15, GRID*17, "data os:" .. os.date("%d.%m.%Y"))
 
   canvas:flush()
 end
@@ -102,9 +102,9 @@ end
 
 -- harmonia icons vert scroll
 function calendar:iconDraw()
-  if (not pgmOn) then
+  if (not PGMON) then
     self.pageReset()
-    pgmOn = true
+    PGMON = true
   end
 
   local iconpath=""
@@ -118,7 +118,7 @@ function calendar:iconDraw()
     end
     local icon = canvas:new(iconpath)
     local dx,dy = icon:attrSize()
-    canvas:compose(grid, grid*11+sumdy, icon )
+    canvas:compose(GRID, GRID*11+sumdy, icon )
     sumdy=sumdy+dy
   end
   self:pageDraw()
@@ -130,7 +130,7 @@ end
 function calendar:pageDraw()
   canvas:attrColor(93,196,179,217)
   canvas:attrColor("blue")
-  canvas:clear(grid*7,grid*11, grid*32, grid*18 )
+  canvas:clear(GRID*7,GRID*11, GRID*32, GRID*18 )
 
   if self.pos == 1 then
     print ("chegou")
