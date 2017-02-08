@@ -9,8 +9,6 @@ function harmoniaMenu:new(o)
   self.pos = 1
   self.spos = 1
   self.icons=4
---  self.pgmicons = math.floor(SCREEN_WIDTH/210)
---  self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
   self.debug=false
   self.bar={}
   self.bar.stop=false
@@ -83,7 +81,6 @@ function harmoniaMenu:iconDraw()
       end
       canvas:attrColor("white")
       canvas:drawText((GRID),(GRID*11.3+(GRID*(i-1))), menu[i].desc)
-
       barHorizontal()
     else
       if (i < 4) then
@@ -131,16 +128,14 @@ function harmoniaMenu:repertorio()
     canvas:compose(GRID*26.5, GRID*17, imginfo )
   end
 
-  --text
-  canvas:attrFont("Vera", 16,"bold")
+  --texts
+  canvas:attrFont("Vera", 18,"bold")
   canvas:attrColor(1,1,1,160)
-
   canvas:drawText(GRID*6,GRID*14, self.list[self.spos]["grupo"] )
   canvas:drawText(GRID*14,GRID*14, self.list[self.spos]["regente"])
   canvas:drawText(GRID*20,GRID*14, self.list[self.spos]["obras"])
 
   canvas:attrFont("Vera", 13,"bold")
-
   canvas:drawText(GRID*6,GRID*14.5, self.list[self.spos]["compositores"])
   canvas:drawText(GRID*14,GRID*14.5, self.list[self.spos]["data"])
   canvas:drawText(GRID*18,GRID*14.5, self.list[self.spos]["horario"])
@@ -253,7 +248,7 @@ function barHorizontalAnim()
 end
 
 function barHorizontalUpdate()
-  print (coroutine.status(barHorizontalCoroutine))
+--  print (coroutine.status(barHorizontalCoroutine))
   coroutine.resume(barHorizontalCoroutine)
   if   coroutine.status(barHorizontalCoroutine) ~= 'dead'  then
     event.timer(30,barHorizontalUpdate)

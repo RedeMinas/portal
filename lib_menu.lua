@@ -214,26 +214,26 @@ function MainMenu:input(evt)
     self.spos=shift(self.spos,1, #self.list)
     self:pgmDraw()
     -- PGM
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==1 and evt.key == "ENTER" ) then
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==1 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --agenda start
     dofile("lib_agenda.lua")
     agenda=agendaMenu:new{}
     agenda:iconDraw()
     agenda:menuItem()
-  elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and evt.key=="ENTER") then
+  elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
     canvas:clear(0,0, GRID*32, GRID*11 )
     local img = canvas:new("media/pgm06.png")
     canvas:compose(0, 0, img)
     canvas:flush()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==8 and evt.key == "ENTER" ) then
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==8 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --harmonia start
     dofile("lib_harmonia.lua")
     harmonia=harmoniaMenu:new{}
     harmonia:iconDraw()
     harmonia:menuItem()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==13 and evt.key == "ENTER" ) then
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==13 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --mulherese start
     dofile("lib_mulherese.lua")
     mse=mulhereseMenu:new{}
