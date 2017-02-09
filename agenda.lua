@@ -18,8 +18,8 @@ function handler (evt)
     -- icon
     if (evt.key == "ENTER" and MENUON ~= true and PGMON ~=true)  then
       MENUON = true
-      agenda:iconDraw()
-
+      print("enter")
+      agenda:pageReset()
     elseif (evt.key == "EXIT" and MENUON and PGMON)  then
       ICON.state=1
       MENUON = false
@@ -31,7 +31,6 @@ function handler (evt)
       -- main menu
     elseif( MENUON and PGMON) then
       agenda:input(evt)
-
     end
   elseif (evt.action == "start") then
     mainIconUpdate()

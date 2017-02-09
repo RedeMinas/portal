@@ -22,7 +22,7 @@ function layoutPgmTable(table)
   for i = 2, #table, 1 do
     local w=1
     --campo a campo
-    
+
     for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
         id = tonumber(regexp)
@@ -118,8 +118,7 @@ function layoutPgmMulherese(table)
   end
   return tab
 end
-
--- exemplo: local tab = layoutPgmMulherese(ReadTable("table.txt"))
+-- ex: local tab = layoutPgmMulherese(ReadTable("table.txt"))
 
 
 
@@ -158,7 +157,7 @@ function layoutPgmHarmonia(table)
           tab[id]["info"] = false
         end
       end
-      -- controle dos campos (rever???)
+      -- controle dos campos
       if w < 12
       then
         w=w+1
@@ -170,10 +169,6 @@ function layoutPgmHarmonia(table)
   return tab
 end
 -- ex: local tab = layoutPgmHarmonia(ReadTable("table.txt"))
-
-
-
-
 
 function layoutPgmAgenda(table)
   local tab={}
@@ -188,22 +183,25 @@ function layoutPgmAgenda(table)
       elseif w == 2 then
         tab[id]["nome"] = regexp
       elseif w == 3 then
-        tab[id]["desc"] = regexp
-      elseif w == 4 then
         tab[id]["data"] = regexp
-      elseif w == 5 then
-        tab[id]["hora"] = regexp
+      elseif w == 4 then
+        tab[id]["cat"] = regexp
       elseif w == 6 then
-        tab[id]["valor"] = regexp
+        tab[id]["desc"] = regexp
       elseif w == 7 then
+        tab[id]["hora"] = regexp
+      elseif w == 8 then
+        tab[id]["valor"] = regexp
+      elseif w == 9 then
+        tab[id]["domingo"] = regexp
+      elseif w == 10 then
         if regexp == "TRUE" then
           tab[id]["info"] = true
         else
           tab[id]["info"] = false
         end
       end
-      -- controle dos campos (rever???)
-      if w < 8
+      if w < 10
       then
         w=w+1
       else

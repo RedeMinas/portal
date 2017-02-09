@@ -1,4 +1,3 @@
-
 --- Main Menu object
 
 MainMenu = {}
@@ -171,11 +170,8 @@ function MainMenu:pgmDraw()
   canvas:drawText(GRID*6, GRID*14.7, self.list[self.spos]["desc2"] )
   canvas:drawText(GRID*6, GRID*15.4, self.list[self.spos]["desc3"] )
   canvas:drawText(GRID*6, GRID*16.1, self.list[self.spos]["desc4"] )
-
-
   --texto grade
   canvas:drawText(GRID*6,GRID*17, self.list[self.spos]["grade"])
-
   canvas:flush()
 end
 

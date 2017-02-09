@@ -73,7 +73,7 @@ function harmoniaMenu:iconDraw()
   for i=1,#menu  do
     -- icon on
     if i==self.pos then
-      self.bar.y = ((GRID*11+1)+((GRID*i)))
+      self.bar.y = ((GRID*11+3)+((GRID*i)))
       self.bar.width = menu[i].width
       self.bar.desc = menu[i].desc
       if i == 4 then
@@ -105,73 +105,50 @@ function harmoniaMenu:iconDraw()
   --canvas:flush()
 end
 
--- sub menu pgm draw carrossel
+-- sub menu repertorio draw carrossel
 function harmoniaMenu:repertorio()
 --  canvas:attrColor(0,0,0,0)
---  canvas:clear(0,0, GRID*32, GRID*11 )
+  --  canvas:clear(0,0, GRID*32, GRID*11 )
+  local offset_x = GRID*6
+  local offset_y = GRID*11.5
   canvas:attrColor(93,196,179,217)
   canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
+
+
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+  local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
+  
+  local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" ) local dx,dy = imgicon:attrSize()
+
   canvas:compose(GRID*6, GRID*11, imgbgdr)
+  canvas:compose(GRID*6, GRID*11.5, imgicon )
 
-  for i=1,self.repertorioItens  do
-    if i==1 then
-      self:repertorioIcons(shift(self.spos-1,i,#self.list),i,true)
-    else
-      self:repertorioIcons(shift(self.spos-1,i,#self.list),i,false)
-    end
-  end
-
-  -- icone +info
-  if (self.list[self.spos]["info"] == true) then
-    local imginfo = canvas:new("media/pgminfo.png")
-    canvas:compose(GRID*26.5, GRID*17, imginfo )
-  end
-
-  --texts
+    --texts
   canvas:attrFont("Vera", 18,"bold")
   canvas:attrColor(1,1,1,160)
-  canvas:drawText(GRID*6,GRID*14, self.list[self.spos]["grupo"] )
-  canvas:drawText(GRID*14,GRID*14, self.list[self.spos]["regente"])
-  canvas:drawText(GRID*20,GRID*14, self.list[self.spos]["obras"])
+  canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["grupo"] )
+  canvas:drawText((offset_x+dx+(11*GRID)),offset_y, self.list[self.spos]["data"])
+  canvas:drawText((offset_x+dx+(11*GRID)),(offset_y+GRID), self.list[self.spos]["horario"])
+  canvas:drawText((offset_x+dx),(offset_y+GRID), self.list[self.spos]["obras"])
+  canvas:drawText(((offset_x+dx)+(3*GRID)),(offset_y+GRID), self.list[self.spos]["regente"])
 
   canvas:attrFont("Vera", 13,"bold")
-  canvas:drawText(GRID*6,GRID*14.5, self.list[self.spos]["compositores"])
-  canvas:drawText(GRID*14,GRID*14.5, self.list[self.spos]["data"])
-  canvas:drawText(GRID*18,GRID*14.5, self.list[self.spos]["horario"])
-  canvas:drawText(GRID*20,GRID*14.5, self.list[self.spos]["local"])
-
-  --  canvas:drawText(GRID*18,GRID*16, self.list[self.spos]["ingressso"])
-  --  canvas:drawText(GRID*24,GRID*16, self.list[self.spos]["info"])
+  canvas:drawText((offset_x+dx),(offset_y+(2*GRID)), self.list[self.spos]["compositores"])
+  canvas:drawText((offset_x+dx+5*GRID),(offset_y+(2*GRID)), self.list[self.spos]["local"])
 
   --description, lines of text
-  local list =textWrap(self.list[self.spos]["desc"],SCREEN_WIDTH/12)
+  local list =textWrap(self.list[self.spos]["desc"],60)
   for i=1,#list do
-    canvas:drawText(GRID*6, (GRID*15+i*GRID*0.4) , list[i])
+    canvas:drawText((offset_x+dx),(offset_y+(2.5*GRID)+(i*(GRID/2))) , list[i])
   end
 
   --qr code
-  local imgbgdr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
-  local dx,dy = canvas:attrSize(imgbgdr)
-  canvas:compose(GRID*24.5, GRID*11, imgbgdr)
-
+  local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
+  dx,dy = imgqr:attrSize()
+  canvas:compose(SCREEN_WIDTH-dx, SCREEN_HEIGHT-dy, imgqr)
   canvas:flush()
 end
 
-function harmoniaMenu:repertorioIcons(t, slot, ativo)
-  --setup parameters
-  local item_h = 160
-  local item_w = 95
-  local icon = canvas:new("media/harmonia/" .. string.format("%02d" , self.list[t]["img"]).. ".png")
-
-  canvas:compose((GRID*6+(item_w*(slot-1))+(2*GRID*(slot-1))), GRID*11.5, icon )
-
-  if ativo then
-    canvas:attrColor("white")
-    --review x !!!
-    canvas:drawRect("fill", GRID*6, GRID*14-5, item_h, 4)
-  end
-end
 
 --- main menu treatment
 function harmoniaMenu:menuItem(par)
@@ -255,7 +232,6 @@ function barHorizontalUpdate()
   end
 end
 
---function barHorizontal(param)
 function barHorizontal()
   harmonia.bar.stop=false
   barHorizontalCoroutine=coroutine.create(barHorizontalAnim)
