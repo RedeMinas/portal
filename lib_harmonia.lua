@@ -13,6 +13,7 @@ function harmoniaMenu:new(o)
   self.bar={}
   self.bar.stop=false
   self.repertorioItens=4
+  self.menu ={{desc="Edição da semana",width=250},{desc="Repertório",width=200}, {desc="Villa Lobos",width=250}, {desc="Contatos",width=220}}
   --remove
   self.list=layoutPgmHarmonia(ReadTable("tbl_harmoniarepertorio.txt"))
 --  self.settings=false
@@ -59,33 +60,31 @@ function harmoniaMenu:iconDraw()
 
   local sumdy=01
 
-  local menu ={
-    {desc="Edição da semana",width=250},
-    {desc="Repertório",width=200},
-    {desc="Villa Lobos",width=250},
-    {desc="Contatos",width=220}
-  }
-
   canvas:attrColor(93,196,179,217)
   canvas:clear(0,GRID*11, GRID*32, GRID*18 )
   canvas:attrFont("Tiresias", 22,"bold")
 
-  for i=1,#menu  do
+  for i=1,#self.menu  do
     -- icon on
     if i==self.pos then
-      self.bar.y = ((GRID*11+3)+((GRID*i)))
-      self.bar.width = menu[i].width
-      self.bar.desc = menu[i].desc
+      self.bar.y = ((GRID*11.326)+((GRID*i)))
+      self.bar.width = self.menu[i].width
+      self.bar.desc = self.menu[i].desc
       if i == 4 then
-        menu[i].desc= ""
+        self.menu[i].desc= ""
       end
-      canvas:attrColor("white")
-      canvas:drawText((GRID),(GRID*11.3+(GRID*(i-1))), menu[i].desc)
+
+      local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
+      canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
+      --canvas:attrColor("white")
+      --canvas:drawText((GRID),(GRID*11.3+(GRID*(i-1))), self.menu[i].desc)
       barHorizontal()
     else
       if (i < 4) then
         canvas:attrColor(1,1,1,160)
-        canvas:drawText((GRID),(GRID*11.3+(GRID*(i-1))), menu[i].desc)
+        local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
+        canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
+        --        canvas:drawText(GRID,(GRID*11.3+(GRID*(i-1))), self.menu[i].desc)
       end
     end
   end
@@ -109,7 +108,7 @@ end
 function harmoniaMenu:repertorio()
 --  canvas:attrColor(0,0,0,0)
   --  canvas:clear(0,0, GRID*32, GRID*11 )
-  local offset_x = GRID*6
+  local offset_x = GRID*6.5
   local offset_y = GRID*11.5
   canvas:attrColor(93,196,179,217)
   canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
@@ -117,7 +116,6 @@ function harmoniaMenu:repertorio()
 
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
   local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
-  
   local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" ) local dx,dy = imgicon:attrSize()
 
   canvas:compose(GRID*6, GRID*11, imgbgdr)
