@@ -170,7 +170,50 @@ function layoutPgmHarmonia(table)
 end
 -- ex: local tab = layoutPgmHarmonia(ReadTable("table.txt"))
 
-function layoutPgmAgenda(table)
+function layoutPgmAgendaEvt(table)
+  local tab={}
+  local id = 0
+  for i = 2, #table, 1 do
+    local w=1
+    for regexp in table[i]:gmatch("[^\t\t]+") do
+      if w == 1 then
+        id = tonumber(regexp)
+        tab[id]={}
+        tab[id]["img"] = i-1
+      elseif w == 2 then
+        tab[id]["nome"] = regexp
+      elseif w == 3 then
+        tab[id]["data"] = regexp
+      elseif w == 4 then
+        tab[id]["cat"] = regexp
+      elseif w == 6 then
+        tab[id]["desc"] = regexp
+      elseif w == 7 then
+        tab[id]["hora"] = regexp
+      elseif w == 8 then
+        tab[id]["valor"] = regexp
+      elseif w == 9 then
+        tab[id]["domingo"] = regexp
+      elseif w == 10 then
+        if regexp == "TRUE" then
+          tab[id]["info"] = true
+        else
+          tab[id]["info"] = false
+        end
+      end
+      if w < 10
+      then
+        w=w+1
+      else
+        w=1
+      end
+    end
+  end
+  return tab
+end
+-- ex: local tab = layoutPgmAgendaEvt(ReadTable("table.txt"))
+
+function layoutPgmAgendaCc(table)
   local tab={}
   local id = 0
   for i = 2, #table, 1 do

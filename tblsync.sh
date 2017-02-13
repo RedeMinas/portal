@@ -7,12 +7,21 @@ curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiC
 iconv -t ISO-8859-1 /tmp/tbl_pgm.txt > tbl_pgm.txt
 rm /tmp/tbl_pgm.txt
 
-echo "sync agenda"
+echo "sync agenda evt"
 
-curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=2032904106&format=tsv" > /tmp/tbl_agenda.txt
+curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=2032904106&format=tsv" > /tmp/tbl_agendaevt.txt
 
-iconv -t ISO-8859-1 /tmp/tbl_agenda.txt > tbl_agenda.txt
-rm /tmp/tbl_agenda.txt
+iconv -t ISO-8859-1 /tmp/tbl_agendaevt.txt > tbl_agendaevt.txt
+rm /tmp/tbl_agendaevt.txt
+
+echo "sync agenda ccs"
+
+curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1140740711&format=tsv" > /tmp/tbl_agendacc.txt
+
+iconv -t ISO-8859-1 /tmp/tbl_agendacc.txt > tbl_agendacc.txt
+rm /tmp/tbl_agendacc.txt
+
+
 
 echo "sync harmonia repertorio"
 

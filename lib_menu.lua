@@ -214,8 +214,7 @@ function MainMenu:input(evt)
     --agenda start
     dofile("lib_agenda.lua")
     agenda=agendaMenu:new{}
-    agenda:iconDraw()
-    agenda:menuItem()
+    agenda:pageReset()
   elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
