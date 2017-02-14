@@ -231,27 +231,20 @@ function agendaMenu:calendarEvents(day,cat)
     local posx, posy
     for i=1, #tab do
       if i == 1 then
-        posx = GRID*7
-        posy = GRID*2.5
+        posx = GRID*7            ; posy = GRID*2.5
       elseif i ==2 or i ==3 then
-        posx = GRID * ((i-1)*7)
-        posy = GRID*6.25
+        posx = GRID * ((i-1)*7)  ; posy = GRID*6.25
       elseif i >= 4 and i <= 6 then
-        posx =  GRID * ((i-3)*7)
-        posy = GRID * 10
+        posx =  GRID * ((i-3)*7) ; posy = GRID * 10
       elseif i >= 7 and i <= 10 then
-        posx = GRID * ((i-6)*7)
-        posy = GRID * 13.75
+        posx = GRID * ((i-6)*7)  ; posy = GRID * 13.75
       else
-        posx = GRID * ((i-10)*7)
-        posy = GRID * 18.5
+        posx = GRID * ((i-10)*7);  posy = GRID * 18.5
       end
-      canvas:attrColor("yellow")
 
-      print ("debug ", cat)
 
+      -- category colors
       local icat = tonumber(tab[i]["cat"])+1
-
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],
@@ -261,18 +254,15 @@ function agendaMenu:calendarEvents(day,cat)
       canvas:attrLineWidth(3)
       canvas:drawLine(posx+GRID*6,posy,SCREEN_WIDTH,GRID*2)
 
-      canvas:drawRect("fill",posx,posy,GRID*6,GRID*3.5)
 
       -- box
-      canvas:drawRect("frame",posx-5,posy,GRID*6,GRID*3.5)
-
-
-
+      canvas:attrColor(64,64,65,204)
+      canvas:drawRect("fill",posx-5,posy,GRID*6+5,GRID*3.5)
 
       -- tag on box
-      local imgtagevt = canvas:new("media/agenda/tagevt.png")
+      local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
-      canvas:compose(posx-4+GRID*6-dx/2-2,posy-1, imgtagevt )
+      canvas:compose(posx-4+GRID*6-dx/2-1,posy, imgtagevt )
 
 
       -- draw event text
@@ -297,27 +287,24 @@ function agendaMenu:calendarEvents(day,cat)
 end
 
 function agendaMenu:calendarCategory()
+  canvas:attrColor(64,64,65,204)
+  canvas:clear(GRID*10,0,GRID*9, GRID*2)
+
   for i=1, #self.acats do
     if i == self.aposh then
-      if i-1 == 0 then
-        canvas:attrColor(217,215,215,200)
-      elseif i-1 == 1 then
-        canvas:attrColor(183,43,137,200)
-      elseif i-1 == 2 then
-        canvas:attrColor(207,120,24,200)
-      elseif i-1 == 3 then
-        canvas:attrColor(209,197,16,200)
-      elseif i-1 == 4 then
-        canvas:attrColor(118,176,40,200)
-      elseif i-1 == 5 then
-        canvas:attrColor(0,227,247,200)
-      end
-      canvas:drawRect("fill",GRID*12+GRID*1.5*(i-1),SCREEN_HEIGHT-2*GRID+5,GRID*1.5,GRID*1.5)
+      canvas:attrColor(
+        self.catcolors[i][1],
+        self.catcolors[i][2],
+        self.catcolors[i][3],
+        self.catcolors[i][4]
+      )
+
+      canvas:drawRect("fill",GRID*10+GRID*1.5*(i-1),5,GRID*1.5,GRID*1.5)
     end
 
     local imgcaticons = canvas:new("media/agenda/calcaticons.png")
     local dx,dy = imgcaticons:attrSize()
-    canvas:compose(GRID*12, SCREEN_HEIGHT-dy, imgcaticons )
+    canvas:compose(GRID*10, GRID*2-dy, imgcaticons )
     --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
   end
 end
@@ -368,7 +355,7 @@ function agendaMenu:cc()
       canvas:attrColor("white")
 
       canvas:drawText(posx, posy, tab[i]["nome"])
-      canvas:drawText(posx, pos+yGRID, self.acats[(tonumber(tab[i]["cat"])+1)])
+      canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
   end
   self:ccCategory()
