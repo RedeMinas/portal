@@ -13,7 +13,7 @@ function harmoniaMenu:new(o)
   self.bar={}
   self.bar.stop=false
   self.repertorioItens=4
-  self.menu ={{desc="Edição da semana",width=250},{desc="Repertório",width=200}, {desc="Villa Lobos",width=250}, {desc="Contatos",width=220}}
+  self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
   self.list=layoutPgmHarmonia(ReadTable("tbl_harmoniarepertorio.txt"))
 --  self.settings=false
@@ -67,25 +67,20 @@ function harmoniaMenu:iconDraw()
   for i=1,#self.menu  do
     -- icon on
     if i==self.pos then
-      self.bar.y = ((GRID*11.326)+((GRID*i)))
+      self.bar.y = ((GRID*11.34)+((GRID*i)))
       self.bar.width = self.menu[i].width
       self.bar.desc = self.menu[i].desc
-      if i == 4 then
-        self.menu[i].desc= ""
-      end
+
+      local imgicon = canvas:new("media/harmonia/icon.png")
+      canvas:compose(0, GRID*10.5+(GRID*i), imgicon)
 
       local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
       canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
-      --canvas:attrColor("white")
-      --canvas:drawText((GRID),(GRID*11.3+(GRID*(i-1))), self.menu[i].desc)
       barHorizontal()
     else
-      if (i < 4) then
-        canvas:attrColor(1,1,1,160)
-        local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
-        canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
-        --        canvas:drawText(GRID,(GRID*11.3+(GRID*(i-1))), self.menu[i].desc)
-      end
+      canvas:attrColor(1,1,1,160)
+      local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
+      canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
     end
   end
 
@@ -215,7 +210,7 @@ function barHorizontalAnim()
   for i=1,(harmonia.bar.width/mult) do
     if (PGMON and not harmonia.bar.stop) then
       canvas:attrColor(255,255,255,255)
-      canvas:clear(GRID/2-3,harmonia.bar.y,((i)*mult),2)
+      canvas:clear(GRID/2-3,harmonia.bar.y,((i)*mult),1)
       canvas:flush()
       coroutine.yield(i) -- sleep...
     end

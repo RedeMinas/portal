@@ -16,6 +16,7 @@ function agendaMenu:new(o)
   self.page = 1
   self.pages = 4
   self.menu = {"Agenda Cultural" , "Centros Culturais", "Votos", "Contatos"}
+  self.catcolors = {{217,215,215,200},{183,43,137,200},{207,120,24,200},{209,197,16,200},{118,176,40,200},{0,227,247,200}}
   self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "Música", "Artes"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
   self.listcc=layoutPgmAgendaCc(ReadTable("tbl_agendacc.txt"))
@@ -234,25 +235,62 @@ function agendaMenu:calendarEvents(day,cat)
         posy = GRID*2.5
       elseif i ==2 or i ==3 then
         posx = GRID * ((i-1)*7)
-        posy = GRID*5
+        posy = GRID*6.25
       elseif i >= 4 and i <= 6 then
         posx =  GRID * ((i-3)*7)
-        posy = GRID * 7.5
+        posy = GRID * 10
       elseif i >= 7 and i <= 10 then
         posx = GRID * ((i-6)*7)
-        posy = GRID * 10
+        posy = GRID * 13.75
       else
         posx = GRID * ((i-10)*7)
-        posy = GRID * 12.5
+        posy = GRID * 18.5
       end
       canvas:attrColor("yellow")
-      canvas:drawRect("frame",posx-5,posy,GRID*4,GRID*2)
 
-      canvas:attrFont("Tiresias", 15, "normal")
+      print ("debug ", cat)
+
+      local icat = tonumber(tab[i]["cat"])+1
+
+      canvas:attrColor(
+        self.catcolors[icat][1],
+        self.catcolors[icat][2],
+        self.catcolors[icat][3],
+        self.catcolors[icat][4]
+      )
+      canvas:attrLineWidth(3)
+      canvas:drawLine(posx+GRID*6,posy,SCREEN_WIDTH,GRID*2)
+
+      canvas:drawRect("fill",posx,posy,GRID*6,GRID*3.5)
+
+      -- box
+      canvas:drawRect("frame",posx-5,posy,GRID*6,GRID*3.5)
+
+
+
+
+      -- tag on box
+      local imgtagevt = canvas:new("media/agenda/tagevt.png")
+      local dx,dy = imgtagevt:attrSize()
+      canvas:compose(posx-4+GRID*6-dx/2-2,posy-1, imgtagevt )
+
+
+      -- draw event text
+      canvas:attrFont("Tiresias", 14, "bold")
       canvas:attrColor("white")
-
       canvas:drawText(posx, posy, tab[i]["nome"])
-      canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
+
+      canvas:attrFont("Tiresias", 12, "normal")
+      local desc = textWrap (tab[i]["desc"], 29)
+
+      -- draw event desc lines (max 4)
+      for i = 1, 4 do
+        canvas:drawText(posx, posy+GRID/4+GRID/2.5*i, desc[i])
+      end
+
+      canvas:drawText(posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+      canvas:drawText(posx, posy+GRID*3, "Local: " .. tab[i]["local"])
+
     end
   end
   self:calendarCategory()
@@ -280,8 +318,6 @@ function agendaMenu:calendarCategory()
     local imgcaticons = canvas:new("media/agenda/calcaticons.png")
     local dx,dy = imgcaticons:attrSize()
     canvas:compose(GRID*12, SCREEN_HEIGHT-dy, imgcaticons )
-
-
     --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
   end
 end
@@ -332,7 +368,7 @@ function agendaMenu:cc()
       canvas:attrColor("white")
 
       canvas:drawText(posx, posy, tab[i]["nome"])
-      canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
+      canvas:drawText(posx, pos+yGRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
   end
   self:ccCategory()
@@ -342,21 +378,9 @@ function agendaMenu:ccCategory()
 
   for i=1, #self.acats do
     if i == self.ccposh then
-      if i-1 == 0 then
-        canvas:attrColor(217,215,215,200)
-      elseif i-1 == 1 then
-        canvas:attrColor(183,43,137,200)
-      elseif i-1 == 2 then
-        canvas:attrColor(207,120,24,200)
-      elseif i-1 == 3 then
-        canvas:attrColor(209,197,16,200)
-      elseif i-1 == 4 then
-        canvas:attrColor(118,176,40,200)
-      elseif i-1 == 5 then
-        canvas:attrColor(0,227,247,200)
-      end
-      canvas:drawRect("fill",GRID*12+GRID*1.5*(i-1),SCREEN_HEIGHT-2*GRID+5,GRID*1.5,GRID*1.5)
+      canvas:attrColor(self.catcolors[i-1][1],self.catcolors[i-1][2],self.catcolors[i-1][3],self.catcolors[i-1][4])
     end
+      canvas:drawRect("fill",GRID*12+GRID*1.5*(i-1),SCREEN_HEIGHT-2*GRID+5,GRID*1.5,GRID*1.5)
   end
 
   local imgcaticons = canvas:new("media/agenda/calcaticons.png")
@@ -364,12 +388,9 @@ function agendaMenu:ccCategory()
   canvas:compose(GRID*12, SCREEN_HEIGHT-dy, imgcaticons )
 end
 
-
-
 function agendaMenu:page3()
   canvas:attrColor("yellow")
 --  canvas:clear(GRID*7,GRID*2,SCREEN_WIDTH,GRID*12)
-  
 end
 
 function agendaMenu:page4()
