@@ -111,7 +111,8 @@ function harmoniaMenu:repertorio()
 
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
   local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
-  local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" ) local dx,dy = imgicon:attrSize()
+  local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" )
+  local dx,dy = imgicon:attrSize()
 
   canvas:compose(GRID*6, GRID*11, imgbgdr)
   canvas:compose(GRID*6, GRID*11.5, imgicon )
@@ -152,30 +153,30 @@ function harmoniaMenu:menuItem(par)
   -- edicao da semana
   if (self.pos==1) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*7, GRID*11, imgbgdr)
+    canvas:compose(GRID*6, GRID*11, imgbgdr)
     local img = canvas:new("media/harmonia/edicaodasemana.png")
-    canvas:compose(GRID*7, GRID*11, img)
+    canvas:compose(GRID*6, GRID*11.5, img)
     -- repertorio - agenda semanal
   elseif (self.pos == 2) then
     local imgbtnarrowh = canvas:new("media/btnarrowh.png")
     canvas:compose(GRID*2.5, GRID*17, imgbtnarrowh)
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*7, GRID*11, imgbgdr)
+    canvas:compose(GRID*6, GRID*11.5, imgbgdr)
 --    local img = canvas:new("media/harmonia/repertorio.png")
   --  canvas:compose(GRID*7, GRID*11, img)
     self:repertorio()
     -- especial do mes
   elseif (self.pos==3) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*7, GRID*11, imgbgdr)
+    canvas:compose(GRID*6, GRID*11, imgbgdr)
     local img = canvas:new("media/harmonia/especialdomes.png")
-    canvas:compose(GRID*7, GRID*11, img)
+    canvas:compose(GRID*6, GRID*11.5, img)
     -- contatos
   elseif (self.pos==4) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*7, GRID*11, imgbgdr)
+    canvas:compose(GRID*6, GRID*11, imgbgdr)
     local img = canvas:new("media/harmonia/contatos.png")
-    canvas:compose(GRID*7, GRID*12, img)
+    canvas:compose(GRID*6, GRID*12, img)
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()

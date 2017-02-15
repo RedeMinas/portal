@@ -280,8 +280,8 @@ function agendaMenu:calendarEvents(day,cat)
       )
 
       -- laser line!!! ;)
-      canvas:attrLineWidth(3)
-      canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
+      --canvas:attrLineWidth(3)
+      --canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
 
       -- box
       canvas:attrColor(64,64,65,204)
@@ -383,11 +383,11 @@ function agendaMenu:cc()
         self.catcolors[icat][3],
         self.catcolors[icat][4]
       )
-      
-      
+
+
        -- laser line!!! ;)
-      canvas:attrLineWidth(3)
-      canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
+      --canvas:attrLineWidth(3)
+--      canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
 
       -- box
       canvas:attrColor(64,64,65,204)
@@ -397,7 +397,7 @@ function agendaMenu:cc()
       local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
       canvas:compose(offsetx+posx-4+GRID*6-dx/2-1,posy, imgtagevt )
-      
+
    --   canvas:attrColor("yellow")
      -- canvas:drawRect("frame",posx-5,posy,GRID*4,GRID*2)
 
@@ -415,7 +415,7 @@ function agendaMenu:cc()
       -- draw event desc lines (max 4)
       for i = 1, 4 do
         canvas:drawText(offsetx+posx-5, posy+GRID/4+GRID/2.5*i, desc[i])
-       
+
       end
         canvas:drawText(offsetx+posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
         canvas:drawText(offsetx+posx, posy+GRID*3, "Hora: " .. tab[i]["hora"])
