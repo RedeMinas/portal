@@ -122,7 +122,7 @@ end
 
 
 
-function layoutPgmHarmonia(table)
+function layoutPgmHarmoniaRep(table)
   local tab={}
   local id = 0
   for i = 2, #table, 1 do
@@ -168,7 +168,7 @@ function layoutPgmHarmonia(table)
   end
   return tab
 end
--- ex: local tab = layoutPgmHarmonia(ReadTable("table.txt"))
+-- ex: local tab = layoutPgmHarmoniaRep(ReadTable("table.txt"))
 
 function layoutPgmAgendaEvt(table)
   local tab={}

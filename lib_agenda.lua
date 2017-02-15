@@ -9,13 +9,19 @@ function agendaMenu:new(o)
   self.pos = 1
   self.spos = 1
   self.icons = 4
+  -- calendar positions
   self.aposh = 1
   self.aposv = 1
+  -- cc positions
   self.ccposh = 1
   self.ccposv = 1
+  -- poll positions
+  self.pollposh = 1
+  self.pollposv = 1
+
   self.page = 1
   self.pages = 4
-  self.menu = {"Agenda Cultural" , "Centros Culturais", "Votos", "Contatos"}
+  self.menu = {"Agenda Cultural" , "Centros Culturais", "Enquete", "Contatos"}
   self.catcolors = {{217,215,215,200},{183,43,137,200},{207,120,24,200},{209,197,16,200},{118,176,40,200},{0,227,247,200}}
   self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "Música", "Artes"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
@@ -54,16 +60,30 @@ function agendaMenu:input(evt)
   elseif ( self.page==2 ) then
     if ( evt.key == "CURSOR_LEFT" ) then
       self.ccposh=shift(self.ccposh,-1,#self.acats)
-      self:pageReset()
+      self:cc()
     elseif ( evt.key=="CURSOR_RIGHT") then
       self.ccposh=shift(self.ccposh,1,#self.acats)
-      self:pageReset()
+      self:cc()
     elseif (evt.key=="CURSOR_UP") then
       self.ccposv=shift(self.ccposv,-1,7)
-      self:pageReset()
+      self:cc()
     elseif ( evt.key=="CURSOR_DOWN") then
       self.ccposv=shift(self.ccposv,1,7)
-      self:pageReset()
+      self:cc()
+    end
+  elseif ( self.page==3 ) then
+    if ( evt.key == "CURSOR_LEFT" ) then
+      self.pollposh=shift(self.pollposh,-1,#self.acats)
+      self:poll()
+    elseif ( evt.key=="CURSOR_RIGHT") then
+      self.pollposh=shift(self.pollposh,1,#self.acats)
+      self:poll()
+    elseif (evt.key=="CURSOR_UP") then
+      self.pollposv=shift(self.pollposv,-1,#self.acats)
+      self:poll()
+    elseif ( evt.key=="CURSOR_DOWN") then
+      self.pollposv=shift(self.pollposv,1,#self.acats)
+      self:poll()
     end
   end
 end
@@ -79,7 +99,7 @@ function agendaMenu:pageReset()
 
   local menu={"agenda","sobre","teste","bla"}
 
-  -- top bar
+  -- clear top bar
   canvas:attrColor(64,64,65,204)
   canvas:clear(0,0, SCREEN_WIDTH, GRID*2)
 
@@ -88,7 +108,7 @@ function agendaMenu:pageReset()
   local dx,dy = imglogo:attrSize()
   canvas:compose(GRID/2,GRID-dy/2, imglogo )
 
-  -- draw tagtop img
+  -- draw tagtop detail
   local imgtagtop = canvas:new("media/agenda/tagtop.png")
   local dx,dy = imgtagtop:attrSize()
   canvas:compose(GRID*25, GRID*2-dy, imgtagtop )
@@ -98,16 +118,13 @@ function agendaMenu:pageReset()
   local dx,dy = imglogorm:attrSize()
   canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID-dy/2, imglogorm )
 
+  -- clear left menu
   canvas:attrColor(64,64,65,204)
   canvas:clear(0,GRID*2,GRID*4.5,GRID*16)
 
-  canvas:attrColor(0,0,0,0)
-  canvas:attrColor("pink")
-  canvas:clear(GRID*4.5,GRID*2,GRID,GRID*8)
-
-  local imgbgd = canvas:new("media/agenda/bgd.png")
-  local dx,dy = imgbgd:attrSize()
-  canvas:compose(GRID*4.5, GRID*2, imgbgd)
+  --- ???/
+  --  canvas:attrColor("pink")
+  --  canvas:clear(GRID*4.5,GRID*2,GRID,GRID*8)
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
@@ -115,44 +132,51 @@ function agendaMenu:pageReset()
   local btnexit = canvas:new("media/btnsair.png")
   canvas:compose(GRID/2, GRID*17, btnarrowv)
   canvas:compose(GRID*1.75, GRID*17, btnarrowh)
-  canvas:compose(GRID*3.5, GRID*17, btnexit)
-
-  for i=1,4 do
-    local btncaticon
-    if i ==  self.page then
-       btncaticon = canvas:new("media/agenda/btn" .. i .. "on.png")
-    else
-       btncaticon = canvas:new("media/agenda/btn" .. i .. "off.png")
-    end
-    canvas:compose(0, GRID*10+GRID*1.2*i-1, btncaticon)
-    canvas:attrFont("Tiresias",13,"normal")
-    canvas:attrColor("white")
-    canvas:drawText(GRID/2,GRID*10.25+GRID*1.2*i-1,self.menu[i])
-
-  end
+  canvas:compose(GRID*3, GRID*17, btnexit)
 
   if (self.page == 1) then
     self:calendar()
   elseif(self.page==2) then
     self:cc()
   elseif(self.page==3) then
-    self:page3()
+    self:poll()
   elseif(self.page==4) then
     self:page4()
   end
   canvas:flush()
 end
 
+function agendaMenu:bgd()
+  local imgbgd = canvas:new("media/agenda/bgd.png")
+  local dx,dy = imgbgd:attrSize()
+  canvas:compose(GRID*4.5, GRID*2, imgbgd)
+
+  for i=1,4 do
+    local btncaticon
+    if i ==  self.page then
+      btncaticon = canvas:new("media/agenda/btn" .. i .. "on.png")
+    else
+      btncaticon = canvas:new("media/agenda/btn" .. i .. "off.png")
+    end
+    canvas:compose(0, GRID*10+GRID*1.2*i-1, btncaticon)
+    canvas:attrFont("Tiresias",13,"normal")
+    canvas:attrColor("white")
+    canvas:drawText(GRID/2,GRID*10.25+GRID*1.2*i-1,self.menu[i])
+  end
+end
+
+
 function agendaMenu:calendar()
 
-  -- limpeza
+  -- clean cleandar events area
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*4.5  ,GRID*2,GRID*2,GRID*8)
-  canvas:clear(GRID*6  ,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
 
-  -- lateral bar
+  -- clean week menu lateral bar
   canvas:attrColor(64,64,65,204)
-  canvas:clear(0,GRID*2,GRID*4.5,GRID*8)
+    canvas:clear(0,GRID*2,GRID*4.5,GRID*8)
+
+  self:bgd()
 
   local d=tonumber(self.listevt[1]["domingo"])
   local yy,mm,dd, M = os.date("%Y"), os.date("%m"), os.date("%d"), os.date("%w")
@@ -212,6 +236,8 @@ end
 function agendaMenu:calendarEvents(day,cat)
   local tab = {}
 
+
+  -- gen aux table (tab), category filter
   for i=1, #self.listevt do
     local d = tonumber(string.sub(self.listevt[i]["data"],1,2))
     if ( d == day ) then
@@ -229,20 +255,21 @@ function agendaMenu:calendarEvents(day,cat)
     canvas:drawText(GRID*7, GRID*7, "Nenhum evento encontrado!!!")
   else
     local posx, posy
+    local offsetx, offsety = GRID*6 , GRID*2.5
     for i=1, #tab do
-      if i == 1 then
-        posx = GRID*7            ; posy = GRID*2.5
-      elseif i ==2 or i ==3 then
-        posx = GRID * ((i-1)*7)  ; posy = GRID*6.25
-      elseif i >= 4 and i <= 6 then
-        posx =  GRID * ((i-3)*7) ; posy = GRID * 10
-      elseif i >= 7 and i <= 10 then
-        posx = GRID * ((i-6)*7)  ; posy = GRID * 13.75
+      --first line 
+      if i == 1 or i == 2 then
+        posx = GRID * ((i-1)*7)  ; posy = GRID*2.5
+        -- second line
+      elseif i ==3 or i <=5 then
+        posx = GRID * ((i-3)*7)  ; posy = GRID*6.25
+      elseif i >= 6 and i <= 8 then
+        posx =  GRID * ((i-6)*7) ; posy = GRID * 10
+      elseif i >= 9 and i <= 12 then
+        posx = GRID * ((i-9)*7)  ; posy = GRID * 13.75
       else
         posx = GRID * ((i-10)*7);  posy = GRID * 18.5
       end
-
-
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
       canvas:attrColor(
@@ -251,35 +278,36 @@ function agendaMenu:calendarEvents(day,cat)
         self.catcolors[icat][3],
         self.catcolors[icat][4]
       )
-      canvas:attrLineWidth(3)
-      canvas:drawLine(posx+GRID*6,posy,SCREEN_WIDTH,GRID*2)
 
+      -- laser line!!! ;)
+      canvas:attrLineWidth(3)
+      canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
 
       -- box
       canvas:attrColor(64,64,65,204)
-      canvas:drawRect("fill",posx-5,posy,GRID*6+5,GRID*3.5)
+      canvas:drawRect("fill",offsetx+posx-5,posy,GRID*6+5,GRID*3.5)
 
       -- tag on box
       local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
-      canvas:compose(posx-4+GRID*6-dx/2-1,posy, imgtagevt )
+      canvas:compose(offsetx+posx-4+GRID*6-dx/2-1,posy, imgtagevt )
 
 
       -- draw event text
       canvas:attrFont("Tiresias", 14, "bold")
       canvas:attrColor("white")
-      canvas:drawText(posx, posy, tab[i]["nome"])
+      canvas:drawText(offsetx+posx, posy, tab[i]["nome"])
 
       canvas:attrFont("Tiresias", 12, "normal")
       local desc = textWrap (tab[i]["desc"], 29)
 
       -- draw event desc lines (max 4)
       for i = 1, 4 do
-        canvas:drawText(posx, posy+GRID/4+GRID/2.5*i, desc[i])
+        canvas:drawText(offsetx+posx, posy+GRID/4+GRID/2.5*i, desc[i])
       end
 
-      canvas:drawText(posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
-      canvas:drawText(posx, posy+GRID*3, "Local: " .. tab[i]["local"])
+      canvas:drawText(offsetx+posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+      canvas:drawText(offsetx+posx, posy+GRID*3, "Local: " .. tab[i]["local"])
 
     end
   end
@@ -313,10 +341,12 @@ end
 function agendaMenu:cc()
 
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*5.5,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*4.5,GRID*2,SCREEN_WIDTH,GRID*16)
 
+  self:bgd()
+
+  -- gen aux table (tab), category filter
   local tab = {}
-
   for i=1, #self.listcc do
     if (self.ccposh-1 == 0) then
       table.insert(tab,self.listcc[i])
@@ -324,7 +354,6 @@ function agendaMenu:cc()
       table.insert(tab,self.listcc[i])
     end
   end
-
   if #tab == 0 then
     canvas:attrColor("yellow")
     canvas:attrFont("Tiresias", 40,"bold")
@@ -332,16 +361,16 @@ function agendaMenu:cc()
   else
     local posx, posy
     for i=1, #tab do
-      if i == 1 then
-        posx = GRID*7
+      if i == 1 or i == 2 then
+        posx = GRID *((i)*7)
         posy = GRID*2
-      elseif i ==2 or i ==3 then
-        posx = GRID  * ((i-1)*7)
+      elseif i ==3 or i ==4 then
+        posx = GRID  * ((i-2)*7)
         posy = GRID*4.5
-      elseif i >= 4 and i <= 6 then
+      elseif i >= 5 and i <= 7 then
         posx =  GRID * ((i-3)*7)
         posy = GRID * 7
-      elseif i >= 7 and i <= 10 then
+      elseif i >= 8 and i <= 11 then
         posx = GRID * ((i-6)*7)
         posy = GRID * 9.5
       else
@@ -358,29 +387,54 @@ function agendaMenu:cc()
       canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
   end
-  self:ccCategory()
+  self:ccCategoryDisplay()
+  canvas:flush()
 end
 
-function agendaMenu:ccCategory()
-
+function agendaMenu:ccCategoryDisplay()
+  canvas:attrColor(64,64,65,204)
+  canvas:clear(GRID*10,0,GRID*9, GRID*2)
   for i=1, #self.acats do
     if i == self.ccposh then
-      canvas:attrColor(self.catcolors[i-1][1],self.catcolors[i-1][2],self.catcolors[i-1][3],self.catcolors[i-1][4])
+      canvas:attrColor(
+        self.catcolors[i][1],
+        self.catcolors[i][2],
+        self.catcolors[i][3],
+        self.catcolors[i][4]
+      )
+      canvas:drawRect("fill",GRID*10+GRID*1.5*(i-1),5,GRID*1.5,GRID*1.5)
     end
-      canvas:drawRect("fill",GRID*12+GRID*1.5*(i-1),SCREEN_HEIGHT-2*GRID+5,GRID*1.5,GRID*1.5)
-  end
 
-  local imgcaticons = canvas:new("media/agenda/calcaticons.png")
-  local dx,dy = imgcaticons:attrSize()
-  canvas:compose(GRID*12, SCREEN_HEIGHT-dy, imgcaticons )
+    local imgcaticons = canvas:new("media/agenda/calcaticons.png")
+    local dx,dy = imgcaticons:attrSize()
+    canvas:compose(GRID*10, GRID*2-dy, imgcaticons )
+    --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
+  end
 end
 
-function agendaMenu:page3()
+function agendaMenu:poll()
+  -- clean draw area
+  canvas:attrColor(0,0,0,0)
+  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
+
+  self:bgd()
+  canvas:attrFont("Tiresias",20,"normal")
   canvas:attrColor("yellow")
---  canvas:clear(GRID*7,GRID*2,SCREEN_WIDTH,GRID*12)
+  canvas:drawText(GRID*10,GRID*10 , "TODO: Sistema de enquete ")
+
+  local offsetx, offsety = GRID*6, GRID*3
+  canvas:drawRect("fill", offsetx+GRID*2*self.pollposh,offsety+GRID*2*self.pollposv,GRID*2,GRID*2 )
+  print("debug v,h", self.pollposv, self.pollposh)
+  canvas:flush()
 end
 
 function agendaMenu:page4()
-  canvas:attrColor("blue")
---  canvas:clear(GRID*7,GRID*2,SCREEN_WIDTH,GRID*12)
+
+ -- clean draw area
+  canvas:attrColor(0,0,0,0)
+  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
+  self:bgd()
+  canvas:attrFont("Tiresias",20,"normal")
+  canvas:attrColor("yellow")
+  canvas:drawText(GRID*10,GRID*10 , "TODO: inserir imagem ou textos")
 end

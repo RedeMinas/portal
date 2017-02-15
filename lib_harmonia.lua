@@ -15,7 +15,7 @@ function harmoniaMenu:new(o)
   self.repertorioItens=4
   self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
-  self.list=layoutPgmHarmonia(ReadTable("tbl_harmoniarepertorio.txt"))
+  self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
 --  self.settings=false
   return o
 end

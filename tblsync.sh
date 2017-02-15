@@ -25,10 +25,10 @@ rm /tmp/tbl_agendacc.txt
 
 echo "sync harmonia repertorio"
 
-curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1716549510&format=tsv" > /tmp/tbl_harmoniarepertorio.txt
+curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1716549510&format=tsv" > /tmp/tbl_harmoniarep.txt
 
-iconv -t ISO-8859-1 /tmp/tbl_harmoniarepertorio.txt > tbl_harmoniarepertorio.txt
-rm /tmp/tbl_harmoniarepertorio.txt
+iconv -t ISO-8859-1 /tmp/tbl_harmoniarep.txt > tbl_harmoniarep.txt
+rm /tmp/tbl_harmoniarep.txt
 
 echo "sync mulheresdelei"
 
