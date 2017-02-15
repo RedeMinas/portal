@@ -360,31 +360,67 @@ function agendaMenu:cc()
     canvas:drawText(GRID*7, GRID*7, "nenhum Centro Cultural encontrado!!!")
   else
     local posx, posy
+    local offsetx, offsety = GRID*6 , GRID*2.5
     for i=1, #tab do
+       --first line 
       if i == 1 or i == 2 then
-        posx = GRID *((i)*7)
-        posy = GRID*2
-      elseif i ==3 or i ==4 then
-        posx = GRID  * ((i-2)*7)
-        posy = GRID*4.5
-      elseif i >= 5 and i <= 7 then
-        posx =  GRID * ((i-3)*7)
-        posy = GRID * 7
-      elseif i >= 8 and i <= 11 then
-        posx = GRID * ((i-6)*7)
-        posy = GRID * 9.5
+        posx = GRID * ((i-1)*7)  ; posy = GRID*2.5
+        -- second line
+      elseif i ==3 or i <=5 then
+        posx = GRID * ((i-3)*7)  ; posy = GRID*6.25
+      elseif i >= 6 and i <= 8 then
+        posx =  GRID * ((i-6)*7) ; posy = GRID * 10
+      elseif i >= 9 and i <= 12 then
+        posx = GRID * ((i-9)*7)  ; posy = GRID * 13.75
       else
-        posx = GRID * ((i-10)*7)
-        posy = GRID * 12
+        posx = GRID * ((i-10)*7);  posy = GRID * 18.5
       end
-      canvas:attrColor("yellow")
-      canvas:drawRect("frame",posx-5,posy,GRID*4,GRID*2)
+      -- category colors
+      local icat = tonumber(tab[i]["cat"])+1
+      canvas:attrColor(
+        self.catcolors[icat][1],
+        self.catcolors[icat][2],
+        self.catcolors[icat][3],
+        self.catcolors[icat][4]
+      )
+      
+      
+       -- laser line!!! ;)
+      canvas:attrLineWidth(3)
+      canvas:drawLine(posx+offsetx+GRID*6-1,posy+2,SCREEN_WIDTH,GRID*2)
 
-      canvas:attrFont("Tiresias", 15, "normal")
+      -- box
+      canvas:attrColor(64,64,65,204)
+      canvas:drawRect("fill",offsetx+posx-5,posy,GRID*6+5,GRID*3.5)
+
+      -- tag on box
+      local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
+      local dx,dy = imgtagevt:attrSize()
+      canvas:compose(offsetx+posx-4+GRID*6-dx/2-1,posy, imgtagevt )
+      
+   --   canvas:attrColor("yellow")
+     -- canvas:drawRect("frame",posx-5,posy,GRID*4,GRID*2)
+
+      --canvas:attrFont("Tiresias", 15, "normal")
+      --canvas:attrColor("white")
+
+      -- draw event text
+      canvas:attrFont("Tiresias", 14, "bold")
       canvas:attrColor("white")
+      canvas:drawText(offsetx+posx-5, posy, tab[i]["nome"])
 
-      canvas:drawText(posx, posy, tab[i]["nome"])
-      canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
+      canvas:attrFont("Tiresias", 12, "normal")
+      local desc = textWrap (tab[i]["desc"], 29)
+
+      -- draw event desc lines (max 4)
+      for i = 1, 4 do
+        canvas:drawText(offsetx+posx-5, posy+GRID/4+GRID/2.5*i, desc[i])
+       
+      end
+        canvas:drawText(offsetx+posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+        canvas:drawText(offsetx+posx, posy+GRID*3, "Hora: " .. tab[i]["hora"])
+      --canvas:drawText(posx, posy, tab[i]["nome"])
+      --canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
   end
   self:ccCategoryDisplay()
