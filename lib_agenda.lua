@@ -120,7 +120,7 @@ function agendaMenu:pageReset()
 
   -- clear left menu
   canvas:attrColor(64,64,65,204)
-  canvas:clear(0,GRID*2,GRID*4.5,GRID*16)
+  canvas:clear(0,GRID*2,GRID*3.75,GRID*16)
 
   --- ???/
   --  canvas:attrColor("pink")
@@ -130,9 +130,9 @@ function agendaMenu:pageReset()
   local btnarrowv = canvas:new("media/btnarrowv.png")
   local btnarrowh = canvas:new("media/btnarrowh.png")
   local btnexit = canvas:new("media/btnsair.png")
-  canvas:compose(GRID/2, GRID*17, btnarrowv)
-  canvas:compose(GRID*1.75, GRID*17, btnarrowh)
-  canvas:compose(GRID*3, GRID*17, btnexit)
+  canvas:compose(GRID/4, GRID*17, btnarrowv)
+  canvas:compose(GRID*1.5, GRID*17, btnarrowh)
+  canvas:compose(GRID*2.75, GRID*17, btnexit)
 
   if (self.page == 1) then
     self:calendar()
@@ -149,7 +149,7 @@ end
 function agendaMenu:bgd()
   local imgbgd = canvas:new("media/agenda/bgd.png")
   local dx,dy = imgbgd:attrSize()
-  canvas:compose(GRID*4.5, GRID*2, imgbgd)
+  canvas:compose(GRID*3.75, GRID*2, imgbgd)
 
   for i=1,4 do
     local btncaticon
@@ -161,7 +161,7 @@ function agendaMenu:bgd()
     canvas:compose(0, GRID*10+GRID*1.2*i-1, btncaticon)
     canvas:attrFont("Tiresias",13,"normal")
     canvas:attrColor("white")
-    canvas:drawText(GRID/2,GRID*10.25+GRID*1.2*i-1,self.menu[i])
+    canvas:drawText(GRID/4,GRID*10.25+GRID*1.2*i-1,self.menu[i])
   end
 end
 
@@ -170,11 +170,11 @@ function agendaMenu:calendar()
 
   -- clean cleandar events area
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*3.75 ,GRID*2,SCREEN_WIDTH,GRID*16)
 
   -- clean week menu lateral bar
   canvas:attrColor(64,64,65,204)
-    canvas:clear(0,GRID*2,GRID*4.5,GRID*8)
+  canvas:clear(0,GRID*2,GRID*3.75,GRID*8)
 
   self:bgd()
 
@@ -197,11 +197,11 @@ function agendaMenu:calendar()
   end
 
   canvas:attrColor("white")
-  canvas:drawRect("fill",GRID*3,GRID*3+(self.aposv-1)*GRID,GRID*1.5,GRID)
+  canvas:drawRect("fill",GRID*2.15,GRID*3+(self.aposv-1)*GRID,GRID*1.5,GRID)
 
   local imgcalwdtag = canvas:new("media/agenda/calwdtag.png")
   local dx,dy = imgcalwdtag:attrSize()
-  canvas:compose(GRID*4.5,GRID*2.5+(self.aposv-1)*GRID, imgcalwdtag )
+  canvas:compose(GRID*3.65,GRID*2.5+(self.aposv-1)*GRID, imgcalwdtag )
 
   -- week
   local j,k = 0,0
@@ -224,8 +224,8 @@ function agendaMenu:calendar()
     end
     --print weekdays
     canvas:attrFont("Vera", 15,"bold")
-    canvas:drawText(GRID, GRID*3.25+(i-1)*GRID , v.dayname)
-    canvas:drawText(GRID*3.25,GRID*3.25+(i-1)*GRID, k)
+    canvas:drawText(GRID/2, GRID*3.25+(i-1)*GRID , v.dayname)
+    canvas:drawText(GRID*2.5,GRID*3.25+(i-1)*GRID, k)
   end
 
   --- show events
@@ -259,10 +259,10 @@ function agendaMenu:calendarEvents(day,cat)
     for i=1, #tab do
       --first line 
       if i == 1 or i == 2 then
-        posx = GRID * ((i-1)*7)  ; posy = GRID*2.5
+        posx = GRID * ((i-1)*7)  ; posy = GRID* 2.5
         -- second line
-      elseif i ==3 or i <=5 then
-        posx = GRID * ((i-3)*7)  ; posy = GRID*6.25
+      elseif i == 3 or i <=5 then
+        posx = GRID * ((i-3)*7)  ; posy = GRID* 6.25
       elseif i >= 6 and i <= 8 then
         posx =  GRID * ((i-6)*7) ; posy = GRID * 10
       elseif i >= 9 and i <= 12 then
@@ -270,6 +270,8 @@ function agendaMenu:calendarEvents(day,cat)
       else
         posx = GRID * ((i-10)*7);  posy = GRID * 18.5
       end
+      
+      
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
       canvas:attrColor(
@@ -285,29 +287,29 @@ function agendaMenu:calendarEvents(day,cat)
 
       -- box
       canvas:attrColor(64,64,65,204)
-      canvas:drawRect("fill",offsetx+posx-5,posy,GRID*6+5,GRID*3.5)
+      canvas:drawRect("fill",offsetx+posx-50,posy,GRID*6+5,GRID*3.5)
 
       -- tag on box
       local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
-      canvas:compose(offsetx+posx-4+GRID*6-dx/2-1,posy, imgtagevt )
+      canvas:compose(offsetx+posx-50+GRID*6-dx/2-1,posy, imgtagevt )
 
 
       -- draw event text
       canvas:attrFont("Tiresias", 14, "bold")
       canvas:attrColor("white")
-      canvas:drawText(offsetx+posx, posy, tab[i]["nome"])
+      canvas:drawText(offsetx+posx-40, posy, tab[i]["nome"])
 
       canvas:attrFont("Tiresias", 12, "normal")
       local desc = textWrap (tab[i]["desc"], 29)
 
       -- draw event desc lines (max 4)
       for i = 1, 4 do
-        canvas:drawText(offsetx+posx, posy+GRID/4+GRID/2.5*i, desc[i])
+        canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
       end
 
-      canvas:drawText(offsetx+posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
-      canvas:drawText(offsetx+posx, posy+GRID*3, "Local: " .. tab[i]["local"])
+      canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+      canvas:drawText(offsetx+posx-40, posy+GRID*3, "Local: " .. tab[i]["local"])
 
     end
   end
@@ -339,11 +341,21 @@ end
 
 --centros culturais
 function agendaMenu:cc()
-
+  
+  -- clean cleandar events area
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*4.5,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*3.75 ,GRID*2,SCREEN_WIDTH,GRID*16)
+
+  -- clean week menu lateral bar
+  canvas:attrColor(64,64,65,204)
+  canvas:clear(0,GRID*2,GRID*3.75,GRID*8)
 
   self:bgd()
+  
+  --canvas:attrColor(0,0,0,0)
+  --canvas:clear(GRID*4.5,GRID*2,SCREEN_WIDTH,GRID*16)
+
+ -- self:bgd()
 
   -- gen aux table (tab), category filter
   local tab = {}
@@ -391,12 +403,12 @@ function agendaMenu:cc()
 
       -- box
       canvas:attrColor(64,64,65,204)
-      canvas:drawRect("fill",offsetx+posx-5,posy,GRID*6+5,GRID*3.5)
+      canvas:drawRect("fill",offsetx+posx-50,posy,GRID*6+5,GRID*3.5)
 
       -- tag on box
       local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
-      canvas:compose(offsetx+posx-4+GRID*6-dx/2-1,posy, imgtagevt )
+      canvas:compose(offsetx+posx-50+GRID*6-dx/2-1,posy, imgtagevt )
 
    --   canvas:attrColor("yellow")
      -- canvas:drawRect("frame",posx-5,posy,GRID*4,GRID*2)
@@ -407,18 +419,18 @@ function agendaMenu:cc()
       -- draw event text
       canvas:attrFont("Tiresias", 14, "bold")
       canvas:attrColor("white")
-      canvas:drawText(offsetx+posx-5, posy, tab[i]["nome"])
+      canvas:drawText(offsetx+posx-40, posy, tab[i]["nome"])
 
       canvas:attrFont("Tiresias", 12, "normal")
       local desc = textWrap (tab[i]["desc"], 29)
 
       -- draw event desc lines (max 4)
       for i = 1, 4 do
-        canvas:drawText(offsetx+posx-5, posy+GRID/4+GRID/2.5*i, desc[i])
+        canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
 
       end
-        canvas:drawText(offsetx+posx, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
-        canvas:drawText(offsetx+posx, posy+GRID*3, "Hora: " .. tab[i]["hora"])
+        canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+        canvas:drawText(offsetx+posx-40, posy+GRID*3, "Hora: " .. tab[i]["hora"])
       --canvas:drawText(posx, posy, tab[i]["nome"])
       --canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
@@ -445,6 +457,7 @@ function agendaMenu:ccCategoryDisplay()
     local dx,dy = imgcaticons:attrSize()
     canvas:compose(GRID*10, GRID*2-dy, imgcaticons )
     --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
+  
   end
 end
 
