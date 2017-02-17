@@ -94,19 +94,19 @@ end
 
 function layoutPgmMulherese(table)
   local tab={}
-  for i = 2, #table, 1 do
-    tab[i-1]={}
+  for i = 1, #table, 1 do
+    tab[i]={}
     local w=1
 
     for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
-        tab[i-1]["id"] = regexp
+        tab[i]["id"] = regexp
       elseif w == 2 then
-        tab[i-1]["page1"] = regexp
+        tab[i]["page1"] = regexp
       elseif w == 3 then
-        tab[i-1]["page2"] = regexp
+        tab[i]["page2"] = regexp
       elseif w == 4 then
-        tab[i-1]["page3"] = regexp
+        tab[i]["page3"] = regexp
       end
       -- controle dos campos
       if w < 10 then

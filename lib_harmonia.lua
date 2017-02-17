@@ -119,7 +119,7 @@ function harmoniaMenu:repertorio()
 
     --texts
   canvas:attrFont("Vera", 18,"bold")
-  canvas:attrColor(1,1,1,160)
+  canvas:attrColor(1,1,1,220)
   canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["grupo"] )
   canvas:drawText((offset_x+dx+(11*GRID)),offset_y, self.list[self.spos]["data"])
   canvas:drawText((offset_x+dx+(11*GRID)),(offset_y+GRID), self.list[self.spos]["horario"])
@@ -139,7 +139,7 @@ function harmoniaMenu:repertorio()
   --qr code
   local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
   dx,dy = imgqr:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx, SCREEN_HEIGHT-dy, imgqr)
+  canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, imgqr)
   canvas:flush()
 end
 
@@ -178,29 +178,31 @@ function harmoniaMenu:menuItem(par)
     local img = canvas:new("media/harmonia/contatos.png")
     canvas:compose(GRID*6, GRID*12, img)
     if  par == 'red' then
-      local img = canvas:new("media/qrfb.png")
+      local img = canvas:new("media/harmonia/qr01.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
     elseif  par == 'green' then
-      local img = canvas:new("media/qrtwitter.png")
+      local img = canvas:new("media/harmonia/qr02.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+
     elseif  par == 'yellow' then
-      local img = canvas:new("media/qrinsta.png")
+      local img = canvas:new("media/harmonia/qr03.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+
     elseif  par == 'blue' then
-      local img = canvas:new("media/qryoutube.png")
+      local img = canvas:new("media/harmonia/qr04.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
     end
   end
   canvas:flush()

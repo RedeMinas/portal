@@ -20,10 +20,10 @@ end
 --deal with keys
 function mulhereseMenu:input(evt)
   if (evt.key=="CURSOR_RIGHT") then
-    self.pos=shift(self.pos,1,#self.list)
+    self.pos=shift(self.pos,1,#self.list-1)
     self:iconsDraw()
   elseif (evt.key=="CURSOR_LEFT") then
-    self.pos=shift(self.pos,-1,#self.list)
+    self.pos=shift(self.pos,-1,#self.list-1)
     self:iconsDraw()
   elseif (evt.key=="CURSOR_UP") then
     self.ppos=shift(self.ppos,-1,self.pages)
@@ -44,9 +44,9 @@ function mulhereseMenu:iconsDraw(nItens)
   end
   for i=1,self.iconsDisplay  do
     if i==1 then
-      self:iconsDrawItens(shift(self.pos-1,i,#self.list),i,true)
+      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i,true)
     else
-      self:iconsDrawItens(shift(self.pos-1,i,#self.list),i)
+      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i)
     end
   end
   self:pageDraw()
@@ -66,7 +66,9 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
 
   if ativo then
     canvas:attrColor(255,255,255,255)
-    canvas:drawRect("frame", GRID+(item_w*(slot-1))+(GRID*(slot-1)), GRID*17.5-item_h, 100, 100)
+    --canvas:drawRect("frame", GRID+(item_w*(slot-1))+(GRID*(slot-1)), GRID*17.5-item_h, 100, 100)
+    local iconborder = canvas:new("media/mulherese/focusborder.png")
+    canvas:compose(GRID-2, GRID*17.5-item_h-2, iconborder )
   end
 
 end
@@ -80,13 +82,12 @@ function mulhereseMenu:textDraw(text)
   canvas:attrFont("Tiresias", 20 , "normal")
   canvas:attrColor(255,255,255,200)
 
-  local list=textWrap(text,SCREEN_WIDTH/20)
+  local list=textWrap(text,SCREEN_WIDTH/13)
 
-  for i=1,#list do
+  for i=2,#list do
     print("debug ", i )
-    canvas:drawText(GRID*6, (GRID*1.7+i*GRID*0.7) , list[i])
+    canvas:drawText(GRID*7, (GRID*1.7+i*GRID*0.7) , list[i])
   end
-
 
 end
 
@@ -136,16 +137,18 @@ function mulhereseMenu:pageDraw()
   -- Draw Group Text using textDraw() function
   local text=""
   if (self.ppos == 1)   then
-    texttitle = "As leis"
-    text = self.list[self.pos]["page1"]
+    texttitle = self.list[1]["page1"]
+    text = self.list[self.pos+1]["page1"]
   elseif (self.ppos == 2)   then
-    texttitle = "Acesso à justiça"
-    text = self.list[self.pos]["page2"]
+    texttitle = self.list[1]["page2"]
+    text = self.list[self.pos+1]["page2"]
   elseif (self.ppos == 3)   then
-    texttitle = "Serviços públicos"
-    text = self.list[self.pos]["page3"]
+    texttitle = self.list[1]["page3"]
+    text = self.list[self.pos+1]["page3"]
   end
-  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos]["id"] .. ": " ..texttitle)
+print(texttitle)
+  
+  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
 
   self:textDraw(text)
 
