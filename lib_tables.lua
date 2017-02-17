@@ -232,21 +232,23 @@ function layoutPgmAgendaCc(table)
       elseif w == 4 then
         tab[id]["cat"] = regexp
       elseif w == 6 then
-        tab[id]["desc"] = regexp
-      elseif w == 7 then
-        tab[id]["hora"] = regexp
+        tab[id]["reg"]= regexp
       elseif w == 8 then
-        tab[id]["valor"] = regexp
+        tab[id]["desc"] = regexp
       elseif w == 9 then
-        tab[id]["domingo"] = regexp
+        tab[id]["hora"] = regexp
       elseif w == 10 then
+        tab[id]["valor"] = regexp
+      elseif w == 11 then
+        tab[id]["domingo"] = regexp
+      elseif w == 12 then
         if regexp == "TRUE" then
           tab[id]["info"] = true
         else
           tab[id]["info"] = false
         end
       end
-      if w < 10
+      if w < 12
       then
         w=w+1
       else
