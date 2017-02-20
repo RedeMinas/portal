@@ -195,7 +195,7 @@ function layoutPgmAgendaEvt(table)
       elseif w == 9 then
         tab[id]["local"] = regexp
       elseif w == 10 then
-        tab[id]["domingo"] = regexp
+        tab[id]["segunda"] = regexp
       elseif w == 11 then
         if regexp == "TRUE" then
           tab[id]["info"] = true
@@ -236,11 +236,11 @@ function layoutPgmAgendaCc(table)
       elseif w == 8 then
         tab[id]["desc"] = regexp
       elseif w == 9 then
-        tab[id]["hora"] = regexp
+        tab[id]["end"] = regexp
       elseif w == 10 then
-        tab[id]["valor"] = regexp
+        tab[id]["func"] = regexp
       elseif w == 11 then
-        tab[id]["domingo"] = regexp
+        tab[id]["contato"] = regexp
       elseif w == 12 then
         if regexp == "TRUE" then
           tab[id]["info"] = true

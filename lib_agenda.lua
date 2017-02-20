@@ -21,8 +21,8 @@ function agendaMenu:new(o)
   self.pollvote=false
   self.page = 1
   self.pages = 4
-  self.menu = {"Agenda Cultural" , "Centros Culturais", "Enquete", "Contatos"}
-  self.ccregions = { "Barreiro","Centro Sul","Leste","Nordeste","Noroeste", "Norte", "Oeste","Pampulha","Venda Nova"}
+  self.menu = {"Agenda Cultural", "Centros Culturais", "Enquete", "Contatos"}
+  self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
   self.catcolors = {{217,215,215,200},{183,43,137,200},{207,120,24,200},{209,197,16,200},{118,176,40,200},{0,227,247,200}}
   self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "Música", "Artes"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
@@ -88,9 +88,10 @@ function agendaMenu:input(evt)
     elseif ( evt.key=="ENTER") then
       canvas:attrColor("white")
       canvas:attrFont("Tiresias",30,"normal")
-      canvas:drawText(GRID*5, GRID*4, "Computando voto")
-      canvas:flush()
+
       if not self.pollvote then
+        canvas:drawText(GRID*5, GRID*4, "Computando voto")
+        canvas:flush()
         local tcpresult2 = tcpresult
         connecttcp("agendavoto" ..  self.pollposv .. self.pollposh)
         if tcpresult ~= tcpresult2 then
@@ -99,7 +100,8 @@ function agendaMenu:input(evt)
           canvas:flush()
         end
       end
-
+    else
+      canvas:drawText(GRID*5, GRID*4, "Voto feito")
     end
   end
 end
@@ -157,7 +159,7 @@ function agendaMenu:pageReset()
   elseif(self.page==3) then
     self:poll()
   elseif(self.page==4) then
-    self:page4()
+    self:contatos()
   end
   canvas:flush()
 end
@@ -194,12 +196,11 @@ function agendaMenu:calendar()
 
   self:bgd()
 
-  local d=tonumber(self.listevt[1]["domingo"])
+  local d=tonumber(self.listevt[1]["segunda"])
   local yy,mm,dd, M = os.date("%Y"), os.date("%m"), os.date("%d"), os.date("%w")
   local month_days = get_days_in_month(mm,yy)
   local day_week = get_day_of_week(1, mm, yy)
-  local day_start = 2
-  local days_of_week= {{"Dom",1},{"Seg",2},{"Ter",3},{"Qua",4},{"Qui",5},{"Sex",6},{"Sab",7}}
+  local days_of_week= {{"Seg",1},{"Ter",2},{"Qua",3},{"Qui",4},{"Sex",5},{"Sab",6},{"Dom",7}}
   local days_of_week_ordered =  {}
   local offset_x = GRID
   local offset_y = GRID
@@ -313,7 +314,7 @@ function agendaMenu:calendarEvents(day,cat)
       canvas:drawText(offsetx+posx-40, posy, tab[i]["nome"])
 
       canvas:attrFont("Tiresias", 12, "normal")
-      local desc = textWrap (tab[i]["desc"], 29)
+      local desc = textWrap (tab[i]["desc"], 43)
 
       -- draw event desc lines (max 4)
       for i = 1, 4 do
@@ -370,7 +371,6 @@ function agendaMenu:cc()
   local dx,dy = imgcalwdtag:attrSize()
   canvas:compose(GRID*3.75,GRID*2+(self.ccposv-1)*GRID, imgcalwdtag )
 
-
   canvas:attrColor("white")
   canvas:attrFont("Tiresias", 15,"bold")
 
@@ -386,7 +386,6 @@ function agendaMenu:cc()
   end
 
   -- gen aux table (tab), category filter
-  print("debug")
   local tab = {}
   for i=1, #self.listcc do
     if (self.ccposv == tonumber(self.listcc[i]["reg"])) then
@@ -445,15 +444,15 @@ end
       canvas:drawText(offsetx+posx-40, posy, tab[i]["nome"])
 
       canvas:attrFont("Tiresias", 12, "normal")
-      local desc = textWrap (tab[i]["desc"], 29)
+      local desc = textWrap (tab[i]["desc"], 43)
 
       -- draw event desc lines (max 4)
       for i = 1, 4 do
         canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
 
       end
-        canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
-        canvas:drawText(offsetx+posx-40, posy+GRID*3, "Hora: " .. tab[i]["hora"])
+        canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["end"] .. " / " .. tab[i]["func"] )
+        canvas:drawText(offsetx+posx-40, posy+GRID*3, "Contato: " .. tab[i]["contato"])
       --canvas:drawText(posx, posy, tab[i]["nome"])
       --canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
@@ -476,7 +475,7 @@ function agendaMenu:ccCategoryDisplay()
       canvas:drawRect("fill",GRID*10+GRID*1.5*(i-1),5,GRID*1.5,GRID*1.5)
     end
 
-    local imgcaticons = canvas:new("media/agenda/calcaticons.png")
+    local imgcaticons = canvas:new("media/agenda/cccaticons.png")
     local dx,dy = imgcaticons:attrSize()
     canvas:compose(GRID*10, GRID*2-dy, imgcaticons )
     --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
@@ -486,26 +485,50 @@ end
 function agendaMenu:poll()
   -- clean draw area
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*3.75, GRID*2, SCREEN_WIDTH, GRID*16)
 
   self:bgd()
   canvas:attrFont("Tiresias",20,"normal")
   canvas:attrColor("yellow")
-  canvas:drawText(GRID*10,GRID*10 , "TODO: Sistema de enquete ")
+  canvas:drawText(GRID*8,GRID*3 , "Sistema de enquete ")
 
   local offsetx, offsety = GRID*6, GRID*3
   canvas:drawRect("fill", offsetx+GRID*2*self.pollposh,offsety+GRID*2*self.pollposv,GRID*2,GRID*2 )
-  print("debug v,h", self.pollposv, self.pollposh)
+
+  canvas:attrColor("black")
+  canvas:drawText(offsetx+GRID*2*self.pollposh+30,offsety+GRID*2*self.pollposv+30 , self.pollposv .. "/" .. self.pollposh)
+
   canvas:flush()
 end
 
-function agendaMenu:page4()
-
- -- clean draw area
+function agendaMenu:contatos()
+  -- clean draw area
   canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*4.5 ,GRID*2,SCREEN_WIDTH,GRID*16)
+  canvas:clear(GRID*3.75 ,GRID*2,SCREEN_WIDTH,GRID*16)
+
   self:bgd()
+
   canvas:attrFont("Tiresias",20,"normal")
-  canvas:attrColor("yellow")
-  canvas:drawText(GRID*10,GRID*10 , "TODO: inserir imagem ou textos")
+  canvas:attrColor("white")
+  canvas:drawText(GRID*6,GRID*3 , "Fique por dentro! \n Ficha tecnica? :)")
+
+  for i=1,4 do
+    local imgqrtag = canvas:new("media/agenda/qrtag" .. i .. ".png")
+    local imgqr = canvas:new("media/agenda/qr" .. i .. ".png")
+    local dx,dy = imgqrtag:attrSize()
+    canvas:attrColor("white")
+    if i == 1 then
+      canvas:compose(GRID*8, GRID*7, imgqr )
+      canvas:compose(GRID*12 -1, GRID*7, imgqrtag )
+    elseif i == 2 then
+      canvas:compose(GRID*16, GRID*7, imgqr )
+      canvas:compose(GRID*20-1, GRID*7, imgqrtag )
+    elseif i == 3 then
+      canvas:compose(GRID*8, GRID*12.75, imgqr )
+      canvas:compose(GRID*12-1, GRID*12.75, imgqrtag )
+    elseif i == 4 then
+      canvas:compose(GRID*16, GRID*12.75, imgqr )
+      canvas:compose(GRID*20-1, GRID*12.75, imgqrtag )
+    end
+  end
 end

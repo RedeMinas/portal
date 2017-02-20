@@ -121,4 +121,3 @@ function receive (pattern)
         end
     end
 end
-
