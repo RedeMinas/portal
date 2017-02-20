@@ -10,7 +10,8 @@ ICON = {}
 ICON.state = 1
 ICON.pos =1
 DEBUG = true
-VERSION = "1.2.4t"
+VERSION = "1.2.4T"
+START = false
 
 --- tcp metrics
 require 'lib_tcp'
@@ -18,13 +19,12 @@ require 'lib_tcp'
 --- Send Info over tcpip
 function countMetric()
   -- ping internet
-  if start == false then
+  if START == false then
     tcp.execute(
       function ()
-        tcp.connect('www.redeminas.mg.gov.br', 80)
+        tcp.connect('redeminas.mg.gov.br', 80)
         tcp.send('get /ginga.php?aplicacao=portal' .. VERSION .. '\n')
         tcpresult = tcp.receive()
-        --print(tcpresult)
         if tcpresult then
           tcpresult = tcpresult or '0'
         else
@@ -32,11 +32,31 @@ function countMetric()
         end
         canvas:flush()
         tcp.disconnect()
-        start = true
+        START = true
       end
     )
   end
 end
+
+--- Send Info over tcpip
+function connecttcp(t)
+  -- ping internet
+  tcp.execute(
+    function ()
+      tcp.connect('redeminas.mg.gov.br', 80)
+      tcp.send('get /ginga.php?aplicacao=' .. t .. '\n')
+      tcpresult = tcp.receive()
+      if tcpresult then
+        tcpresult = tcpresult or '0'
+      else
+        tcpresult = 'er:' .. evt.error
+      end
+      canvas:flush()
+      tcp.disconnect()
+    end
+  )
+end
+
 
 function shift(x,v,limit)
   -- not as num?

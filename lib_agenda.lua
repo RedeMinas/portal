@@ -18,7 +18,7 @@ function agendaMenu:new(o)
   -- poll positions
   self.pollposh = 1
   self.pollposv = 1
-
+  self.pollvote=false
   self.page = 1
   self.pages = 4
   self.menu = {"Agenda Cultural" , "Centros Culturais", "Enquete", "Contatos"}
@@ -85,6 +85,21 @@ function agendaMenu:input(evt)
     elseif ( evt.key=="CURSOR_DOWN") then
       self.pollposv=shift(self.pollposv,1,#self.acats)
       self:poll()
+    elseif ( evt.key=="ENTER") then
+      canvas:attrColor("white")
+      canvas:attrFont("Tiresias",30,"normal")
+      canvas:drawText(GRID*5, GRID*4, "Computando voto")
+      canvas:flush()
+      if not self.pollvote then
+        local tcpresult2 = tcpresult
+        connecttcp("agendavoto" ..  self.pollposv .. self.pollposh)
+        if tcpresult ~= tcpresult2 then
+          self.pollvote = true
+          canvas:drawText(GRID*5, GRID*5, tcpresult)
+          canvas:flush()
+        end
+      end
+
     end
   end
 end
