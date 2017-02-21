@@ -8,12 +8,15 @@ function mulhereseMenu:new (o)
   self.iconsDisplay = 9
   self.pos = 1
   self.ppos = 1
+  -- self.posv = 1
   self.lastppos = 1
-  self.pages = 3
+  self.pages = 4
+  self.page = 1
   self.start = false
   self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
   self.bgcolor={r=41,g=19,b=69,a=204}
-
+  --  self.menu = {"Sobre as Leis","Políticas Públicas", "Acesso à Justiça","Informações"}
+  self.colors = {{127,30,43,200},{11,108,84,200},{203,164,9,200},{22,59,118,200},{118,176,40,200},{0,227,247,200}}
   return o
 end
 
@@ -26,10 +29,10 @@ function mulhereseMenu:input(evt)
     self.pos=shift(self.pos,-1,#self.list-1)
     self:iconsDraw()
   elseif (evt.key=="CURSOR_UP") then
-    self.ppos=shift(self.ppos,-1,self.pages)
-    self:pageDraw()
+    self.ppos=shift(self.ppos,-1,self.pages) -- menu?
+    self.iconsDraw()
   elseif ( evt.key=="CURSOR_DOWN") then
-    self.ppos=shift(self.ppos,1,self.pages)
+    self.ppos=shift(self.ppos,1,self.pages)-- menu? 
     self:pageDraw()
   end
 end
@@ -79,16 +82,17 @@ function mulhereseMenu:textDraw(text)
 
   --display text margin - remove!
 
-  canvas:attrFont("Tiresias", 20 , "normal")
+  canvas:attrFont("Tiresias",15, "normal")
   canvas:attrColor(255,255,255,200)
 
   local list=textWrap(text,SCREEN_WIDTH/13)
 
   for i=2,#list do
-    print("debug ", i )
-    canvas:drawText(GRID*7, (GRID*1.7+i*GRID*0.7) , list[i])
+  --  print("debug ", i )
+    canvas:drawText(GRID*6.25,(GRID*1.7+i*GRID*0.7) , list[i])
   end
-
+  canvas:attrColor(41,19,69,255)
+  canvas:drawRect("frame",GRID*6, GRID*2.25,GRID*24.5, GRID*12)
 end
 
 
@@ -126,6 +130,33 @@ function mulhereseMenu:pageDraw()
   local imgil = canvas:new("media/mulherese/il" .. str .. ".png")
   canvas:compose(GRID*1, GRID*1, imgil)
 
+
+ --Draw btnicon on left
+
+ -- canvas:attrColor(41,19,69,200)
+ -- canvas:clear(GRID*1,GRID*1,GRID*5, GRID*12.5)
+  for i=1, self.pages do
+    if i == self.ppos then
+      canvas:attrColor(
+        self.colors[i][1],
+        self.colors[i][2],
+        self.colors[i][3],
+        self.colors[i][4]
+      )
+    else
+      canvas:attrColor("white")
+    end
+    canvas:attrFont("Tiresias", 13,"bold")
+    local param = "page" .. i
+
+    canvas:drawText(GRID*1.8, GRID*9+0.85*GRID*i-1, tostring(self.list[1][param]))
+
+    local imgicons = canvas:new("media/mulherese/btnicon.png")
+    local dx,dy = imgicons:attrSize()
+    canvas:compose(GRID*1.7-dx, GRID*9.85, imgicons )
+    --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
+    canvas:flush()
+  end
   -- Draw Group Title
   canvas:attrColor(41,19,69,200)
     canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
@@ -146,9 +177,11 @@ function mulhereseMenu:pageDraw()
     texttitle = self.list[1]["page3"]
     text = self.list[self.pos+1]["page3"]
   end
-print(texttitle)
-  
-  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
+  --
+  print(texttitle)
+
+
+ canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
 
   self:textDraw(text)
 
