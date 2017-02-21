@@ -84,11 +84,14 @@ function mulhereseMenu:textDraw(text)
 
   local list=textWrap(text,SCREEN_WIDTH/13)
 
-  for i=2,#list do
-    print("debug ", i )
-    canvas:drawText(GRID*7, (GRID*1.7+i*GRID*0.7) , list[i])
+  for i=1,#list do
+    local w=1
+    for regexp in list[i]:gmatch("[^\\]+") do
+      canvas:drawText(GRID*7, ( (GRID*1.7) + (i*GRID*0.7) + (GRID*0.7*w) ) , regexp)
+      print (regexp)
+      w = w+1
+    end
   end
-
 end
 
 

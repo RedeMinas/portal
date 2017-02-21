@@ -76,7 +76,7 @@ function harmoniaMenu:iconDraw()
 
       local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
       canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
-      barHorizontal()
+--      barHorizontal()
     else
       canvas:attrColor(1,1,1,160)
       local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
@@ -108,7 +108,6 @@ function harmoniaMenu:repertorio()
   canvas:attrColor(93,196,179,217)
   canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
 
-
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
   local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
   local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" )
@@ -117,23 +116,34 @@ function harmoniaMenu:repertorio()
   canvas:compose(GRID*6, GRID*11, imgbgdr)
   canvas:compose(GRID*6, GRID*11.5, imgicon )
 
-    --texts
-  canvas:attrFont("Vera", 18,"bold")
-  canvas:attrColor(1,1,1,220)
-  canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["grupo"] )
-  canvas:drawText((offset_x+dx+(11*GRID)),offset_y, self.list[self.spos]["data"])
-  canvas:drawText((offset_x+dx+(11*GRID)),(offset_y+GRID), self.list[self.spos]["horario"])
-  canvas:drawText((offset_x+dx),(offset_y+GRID), self.list[self.spos]["obras"])
-  canvas:drawText(((offset_x+dx)+(3*GRID)),(offset_y+GRID), self.list[self.spos]["regente"])
+  --lines
+  canvas:attrColor(255,255,255,255)
+  canvas:drawLine(offset_x+dx, offset_y+GRID/2, SCREEN_WIDTH-GRID, offset_y+GRID/2  )
 
-  canvas:attrFont("Vera", 13,"bold")
-  canvas:drawText((offset_x+dx),(offset_y+(2*GRID)), self.list[self.spos]["compositores"])
-  canvas:drawText((offset_x+dx+5*GRID),(offset_y+(2*GRID)), self.list[self.spos]["local"])
+  --texts
+  canvas:attrFont("Tiresias", 18,"bold")
+  canvas:attrColor(1,1,1,200)
+  canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["grupo"] )
+  canvas:drawText((offset_x+dx+(11*GRID)),offset_y, "Data: " .. self.list[self.spos]["data"])
+  canvas:drawText((offset_x+dx+(17*GRID)),(offset_y), "Horário: " .. self.list[self.spos]["horario"])
+
+--  canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["compositores"])
+
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*0.6)), self.list[self.spos]["regente"])
+  canvas:drawText((offset_x+dx+(11*GRID)),(offset_y+(GRID*0.6)), self.list[self.spos]["local"])
+
+  --obras, lines of text
+  local list =textWrap(self.list[self.spos]["obras"],70)
+  for i=1,#list do
+    canvas:drawText((offset_x+dx),(offset_y+GRID*0.7+(i*(GRID/2))) , list[i])
+  end
+
+  canvas:attrFont("Tiresias", 13,"bold")
 
   --description, lines of text
-  local list =textWrap(self.list[self.spos]["desc"],60)
+  local list =textWrap(self.list[self.spos]["desc"],96)
   for i=1,#list do
-    canvas:drawText((offset_x+dx),(offset_y+(2.5*GRID)+(i*(GRID/2))) , list[i])
+    canvas:drawText((offset_x+dx),(offset_y+(2*GRID)+(i*(GRID/2))) , list[i])
   end
 
   --qr code
@@ -144,11 +154,12 @@ function harmoniaMenu:repertorio()
 end
 
 
+
 --- main menu treatment
 function harmoniaMenu:menuItem(par)
 
   canvas:attrColor(93,196,179,217)
-  canvas:clear(GRID*7,GRID*11, GRID*32, GRID*18 )
+  canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
 
   -- edicao da semana
   if (self.pos==1) then
