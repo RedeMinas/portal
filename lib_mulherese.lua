@@ -11,7 +11,6 @@ function mulhereseMenu:new (o)
   -- self.posv = 1
   self.lastppos = 1
   self.pages = 4
-  self.page = 1
   self.start = false
   self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
   self.bgcolor={r=41,g=19,b=69,a=204}
@@ -29,11 +28,24 @@ function mulhereseMenu:input(evt)
     self.pos=shift(self.pos,-1,#self.list-1)
     self:iconsDraw()
   elseif (evt.key=="CURSOR_UP") then
-    self.ppos=shift(self.ppos,-1,self.pages) -- menu?
-    self.iconsDraw()
+    self.ppos=shift(self.ppos,-1,self.pages)-- menu?
+    self:pageDraw()
   elseif ( evt.key=="CURSOR_DOWN") then
     self.ppos=shift(self.ppos,1,self.pages)-- menu? 
     self:pageDraw()
+  elseif ( evt.key=="RED") then
+    self.ppos=1
+    self:pageDraw()
+  elseif ( evt.key=="GREEN") then
+    self.ppos=2
+    self:pageDraw()
+  elseif ( evt.key=="YELLOW") then
+    self.ppos=3
+    self:pageDraw()
+  elseif ( evt.key=="BLUE") then
+    self.ppos=4
+    self:pageDraw()
+
   end
 end
 
@@ -91,7 +103,6 @@ function mulhereseMenu:textDraw(text)
     local w=1
     for regexp in list[i]:gmatch("[^\\]+") do
       canvas:drawText(GRID*7, ( (GRID*1.7) + (i*GRID*0.7) + (GRID*0.7*w) ) , regexp)
-      print (regexp)
       w = w+1
     end
   end
@@ -121,20 +132,21 @@ end
 
 function mulhereseMenu:pageDraw()
   if (not PGMON) then
-    self.pageReset()
+    self:pageReset()
     PGMON = true
   end
 
+  print ("d", self.pos)
   -- Draw Ilustrations on left
   canvas:attrColor(41,19,69,200)
   canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
+
   local str = string.format("%02d" , self.pos)
-  local imgil = canvas:new("media/mulherese/il" .. str .. ".png")
+
+  local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
   canvas:compose(GRID*1, GRID*1, imgil)
 
-
  --Draw btnicon on left
-
  -- canvas:attrColor(41,19,69,200)
  -- canvas:clear(GRID*1,GRID*1,GRID*5, GRID*12.5)
   for i=1, self.pages do
@@ -178,12 +190,13 @@ function mulhereseMenu:pageDraw()
   elseif (self.ppos == 3)   then
     texttitle = self.list[1]["page3"]
     text = self.list[self.pos+1]["page3"]
+  elseif (self.ppos == 4)   then
+    texttitle = self.list[1]["page4"]
+    text = self.list[self.pos+1]["page4"]
   end
   --
-  print(texttitle)
 
-
- canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
+  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
 
   self:textDraw(text)
 

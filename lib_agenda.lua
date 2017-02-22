@@ -24,7 +24,7 @@ function agendaMenu:new(o)
   self.menu = {"Agenda Cultural", "Centros Culturais", "Enquete", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
   self.catcolors = {{217,215,215,200},{183,43,137,200},{207,120,24,200},{209,197,16,200},{118,176,40,200},{0,227,247,200}}
-  self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "Música", "Artes"}
+  self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "MÃºsica", "Artes"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
   self.listcc=layoutPgmAgendaCc(ReadTable("tbl_agendacc.txt"))
   return o
