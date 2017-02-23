@@ -18,12 +18,12 @@ function harmoniaMenu:new(o)
   --remove
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
-  self.especiallist = textWrap (self.listextra["especial"], 90)
-  self.especiallines = 8
+  self.especiallist = textWrap (self.listextra["especial"], 104)
+  self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra["episodio"], 90)
-  self.episodiolines = 8
+  self.episodiolist = textWrap (self.listextra["episodio"], 104)
+  self.episodiolines = 7
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
 --  self.settings=false
@@ -90,7 +90,7 @@ function harmoniaMenu:iconDraw()
 
   canvas:attrColor(93,196,179,217)
   canvas:clear(0,GRID*11, GRID*32, GRID*18 )
-  canvas:attrFont("Tiresias", 22,"bold")
+  canvas:attrFont("Tiresias", 21,"bold")
 
   for i=1,#self.menu  do
     -- icon on
@@ -100,15 +100,15 @@ function harmoniaMenu:iconDraw()
       self.bar.desc = self.menu[i].desc
 
       local imgicon = canvas:new("media/harmonia/icon.png")
-      canvas:compose(0, GRID*10.5+(GRID*i), imgicon)
+      canvas:compose(0, GRID*10.4+(GRID*i), imgicon)
 
       local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
-      canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
+      canvas:compose(GRID, GRID*10.7+(GRID*i), btni)
 --      barHorizontal()
     else
       canvas:attrColor(1,1,1,160)
       local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
-      canvas:compose(GRID, GRID*10.8+(GRID*i), btni)
+      canvas:compose(GRID, GRID*10.7+(GRID*i), btni)
     end
   end
 
@@ -124,6 +124,44 @@ function harmoniaMenu:iconDraw()
   self:menuItem()
   --canvas:flush()
 end
+
+-- sub menu episodio (programa) da semana
+function harmoniaMenu:episodio()
+  canvas:attrColor(93,196,179,217)
+  canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
+
+  local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+  canvas:compose(GRID*6, GRID*11, imgbgdr)
+
+  canvas:attrColor(1,1,1,160)
+  canvas:attrFont("Tiresias", 22,"bold")
+  canvas:drawText(GRID*6,GRID*11.5,"Programa da semana:")
+
+  canvas:attrFont("Tiresias", 17,"normal")
+  local m = (self.episodiopos-1)*self.episodiolines
+  for  i = m+1, m+self.episodiolines   do
+    if not self.episodiolist[i] then
+      self.episodiolist[i] = " "
+    end
+    canvas:drawText(GRID*6,GRID*12.5+(GRID*0.75*(i-m-1)),self.episodiolist[i])
+  end
+
+  local img = canvas:new("media/harmonia/asemana.png")
+  local dx,dy = img:attrSize()
+  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
+
+  local btnok = canvas:new("media/pgminfo.png")
+  local btnokdx,btnokdy = btnok:attrSize()
+  canvas:compose(SCREEN_WIDTH-btnokdx-GRID/2, GRID*11.5+dy+GRID/4, btnok)
+
+
+  canvas:attrFont("Tiresias", 14,"normal")
+  canvas:attrColor("white")
+  canvas:drawText(SCREEN_WIDTH-btnokdx-GRID*3,GRID*11.5+dy+GRID/4, "(" .. self.episodiopos .. "/" .. self.episodiopages .. ")")
+
+  canvas:flush()
+end
+
 
 -- sub menu repertorio draw carrossel
 function harmoniaMenu:repertorio()
@@ -144,11 +182,12 @@ function harmoniaMenu:repertorio()
 
   --lines
   canvas:attrColor(255,255,255,255)
-  canvas:drawLine(offset_x+dx, offset_y+GRID/2+5, SCREEN_WIDTH-GRID, offset_y+GRID/2  )
+  canvas:drawLine(offset_x+dx, offset_y+GRID/2+5, SCREEN_WIDTH-GRID, offset_y+GRID/2+5  )
 
   --texts
-  canvas:attrFont("Tiresias", 18,"bold")
-  canvas:attrColor(1,1,1,200)
+  canvas:attrFont("Tiresias", 17,"bold")
+  canvas:attrColor(1,1,1,160
+  )
   canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["evento"] )
   canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["regente"])
   canvas:drawText((offset_x+dx),(offset_y+(GRID*2)), self.list[self.spos]["local"])
@@ -172,43 +211,6 @@ function harmoniaMenu:repertorio()
   canvas:flush()
 end
 
-
-
--- sub menu especial do mês
-function harmoniaMenu:episodio()
-  canvas:attrColor(93,196,179,217)
-  canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
-
-  local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-  canvas:compose(GRID*6, GRID*11, imgbgdr)
-
-  canvas:attrFont("Tiresias", 14,"normal")
-  canvas:attrColor(1,1,1,200)
-
-  local m = (self.episodiopos-1)*self.episodiolines
-  for  i = m+1, m+self.episodiolines   do
-    if not self.episodiolist[i] then
-      self.episodiolist[i] = " "
-    end
-    canvas:drawText(GRID*6,GRID*11.5+(GRID*0.75*(i-m-1)),self.episodiolist[i])
-  end
-
-
-  local img = canvas:new("media/harmonia/asemana" .. self.episodiopos .. ".png")
-  local dx,dy = img:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
-
-  local btnok = canvas:new("media/pgminfo.png")
-  local btnokdx,btnokdy = btnok:attrSize()
-  canvas:compose(SCREEN_WIDTH-btnokdx-GRID/2, GRID*11.5+dy+GRID/4, btnok)
-
-
-
-  canvas:flush()
-end
-
-
-
 -- sub menu especial do mês
 function harmoniaMenu:especial()
   canvas:attrColor(93,196,179,217)
@@ -217,15 +219,19 @@ function harmoniaMenu:especial()
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
   canvas:compose(GRID*6, GRID*11, imgbgdr)
 
-  canvas:attrFont("Tiresias", 14,"normal")
-  canvas:attrColor(1,1,1,200)
+  canvas:attrColor(1,1,1,160)
+
+  canvas:attrFont("Tiresias", 22,"bold")
+  canvas:drawText(GRID*6,GRID*11.5,"Especial do mês:")
+
+  canvas:attrFont("Tiresias", 17,"normal")
 
   local m = (self.especialpos-1)*self.especiallines 
   for  i = m+1, m+self.especiallines   do
     if not self.especiallist[i] then
       self.especiallist[i] = " "
     end
-    canvas:drawText(GRID*6,GRID*11.5+(GRID*0.75*(i-m-1)),self.especiallist[i])
+    canvas:drawText(GRID*6,GRID*12.5+(GRID*0.75*(i-m-1)),self.especiallist[i])
   end
 
   local img = canvas:new("media/harmonia/especialdomes" .. self.especialpos .. ".png")
@@ -236,6 +242,11 @@ function harmoniaMenu:especial()
   local btnok = canvas:new("media/pgminfo.png")
   local btnokdx,btnokdy = btnok:attrSize()
   canvas:compose(SCREEN_WIDTH-btnokdx-GRID/2, GRID*11.5+dy+GRID/4, btnok)
+
+  canvas:attrFont("Tiresias", 14,"bold")
+  canvas:attrColor("white")
+  canvas:drawText(SCREEN_WIDTH-btnokdx-GRID*3,GRID*11.5+dy+GRID/4, "(" .. self.especialpos .. "/" .. self.especialpages .. ")")
+
 end
 
 --- main menu treatment
@@ -275,26 +286,26 @@ function harmoniaMenu:menuItem(par)
       local img = canvas:new("media/harmonia/qr01.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
-      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, img)
     elseif  par == 'green' then
       local img = canvas:new("media/harmonia/qr02.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
-      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, img)
     elseif  par == 'yellow' then
       local img = canvas:new("media/harmonia/qr03.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
-      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, img)
     elseif  par == 'blue' then
       local img = canvas:new("media/harmonia/qr04.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
-      canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
+      canvas:clear(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, dx, dy )
+      canvas:compose(SCREEN_WIDTH-GRID*5.5,SCREEN_HEIGHT-GRID*5.5, img)
     end
   end
   canvas:flush()
