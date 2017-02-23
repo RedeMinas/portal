@@ -30,6 +30,13 @@ curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiC
 iconv -t ISO-8859-1 /tmp/tbl_harmoniarep.txt > tbl_harmoniarep.txt
 rm /tmp/tbl_harmoniarep.txt
 
+echo "sync harmonia extra"
+
+curl  "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1982803619&format=tsv" > /tmp/tbl_harmoniaextra.txt
+
+iconv -t ISO-8859-1 /tmp/tbl_harmoniaextra.txt > tbl_harmoniaextra.txt
+rm /tmp/tbl_harmoniaextra.txt
+
 echo "sync mulheresdelei"
 
 #original

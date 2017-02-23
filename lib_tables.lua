@@ -135,24 +135,20 @@ function layoutPgmHarmoniaRep(table)
         tab[id]={}
         tab[id]["img"] = i-1
       elseif w == 2 then
-        tab[id]["grupo"] = regexp
+        tab[id]["evento"] = regexp
       elseif w == 3 then
         tab[id]["regente"] = regexp
       elseif w == 4 then
-        tab[id]["obras"] = regexp
+        tab[id]["programa"] = regexp
       elseif w == 5 then
-        tab[id]["compositores"] = regexp
-      elseif w == 6 then
         tab[id]["data"] = regexp
-      elseif w == 7 then
+      elseif w == 6 then
         tab[id]["horario"] = regexp
-      elseif w == 8 then
+      elseif w == 7 then
         tab[id]["local"] = regexp
-      elseif w == 9 then
+      elseif w == 8 then
         tab[id]["ingresso"] = regexp
-      elseif w == 10 then
-        tab[id]["desc"] = regexp
-      elseif w == 11 then
+      elseif w == 9 then
         if regexp == "TRUE" then
           tab[id]["info"] = true
         else
@@ -160,7 +156,7 @@ function layoutPgmHarmoniaRep(table)
         end
       end
       -- controle dos campos
-      if w < 12
+      if w < 9
       then
         w=w+1
       else
@@ -171,6 +167,27 @@ function layoutPgmHarmoniaRep(table)
   return tab
 end
 -- ex: local tab = layoutPgmHarmoniaRep(ReadTable("table.txt"))
+
+function layoutPgmHarmoniaExtra(table)
+  local tab={}
+  for i = 2, #table, 1 do
+    local w=1
+    for regexp in table[i]:gmatch("[^\t\t]+") do
+      if w == 1 then
+        id =1
+        tab["episodio"] = regexp
+      elseif w == 2 then
+        tab["especial"] = regexp
+      end
+
+      -- controle dos campos
+      if w < 3 then  w=w+1   end
+    end
+    return tab
+  end
+
+end
+-- ex: local tab = layoutPgmHarmoniaExtra(ReadTable("table.txt"))
 
 function layoutPgmAgendaEvt(table)
   local tab={}
@@ -230,7 +247,7 @@ function layoutPgmAgendaCc(table)
       elseif w == 2 then
         tab[id]["nome"] = regexp
       elseif w == 3 then
-        tab[id]["data"] = regexp
+        tab[id]["valor"] = regexp
       elseif w == 4 then
         tab[id]["cat"] = regexp
       elseif w == 6 then

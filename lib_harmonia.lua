@@ -8,6 +8,7 @@ function harmoniaMenu:new(o)
   self.__index = self
   self.pos = 1
   self.spos = 1
+
   self.icons=4
   self.debug=false
   self.bar={}
@@ -16,6 +17,15 @@ function harmoniaMenu:new(o)
   self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
+  self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
+  self.especiallist = textWrap (self.listextra["especial"], 90)
+  self.especiallines = 8
+  self.especialpages = math.ceil(#self.especiallist/self.especiallines)
+  self.especialpos =1
+  self.episodiolist = textWrap (self.listextra["episodio"], 90)
+  self.episodiolines = 8
+  self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
+  self.episodiopos =1
 --  self.settings=false
   return o
 end
@@ -30,12 +40,30 @@ function harmoniaMenu:input (evt)
     self.pos=shift(self.pos,1,self.icons)
     self.bar.stop=true
     self:iconDraw()
-  elseif ( self.pos==2 and evt.key == "CURSOR_LEFT" ) then
-    self.spos=shift(self.spos,-1, #self.list)
-    self:repertorio()
-  elseif ( self.pos==2 and evt.key == "CURSOR_RIGHT" ) then
-    self.spos=shift(self.spos,1, #self.list)
-    self:repertorio()
+  elseif (self.pos ==1 and self.episodiopages > 1) then
+    if ( evt.key == "CURSOR_LEFT" ) then
+      self.episodiopos=shift(self.episodiopos,-1, self.episodiopages)
+      self:episodio()
+    elseif (  evt.key == "CURSOR_RIGHT" ) then
+      self.episodiopos=shift(self.episodiopos,1, self.episodiopages)
+      self:episodio()
+    end
+  elseif ( self.pos==2 ) then
+    if ( evt.key == "CURSOR_LEFT" ) then
+      self.spos=shift(self.spos,-1, #self.list)
+      self:repertorio()
+    elseif (  evt.key == "CURSOR_RIGHT" ) then
+      self.spos=shift(self.spos,1, #self.list)
+      self:repertorio()
+    end
+  elseif ( self.pos==3 and self.especialpages >1 ) then
+    if ( evt.key == "CURSOR_LEFT" ) then
+      self.especialpos=shift(self.especialpos,-1, self.especialpages)
+      self:iconDraw()
+    elseif (  evt.key == "CURSOR_RIGHT" ) then
+      self.especialpos=shift(self.especialpos,1, self.especialpages)
+      self:iconDraw()
+    end
     -- PGM
   elseif ( self.pos==4 ) then
     if ( evt.key == "RED" ) then
@@ -89,11 +117,9 @@ function harmoniaMenu:iconDraw()
 
   -- Draw nav buttons
   local btnarrowv = canvas:new("media/btnarrowv.png")
-  --local btnarrowh = canvas:new("media/btnarrowh.png")
   local btnexit = canvas:new("media/btnsair.png")
-  canvas:compose(GRID, GRID*17, btnarrowv)
-  --  canvas:compose(GRID*2.5, GRID*17, btnarrowh)
-  canvas:compose(GRID*4, GRID*17, btnexit)
+  canvas:compose(GRID*1.5, GRID*17, btnarrowv)
+  canvas:compose(GRID*3, GRID*17, btnexit)
 
   self:menuItem()
   --canvas:flush()
@@ -118,42 +144,99 @@ function harmoniaMenu:repertorio()
 
   --lines
   canvas:attrColor(255,255,255,255)
-  canvas:drawLine(offset_x+dx, offset_y+GRID/2, SCREEN_WIDTH-GRID, offset_y+GRID/2  )
+  canvas:drawLine(offset_x+dx, offset_y+GRID/2+5, SCREEN_WIDTH-GRID, offset_y+GRID/2  )
 
   --texts
   canvas:attrFont("Tiresias", 18,"bold")
   canvas:attrColor(1,1,1,200)
-  canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["grupo"] )
-  canvas:drawText((offset_x+dx+(11*GRID)),offset_y, "Data: " .. self.list[self.spos]["data"])
-  canvas:drawText((offset_x+dx+(17*GRID)),(offset_y), "Horário: " .. self.list[self.spos]["horario"])
-
---  canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["compositores"])
-
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*0.6)), self.list[self.spos]["regente"])
-  canvas:drawText((offset_x+dx+(11*GRID)),(offset_y+(GRID*0.6)), self.list[self.spos]["local"])
+  canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["evento"] )
+  canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["regente"])
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*2)), self.list[self.spos]["local"])
+  canvas:drawText((offset_x+dx),offset_y+(GRID*3), "Data: " .. self.list[self.spos]["data"])
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*4)), "Horário: " .. self.list[self.spos]["horario"])
 
   --obras, lines of text
-  local list =textWrap(self.list[self.spos]["obras"],70)
+  local list =textWrap(self.list[self.spos]["programa"],70)
   for i=1,#list do
-    canvas:drawText((offset_x+dx),(offset_y+GRID*0.7+(i*(GRID/2))) , list[i])
+    canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
   end
 
-  canvas:attrFont("Tiresias", 13,"bold")
-
-  --description, lines of text
-  local list =textWrap(self.list[self.spos]["desc"],96)
-  for i=1,#list do
-    canvas:drawText((offset_x+dx),(offset_y+(2*GRID)+(i*(GRID/2))) , list[i])
-  end
+  canvas:attrFont("Tiresias", 14,"bold")
+  canvas:drawText((offset_x-GRID/2),(offset_y+dy+GRID/4), "Evento: " .. self.spos .. "/" .. #self.list)
 
   --qr code
   local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
   dx,dy = imgqr:attrSize()
   canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, imgqr)
+
   canvas:flush()
 end
 
 
+
+-- sub menu especial do mês
+function harmoniaMenu:episodio()
+  canvas:attrColor(93,196,179,217)
+  canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
+
+  local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+  canvas:compose(GRID*6, GRID*11, imgbgdr)
+
+  canvas:attrFont("Tiresias", 14,"normal")
+  canvas:attrColor(1,1,1,200)
+
+  local m = (self.episodiopos-1)*self.episodiolines
+  for  i = m+1, m+self.episodiolines   do
+    if not self.episodiolist[i] then
+      self.episodiolist[i] = " "
+    end
+    canvas:drawText(GRID*6,GRID*11.5+(GRID*0.75*(i-m-1)),self.episodiolist[i])
+  end
+
+
+  local img = canvas:new("media/harmonia/asemana" .. self.episodiopos .. ".png")
+  local dx,dy = img:attrSize()
+  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
+
+  local btnok = canvas:new("media/pgminfo.png")
+  local btnokdx,btnokdy = btnok:attrSize()
+  canvas:compose(SCREEN_WIDTH-btnokdx-GRID/2, GRID*11.5+dy+GRID/4, btnok)
+
+
+
+  canvas:flush()
+end
+
+
+
+-- sub menu especial do mês
+function harmoniaMenu:especial()
+  canvas:attrColor(93,196,179,217)
+  canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
+
+  local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+  canvas:compose(GRID*6, GRID*11, imgbgdr)
+
+  canvas:attrFont("Tiresias", 14,"normal")
+  canvas:attrColor(1,1,1,200)
+
+  local m = (self.especialpos-1)*self.especiallines 
+  for  i = m+1, m+self.especiallines   do
+    if not self.especiallist[i] then
+      self.especiallist[i] = " "
+    end
+    canvas:drawText(GRID*6,GRID*11.5+(GRID*0.75*(i-m-1)),self.especiallist[i])
+  end
+
+  local img = canvas:new("media/harmonia/especialdomes" .. self.especialpos .. ".png")
+  local dx,dy = img:attrSize()
+  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
+
+
+  local btnok = canvas:new("media/pgminfo.png")
+  local btnokdx,btnokdy = btnok:attrSize()
+  canvas:compose(SCREEN_WIDTH-btnokdx-GRID/2, GRID*11.5+dy+GRID/4, btnok)
+end
 
 --- main menu treatment
 function harmoniaMenu:menuItem(par)
@@ -163,31 +246,31 @@ function harmoniaMenu:menuItem(par)
 
   -- edicao da semana
   if (self.pos==1) then
-    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*6, GRID*11, imgbgdr)
-    local img = canvas:new("media/harmonia/edicaodasemana.png")
-    canvas:compose(GRID*6, GRID*11.5, img)
+    if (self.episodiopages>1) then
+      local imgbtnarrowh = canvas:new("media/btnarrowh.png")
+      canvas:compose(GRID*4.5, GRID*11.5, imgbtnarrowh)
+    end
+    self:episodio()
     -- repertorio - agenda semanal
   elseif (self.pos == 2) then
     local imgbtnarrowh = canvas:new("media/btnarrowh.png")
-    canvas:compose(GRID*2.5, GRID*17, imgbtnarrowh)
+    canvas:compose(GRID*4.5, GRID*12.5, imgbtnarrowh)
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
     canvas:compose(GRID*6, GRID*11.5, imgbgdr)
---    local img = canvas:new("media/harmonia/repertorio.png")
-  --  canvas:compose(GRID*7, GRID*11, img)
     self:repertorio()
     -- especial do mes
   elseif (self.pos==3) then
-    local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
-    canvas:compose(GRID*6, GRID*11, imgbgdr)
-    local img = canvas:new("media/harmonia/especialdomes.png")
-    canvas:compose(GRID*6, GRID*11.5, img)
+    if (self.especialpages>1) then
+      local imgbtnarrowh = canvas:new("media/btnarrowh.png")
+      canvas:compose(GRID*4.5, GRID*13.5, imgbtnarrowh)
+    end
+    self:especial()
     -- contatos
   elseif (self.pos==4) then
     local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
     canvas:compose(GRID*6, GRID*11, imgbgdr)
     local img = canvas:new("media/harmonia/contatos.png")
-    canvas:compose(GRID*6, GRID*12, img)
+    canvas:compose(GRID*6, GRID*11, img)
     if  par == 'red' then
       local img = canvas:new("media/harmonia/qr01.png")
       local dx,dy = img:attrSize()
@@ -200,14 +283,12 @@ function harmoniaMenu:menuItem(par)
       canvas:attrColor(0,0,0,0)
       canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
       canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
-
     elseif  par == 'yellow' then
       local img = canvas:new("media/harmonia/qr03.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
       canvas:clear(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, dx, dy )
       canvas:compose(SCREEN_WIDTH-GRID*5,SCREEN_HEIGHT-GRID*5, img)
-
     elseif  par == 'blue' then
       local img = canvas:new("media/harmonia/qr04.png")
       local dx,dy = img:attrSize()
