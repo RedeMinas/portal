@@ -13,39 +13,51 @@ function mulhereseMenu:new (o)
   self.pages = 4
   self.start = false
   self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
+  self.llines = 15
+  self.llpos = 1
+  self.llpages=1
   self.bgcolor={r=41,g=19,b=69,a=204}
   --  self.menu = {"Sobre as Leis","Políticas Públicas", "Acesso à Justiça","Informações"}
-  self.colors = {{127,30,43,200},{11,108,84,200},{203,164,9,200},{22,59,118,200},{118,176,40,200},{0,227,247,200}}
+  self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
   return o
 end
 
 --deal with keys
 function mulhereseMenu:input(evt)
   if (evt.key=="CURSOR_RIGHT") then
+    self.llpos,self.llpages =1,1
     self.pos=shift(self.pos,1,#self.list-1)
     self:iconsDraw()
   elseif (evt.key=="CURSOR_LEFT") then
+    self.llpos,self.llpages =1,1
     self.pos=shift(self.pos,-1,#self.list-1)
     self:iconsDraw()
-  elseif (evt.key=="CURSOR_UP") then
-    self.ppos=shift(self.ppos,-1,self.pages)-- menu?
-    self:pageDraw()
-  elseif ( evt.key=="CURSOR_DOWN") then
-    self.ppos=shift(self.ppos,1,self.pages)-- menu? 
-    self:pageDraw()
   elseif ( evt.key=="RED") then
+    self.llpos,self.llpages =1,1
     self.ppos=1
     self:pageDraw()
   elseif ( evt.key=="GREEN") then
+    self.llpos,self.llpages =1,1
     self.ppos=2
     self:pageDraw()
   elseif ( evt.key=="YELLOW") then
+    self.llpos,self.llpages =1,1
     self.ppos=3
     self:pageDraw()
   elseif ( evt.key=="BLUE") then
+    self.llpos,self.llpages =1,1
     self.ppos=4
     self:pageDraw()
+  end
 
+  if( self.llpages > 1) then
+    if ( evt.key=="CURSOR_DOWN") then
+      self.llpos=shift(self.llpos,1,self.llpages) 
+      self:pageDraw()
+    elseif (evt.key=="CURSOR_UP") then
+      self.llpos=shift(self.llpos,-1,self.llpages)
+      self:pageDraw()
+    end
   end
 end
 
@@ -85,34 +97,48 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
     local iconborder = canvas:new("media/mulherese/focusborder.png")
     canvas:compose(GRID-2, GRID*17.5-item_h-2, iconborder )
   end
-
 end
 
-function mulhereseMenu:textDraw(text)
-  canvas:attrColor(41,19,69,200)
-  canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
-
-  --display text margin - remove!
-
-  canvas:attrFont("Tiresias",15, "normal")
-  canvas:attrColor(255,255,255,200)
-
+function mulhereseMenu:textPrepare(text)
   local list=textWrap(text,SCREEN_WIDTH/13)
-
-
   local ll = 1
+  local llist = {}
+
   for regexp in text:gmatch("[^\\]+") do
     local list=textWrap(regexp,106)
     for i=1,#list do
       if i ~= 1 then
         ll = ll +1
       end
-      canvas:drawText(GRID*6, ( (GRID*1.7) + ((ll)*GRID*0.7) ) , list[i])
-      print(ll)
+      llist[ll]=list[i]
     end
   end
+
+  self.llpages=math.ceil(ll/self.llines)
+
+  -- treat nill -> insert empty lines
+  for j = 1, self.llpages*self.llines do
+    if not llist[j] then
+      llist[j]= " "
+    end
+  end
+
+  return llist
 end
 
+function mulhereseMenu:displayText(list)
+  canvas:attrColor(41,19,69,200)
+  canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
+
+  --display text margin - remove!
+  canvas:attrFont("Tiresias",15, "normal")
+  canvas:attrColor(255,255,255,200)
+
+  local m = (self.llpos-1)*self.llines 
+  for  i = m+1, m+self.llines do
+    canvas:drawText(GRID*6,GRID*2.5+(GRID*0.75*(i-m-1)),list[i])
+  end
+end
 
 function mulhereseMenu:pageReset()
   -- clear
@@ -126,11 +152,11 @@ function mulhereseMenu:pageReset()
   canvas:compose(GRID*26.8, GRID*1.3, logo )
 
   -- Draw nav buttons
-  local btnarrowv = canvas:new("media/btnarrowv.png")
+ -- local btnarrowv = canvas:new("media/btnarrowv.png")
   local btnarrowh = canvas:new("media/btnarrowh.png")
   local btnexit = canvas:new("media/btnsair.png")
-  canvas:compose(GRID*1.5, GRID*13.5, btnarrowv)
-  canvas:compose(GRID*2.7, GRID*13.5, btnarrowh)
+ -- canvas:compose(GRID*1.5, GRID*13.5, btnarrowv)
+  canvas:compose(GRID*2, GRID*13.5, btnarrowh)
   canvas:compose(GRID*4, GRID*13.5, btnexit)
   canvas:flush()
 end
@@ -141,13 +167,11 @@ function mulhereseMenu:pageDraw()
     PGMON = true
   end
 
-  print ("d", self.pos)
   -- Draw Ilustrations on left
   canvas:attrColor(41,19,69,200)
   canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
 
   local str = string.format("%02d" , self.pos)
-
   local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
   canvas:compose(GRID*1, GRID*1, imgil)
 
@@ -162,6 +186,7 @@ function mulhereseMenu:pageDraw()
         self.colors[i][3],
         self.colors[i][4]
       )
+
     else
       canvas:attrColor("white")
     end
@@ -180,9 +205,6 @@ function mulhereseMenu:pageDraw()
   canvas:attrColor(41,19,69,200)
     canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
 
-  --draw title
-  canvas:attrColor(255,255,255,255)
-  canvas:attrFont("Tiresias", 22 ,"bold")
 
   -- Draw Group Text using textDraw() function
   local text=""
@@ -199,11 +221,27 @@ function mulhereseMenu:pageDraw()
     texttitle = self.list[1]["page4"]
     text = self.list[self.pos+1]["page4"]
   end
-  --
 
+  -- sets llpages
+  local a = self:textPrepare(text)
+  self:displayText(a)
+
+  canvas:attrColor(255,255,255,255)
+  canvas:attrFont("Tiresias", 22 ,"bold")
+
+  -- if pages, change title, draw arrowv
+  if self.llpages > 1 then
+    texttitle = texttitle .. " (" .. self.llpos .. " / " .. self.llpages .. ")"
+    dx,dy=canvas:measureText(texttitle)
+
+    local btnarrowv = canvas:new("media/btnarrowv.png")
+    canvas:compose(GRID*6+dx+GRID*4, GRID*1.1, btnarrowv)
+  end
+
+  --draw title
   canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
 
-  self:textDraw(text)
 
   canvas:flush()
+
 end
