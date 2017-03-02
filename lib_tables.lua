@@ -170,22 +170,26 @@ end
 
 function layoutPgmHarmoniaExtra(table)
   local tab={}
-  for i = 2, #table, 1 do
+  local id = 0
+  for i = 1, #table, 1 do
     local w=1
     for regexp in table[i]:gmatch("[^\t\t]+") do
       if w == 1 then
-        id =1
-        tab["episodio"] = regexp
+        tab[i]={}
+        tab[i]["episodio"] = regexp
       elseif w == 2 then
-        tab["especial"] = regexp
+        tab[i]["especial"] = regexp
       end
-
       -- controle dos campos
-      if w < 3 then  w=w+1   end
+      if w < 3
+      then
+        w=w+1
+      else
+        w=1
+      end
     end
-    return tab
   end
-
+  return tab
 end
 -- ex: local tab = layoutPgmHarmoniaExtra(ReadTable("table.txt"))
 
