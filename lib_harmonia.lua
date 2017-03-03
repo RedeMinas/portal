@@ -100,15 +100,15 @@ function harmoniaMenu:iconDraw()
       self.bar.desc = self.menu[i].desc
 
       local imgicon = canvas:new("media/harmonia/icon.png")
-      canvas:compose(0, GRID*10.4+(GRID*i), imgicon)
+      canvas:compose(0, GRID*10.8+(GRID*i), imgicon)
 
       local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
-      canvas:compose(GRID, GRID*10.7+(GRID*i), btni)
+      canvas:compose(GRID, GRID*11+(GRID*i), btni)
 --      barHorizontal()
     else
       canvas:attrColor(1,1,1,160)
       local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
-      canvas:compose(GRID, GRID*10.7+(GRID*i), btni)
+      canvas:compose(GRID, GRID*11+(GRID*i), btni)
     end
   end
 
@@ -188,27 +188,32 @@ function harmoniaMenu:repertorio()
 
   --lines
   canvas:attrColor(255,255,255,255)
-  canvas:drawLine(offset_x+dx, offset_y+GRID/2+5, SCREEN_WIDTH-GRID, offset_y+GRID/2+5  )
+  canvas:drawLine(offset_x+dx, offset_y+GRID/2+7, SCREEN_WIDTH-GRID, offset_y+GRID/2+5  )
 
   --texts
-  canvas:attrFont("Tiresias", 17,"bold")
-  canvas:attrColor(1,1,1,160
-  )
+  canvas:attrFont("Tiresias", 21,"bold")
+  canvas:attrColor(1,1,1,160 )
   canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["evento"] )
+  canvas:attrFont("Tiresias", 17,"bold")
+  canvas:attrColor(1,1,1,160 )
   canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["regente"])
   canvas:drawText((offset_x+dx),(offset_y+(GRID*2)), self.list[self.spos]["local"])
   canvas:drawText((offset_x+dx),offset_y+(GRID*3), "Data: " .. self.list[self.spos]["data"])
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*4)), "Horário: " .. self.list[self.spos]["horario"])
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*4)),self.list[self.spos]["horario"])
 
+  if ((self.list["ingresso"]) ~= " ") then
+    canvas:drawText((offset_x+dx*2),(offset_y+(GRID*4)),"Valor: " .. self.list[self.spos]["ingresso"])
+  end
   --obras, lines of text
   local list =textWrap(self.list[self.spos]["programa"],70)
   for i=1,#list do
     canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
   end
 
-  canvas:attrFont("Tiresias", 14,"bold")
-  canvas:drawText((offset_x-GRID/2),(offset_y+dy+GRID/4), "Evento: " .. self.spos .. "/" .. #self.list)
-
+  canvas:attrFont("Tiresias", 21,"bold")
+  canvas:drawText((offset_x+GRID*21.3),(offset_y+dy-GRID*6.1), "Evento " .. self.spos .. "/" .. #self.list)
+  local imgtop = canvas:new("media/harmonia/setas.png")
+  canvas:compose((offset_x+GRID*20.7),(offset_y+dy-GRID*6), imgtop)
   --qr code
   local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
   dx,dy = imgqr:attrSize()
@@ -228,8 +233,9 @@ function harmoniaMenu:especial()
   canvas:attrColor(1,1,1,160)
 
   canvas:attrFont("Tiresias", 22,"bold")
-
-  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
+ 
+  --  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
+  canvas:drawText(GRID*6,GRID*11.5, "Villa Lobos")
 
   canvas:attrFont("Tiresias", 17,"normal")
 
