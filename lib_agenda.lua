@@ -109,8 +109,8 @@ end
 -- agenda icons vert scroll
 function agendaMenu:pageReset()
   if (not PGMON) then
-    --    canvas:attrColor(255,141,47,200)
-    canvas:attrColor("black")
+    -- canvas:attrColor(255,141,47,200)
+     canvas:attrColor("black")
     canvas:clear(0,0, GRID*32, GRID*18)
     PGMON = true
   end
@@ -165,9 +165,14 @@ function agendaMenu:pageReset()
 end
 
 function agendaMenu:bgd()
-  local imgbgd = canvas:new("media/agenda/bgd.png")
+  -- background fundo
+  canvas:attrColor(64,64,65,153)
+  canvas:drawRect("fill",GRID*3.75,GRID*2,SCREEN_HEIGHT*2, SCREEN_WIDTH)
+  canvas:flush()
+  -- imagem hora extra
+  local imgbgd = canvas:new("media/agenda/he.png")
   local dx,dy = imgbgd:attrSize()
-  canvas:compose(GRID*3.75, GRID*2, imgbgd)
+  canvas:compose(GRID*20, GRID*2, imgbgd)
 
   for i=1,4 do
     local btncaticon
@@ -520,15 +525,31 @@ function agendaMenu:contatos()
     if i == 1 then
       canvas:compose(GRID*8, GRID*7, imgqr )
       canvas:compose(GRID*12 -1, GRID*7, imgqrtag )
+      canvas:attrFont("Tiresias",15,"normal")
+      canvas:attrColor("white")
+      canvas:drawText(GRID*8, GRID*17,"facebook.com/programaagenda")
+
     elseif i == 2 then
       canvas:compose(GRID*16, GRID*7, imgqr )
       canvas:compose(GRID*20-1, GRID*7, imgqrtag )
+      canvas:attrFont("Tiresias",15,"normal")
+      canvas:attrColor("white")
+      canvas:drawText(GRID*8, GRID*11.2,"redeminas.tv/agenda")
+
     elseif i == 3 then
       canvas:compose(GRID*8, GRID*12.75, imgqr )
       canvas:compose(GRID*12-1, GRID*12.75, imgqrtag )
+      canvas:attrFont("Tiresias",15,"normal")
+      canvas:attrColor("white")
+      canvas:drawText(GRID*16, GRID*11.2,"youtube.com/user/programaagendatv")
+
     elseif i == 4 then
       canvas:compose(GRID*16, GRID*12.75, imgqr )
       canvas:compose(GRID*20-1, GRID*12.75, imgqrtag )
+      canvas:attrFont("Tiresias",15,"normal")
+      canvas:attrColor("white")
+      canvas:drawText(GRID*16, GRID*17,"agenda.redeminas@gmail.com")
+
     end
   end
 end
