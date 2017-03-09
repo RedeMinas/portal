@@ -209,11 +209,25 @@ function harmoniaMenu:repertorio()
   for i=1,#list do
     canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
   end
+  -- switch pages harmonia 
+  for i=1, #self.list do
 
+    if (i == self.spos) then
+      canvas:attrColor("white")
+    else
+      canvas:attrColor(1,1,1,160)
+    end
+    canvas:drawEllipse("frame",(SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),9,9)
+    canvas:flush()
+  end
+
+
+  --[[
   canvas:attrFont("Tiresias", 21,"bold")
   canvas:drawText((offset_x+GRID*21.3),(offset_y+dy-GRID*6.1), "Evento " .. self.spos .. "/" .. #self.list)
   local imgtop = canvas:new("media/harmonia/setas.png")
   canvas:compose((offset_x+GRID*20.7),(offset_y+dy-GRID*6), imgtop)
+--]]
   --qr code
   local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
   dx,dy = imgqr:attrSize()
