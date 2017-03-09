@@ -214,7 +214,6 @@ function harmoniaMenu:repertorio()
     canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
   end
 
-
   -- switch pages harmonia
 
   for i=1, #self.list do
@@ -231,15 +230,7 @@ function harmoniaMenu:repertorio()
     -- canvas:flush()
   end
 
-  --[[
-  canvas:attrFont("Tiresias", 21,"bold")
-  canvas:drawText((offset_x+GRID*21.3),(offset_y+dy-GRID*6.1), "Evento " .. self.spos .. "/" .. #self.list)
-  local imgtop = canvas:new("media/harmonia/setas.png")
-  canvas:compose((offset_x+GRID*20.7),(offset_y+dy-GRID*6), imgtop)
---]]
-  --qr code
 
-  
 
   local imgqr = canvas:new("media/harmonia/qr" .. imgiconpath .. ".png")
   dx,dy = imgqr:attrSize()
@@ -259,13 +250,13 @@ function harmoniaMenu:especial()
   canvas:attrColor(1,1,1,160)
 
   canvas:attrFont("Tiresias", 22,"bold")
- 
+
   --  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
   canvas:drawText(GRID*6,GRID*11.5, "Villa Lobos")
 
   canvas:attrFont("Tiresias", 17,"normal")
 
-  local m = (self.especialpos-1)*self.especiallines 
+  local m = (self.especialpos-1)*self.especiallines
   for  i = m+1, m+self.especiallines   do
     if not self.especiallist[i] then
       self.especiallist[i] = " "
@@ -289,8 +280,6 @@ function harmoniaMenu:especial()
     local imgvoltar = canvas:new("media/harmonia/voltar.png")
     canvas:compose(GRID*6, GRID*17.25, imgvoltar)
   end
-
-
 
 end
 
