@@ -131,8 +131,8 @@ function layoutPgmHarmoniaRep(table)
   for i = 2, #table, 1 do
     local w=1
     for regexp in table[i]:gmatch("[^\t\t]+") do
+      id = i-1
       if w == 1 then
-        id = i-1
         tab[id]={}
         tab[id]["img"] = regexp
       elseif w == 2 then

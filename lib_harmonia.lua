@@ -17,6 +17,7 @@ function harmoniaMenu:new(o)
   self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
+  print("debug", #self.list)
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
   self.especiallist = textWrap (self.listextra[2]["especial"], 90)
   self.especiallines = 7
@@ -179,7 +180,10 @@ function harmoniaMenu:repertorio()
   canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
 
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
+
   local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
+
+
   local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" )
   local dx,dy = imgicon:attrSize()
 
@@ -188,7 +192,7 @@ function harmoniaMenu:repertorio()
 
   --lines
   canvas:attrColor(255,255,255,255)
-  canvas:drawLine(offset_x+dx, offset_y+GRID/2+7, SCREEN_WIDTH-GRID, offset_y+GRID/2+5  )
+  canvas:drawLine(offset_x+dx, offset_y+GRID/2+5, SCREEN_WIDTH-GRID, offset_y+GRID/2+5  )
 
   --texts
   canvas:attrFont("Tiresias", 21,"bold")
@@ -210,12 +214,34 @@ function harmoniaMenu:repertorio()
     canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
   end
 
+
+  -- switch pages harmonia
+
+  for i=1, #self.list do
+    if (i == self.spos) then
+      -- canvas:attrColor(1,1,1,160)
+      local imgb1 = canvas:new("media/harmonia/b2.png")
+      canvas:compose((SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),imgb1)
+    else
+      local imgb2 = canvas:new("media/harmonia/b1.png")
+      canvas:compose((SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),imgb2)
+      -- canvas:attrColor("white")
+    end
+    -- canvas:drawEllipse("fill",(SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),8,8)
+    -- canvas:flush()
+  end
+
+  --[[
   canvas:attrFont("Tiresias", 21,"bold")
   canvas:drawText((offset_x+GRID*21.3),(offset_y+dy-GRID*6.1), "Evento " .. self.spos .. "/" .. #self.list)
   local imgtop = canvas:new("media/harmonia/setas.png")
   canvas:compose((offset_x+GRID*20.7),(offset_y+dy-GRID*6), imgtop)
+--]]
   --qr code
-  local imgqr = canvas:new("media/harmonia/qr" .. string.format("%02d",self.list[self.spos]["img"]) .. ".png")
+
+  
+
+  local imgqr = canvas:new("media/harmonia/qr" .. imgiconpath .. ".png")
   dx,dy = imgqr:attrSize()
   canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, imgqr)
 
