@@ -109,7 +109,7 @@ function altofalante:pageReset()
   canvas:compose(GRID*15,GRID*0.5,switch1)
 
   local knob3 = self:knobcvs(self.zpos,self.zpages,3, "green", "white")
-  canvas:compose(GRD*20,GRID*0.5,knob3)
+  canvas:compose(GRID*20,GRID*0.5,knob3)
 
   canvas:flush()
 end
