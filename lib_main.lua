@@ -10,20 +10,23 @@ ICON = {}
 ICON.state = 1
 ICON.pos =1
 DEBUG = true
-VERSION = "1.2.4T"
+VERSION = "1.2.5"
 START = false
 
 --- tcp metrics
 require 'lib_tcp'
 
 --- Send Info over tcpip
-function countMetric()
+function countMetric(param)
   -- ping internet
-  if START == false then
+  --if START == false then
+  if not param then
+    param = "portal"
+  end
     tcp.execute(
       function ()
         tcp.connect('redeminas.mg.gov.br', 80)
-        tcp.send('get /ginga.php?aplicacao=portal' .. VERSION .. '\n')
+        tcp.send('get /ginga.php?aplicacao=' .. param .. VERSION .. '\n')
         tcpresult = tcp.receive()
         if tcpresult then
           tcpresult = tcpresult or '0'
@@ -35,7 +38,7 @@ function countMetric()
         START = true
       end
     )
-  end
+  --end
 end
 
 --- Send Info over tcpip

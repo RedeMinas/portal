@@ -23,8 +23,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 90)
-  self.episodiolines = 7
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 82)
+  self.episodiolines = 3
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
 --  self.settings=false
@@ -229,8 +229,6 @@ function harmoniaMenu:repertorio()
     -- canvas:drawEllipse("fill",(SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),8,8)
     -- canvas:flush()
   end
-
-
 
   local imgqr = canvas:new("media/harmonia/qr" .. imgiconpath .. ".png")
   dx,dy = imgqr:attrSize()

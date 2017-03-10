@@ -50,6 +50,7 @@ function handler (evt)
         agenda:input(evt)
       elseif (m.list[m.spos]["img"]==8) then
         --browse on harmonia
+        countMetric("harmonia")
         harmonia:input(evt)
       elseif (m.list[m.spos]["img"]==13) then
         --browse on mulherese
