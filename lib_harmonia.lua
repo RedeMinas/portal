@@ -152,11 +152,22 @@ function harmoniaMenu:episodio()
   canvas:compose(SCREEN_WIDTH-dx-GRID, GRID*11.5, img)
 
 
-
-  canvas:attrFont("Tiresias", 14,"normal")
+-- switch pages a semana
+  for i=1, self.episodiopages do
+    if (i == self.episodiopos) then
+      -- canvas:attrColor(1,1,1,160)
+      local imgb3 = canvas:new("media/harmonia/b2.png")
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb3)
+    else
+      local imgb4 = canvas:new("media/harmonia/b1.png")
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb4)
+ 
+    end
+   end
+ --[[ canvas:attrFont("Tiresias", 14,"normal")
   canvas:attrColor("white")
   canvas:drawText(SCREEN_WIDTH-GRID*2,GRID*11.5+dy+GRID/4, "(" .. self.episodiopos .. "/" .. self.episodiopages .. ")")
-
+ --]]
 
   if (self.episodiopos == 1) then
     local imglermais = canvas:new("media/harmonia/lermais.png")
@@ -220,10 +231,10 @@ function harmoniaMenu:repertorio()
     if (i == self.spos) then
       -- canvas:attrColor(1,1,1,160)
       local imgb1 = canvas:new("media/harmonia/b2.png")
-      canvas:compose((SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),imgb1)
+      canvas:compose((SCREEN_WIDTH-(GRID+13.5*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*5.95),imgb1)
     else
       local imgb2 = canvas:new("media/harmonia/b1.png")
-      canvas:compose((SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),imgb2)
+      canvas:compose((SCREEN_WIDTH-(GRID+13.5*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*5.95),imgb2)
       -- canvas:attrColor("white")
     end
     -- canvas:drawEllipse("fill",(SCREEN_WIDTH-(GRID/2*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*6.1),8,8)
@@ -266,10 +277,21 @@ function harmoniaMenu:especial()
   local dx,dy = img:attrSize()
   canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
 
-  canvas:attrFont("Tiresias", 14,"bold")
+  for i=1, self.especialpages do
+    if (i == self.especialpos) then
+      -- canvas:attrColor(1,1,1,160)
+      local imgb5 = canvas:new("media/harmonia/b2.png")
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb5)
+    else
+      local imgb6 = canvas:new("media/harmonia/b1.png")
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb6)
+       end
+  end
+
+--[[  canvas:attrFont("Tiresias", 14,"bold")
   canvas:attrColor("white")
   canvas:drawText(SCREEN_WIDTH-GRID*2,GRID*11.5+dy+GRID/4, "(" .. self.especialpos .. "/" .. self.especialpages .. ")")
-
+--]]
 
   if (self.especialpos == 1) then
     local imglermais = canvas:new("media/harmonia/lermais.png")
