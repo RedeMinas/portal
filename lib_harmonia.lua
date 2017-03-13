@@ -101,15 +101,15 @@ function harmoniaMenu:iconDraw()
       self.bar.desc = self.menu[i].desc
 
       local imgicon = canvas:new("media/harmonia/icon.png")
-      canvas:compose(0, GRID*10.8+(GRID*i), imgicon)
+      canvas:compose(0, GRID*10.15+(GRID*i)*1.2, imgicon)
 
       local btni = canvas:new("media/harmonia/btn" .. i .. "on.png")
-      canvas:compose(GRID, GRID*11+(GRID*i), btni)
+      canvas:compose(GRID, GRID*10.4+(GRID*i)*1.2, btni)
 --      barHorizontal()
     else
       canvas:attrColor(1,1,1,160)
       local btni = canvas:new("media/harmonia/btn" .. i .. "off.png")
-      canvas:compose(GRID, GRID*11+(GRID*i), btni)
+      canvas:compose(GRID, GRID*10.4+(GRID*i)*1.2, btni)
     end
   end
 
@@ -149,7 +149,7 @@ function harmoniaMenu:episodio()
 
   local img = canvas:new("media/harmonia/asemana" .. self.episodiopos .. ".png")
   local dx,dy = img:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID, GRID*11.5, img)
+  canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
 
 
 -- switch pages a semana
@@ -157,10 +157,10 @@ function harmoniaMenu:episodio()
     if (i == self.episodiopos) then
       -- canvas:attrColor(1,1,1,160)
       local imgb3 = canvas:new("media/harmonia/b2.png")
-      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb3)
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb3)
     else
       local imgb4 = canvas:new("media/harmonia/b1.png")
-      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb4)
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb4)
  
     end
    end
@@ -275,16 +275,16 @@ function harmoniaMenu:especial()
 
   local img = canvas:new("media/harmonia/especialdomes" .. self.especialpos .. ".png")
   local dx,dy = img:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID*11.5, img)
+  canvas:compose(SCREEN_WIDTH-dx-GRID, SCREEN_HEIGHT-GRID/2-dy, img)
 
   for i=1, self.especialpages do
     if (i == self.especialpos) then
       -- canvas:attrColor(1,1,1,160)
       local imgb5 = canvas:new("media/harmonia/b2.png")
-      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb5)
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb5)
     else
       local imgb6 = canvas:new("media/harmonia/b1.png")
-      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID/2,imgb6)
+      canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb6)
        end
   end
 

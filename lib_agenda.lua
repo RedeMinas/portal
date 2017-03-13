@@ -21,7 +21,7 @@ function agendaMenu:new(o)
   self.pollvote=false
   self.page = 1
   self.pages = 4
-  self.menu = {"Agenda Cultural", "Centros Culturais", "Enquete", "Contatos"}
+  self.menu = {"Agenda Cultural", "Centros Culturais", "Especial", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
   self.catcolors = {{217,215,215,200},{183,43,137,200},{207,120,24,200},{209,197,16,200},{118,176,40,200},{0,227,247,200}}
   self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "MÃºsica", "Artes"}
@@ -34,7 +34,7 @@ end
 function agendaMenu:input(evt)
   if ( evt.key == "RED" ) then
     self.page=1
-    self:pageReset()
+   self:pageReset()
   elseif ( evt.key == "GREEN" ) then
     self.page=2
     self:pageReset()
@@ -72,7 +72,7 @@ function agendaMenu:input(evt)
       self.ccposv=shift(self.ccposv,1,#self.ccregions)
       self:cc()
     end
-  elseif ( self.page==3 ) then
+  --[[  elseif ( self.page==3 ) then
     if ( evt.key == "CURSOR_LEFT" ) then
       self.pollposh=shift(self.pollposh,-1,#self.acats)
       self:poll()
@@ -102,8 +102,8 @@ function agendaMenu:input(evt)
       end
     else
       canvas:drawText(GRID*5, GRID*4, "Voto feito")
-    end
-  end
+    end --]]
+ end 
 end
 
 -- agenda icons vert scroll
@@ -111,7 +111,7 @@ function agendaMenu:pageReset()
   if (not PGMON) then
     -- canvas:attrColor(255,141,47,200)
      canvas:attrColor("black")
-    canvas:clear(0,0, GRID*32, GRID*18)
+   canvas:clear(0,0, GRID*32, GRID*18)
     PGMON = true
   end
 
@@ -127,9 +127,9 @@ function agendaMenu:pageReset()
   canvas:compose(GRID/2,GRID-dy/2, imglogo )
 
   -- draw tagtop detail
-  local imgtagtop = canvas:new("media/agenda/tagtop.png")
-  local dx,dy = imgtagtop:attrSize()
-  canvas:compose(GRID*25, GRID*2-dy, imgtagtop )
+  -- local imgtagtop = canvas:new("media/agenda/tagtop.png")
+  -- local dx,dy = imgtagtop:attrSize()
+  -- canvas:compose(GRID*25, GRID*2-dy, imgtagtop )
 
   -- draw redeminas logo
   local imglogorm = canvas:new("media/agenda/logoredeminas.png")
@@ -138,7 +138,7 @@ function agendaMenu:pageReset()
 
   -- clear left menu
   canvas:attrColor(64,64,65,204)
-  canvas:clear(0,GRID*2,GRID*3.75,GRID*16)
+  canvas:clear(0,GRID*2,GRID*5,GRID*16)
 
   --- ???/
   --  canvas:attrColor("pink")
@@ -157,7 +157,7 @@ function agendaMenu:pageReset()
   elseif(self.page==2) then
     self:cc()
   elseif(self.page==3) then
-    self:poll()
+    self:especial()
   elseif(self.page==4) then
     self:contatos()
   end
@@ -172,7 +172,7 @@ function agendaMenu:bgd()
   -- imagem hora extra
   local imgbgd = canvas:new("media/agenda/he.png")
   local dx,dy = imgbgd:attrSize()
-  canvas:compose(GRID*20, GRID*2, imgbgd)
+  canvas:compose(GRID*20, GRID*6.4-dy, imgbgd)
 
   for i=1,4 do
     local btncaticon
@@ -192,8 +192,9 @@ end
 function agendaMenu:calendar()
 
   -- clean cleandar events area
-  canvas:attrColor(0,0,0,0)
-  canvas:clear(GRID*3.75 ,GRID*2,SCREEN_WIDTH,GRID*16)
+  -- canvas:attrColor(0,0,0,0)
+  canvas:attrColor(64,64,65,153)
+  canvas:clear(GRID*3.75,GRID*2,SCREEN_WIDTH,GRID*16)
 
   -- clean week menu lateral bar
   canvas:attrColor(64,64,65,204)
@@ -487,7 +488,15 @@ function agendaMenu:ccCategoryDisplay()
   end
 end
 
-function agendaMenu:poll()
+function agendaMenu:especial()
+   -- clean draw area
+  canvas:attrColor(0,0,0,0)
+  canvas:clear(GRID*3.75, GRID*2, SCREEN_WIDTH, GRID*16)
+  self:bgd()
+  local imgesp = canvas:new("media/agenda/especial.png")
+  canvas:compose(GRID*7, GRID*3.5, imgesp)
+
+  --[[
   -- clean draw area
   canvas:attrColor(0,0,0,0)
   canvas:clear(GRID*3.75, GRID*2, SCREEN_WIDTH, GRID*16)
@@ -503,7 +512,7 @@ function agendaMenu:poll()
   canvas:attrColor("black")
   canvas:drawText(offsetx+GRID*2*self.pollposh+30,offsety+GRID*2*self.pollposv+30 , self.pollposv .. "/" .. self.pollposh)
 
-  canvas:flush()
+  canvas:flush() --]]
 end
 
 function agendaMenu:contatos()
@@ -513,43 +522,49 @@ function agendaMenu:contatos()
 
   self:bgd()
 
-  canvas:attrFont("Tiresias",20,"normal")
+ --[[  canvas:attrFont("Tiresias",20,"normal")
   canvas:attrColor("white")
   canvas:drawText(GRID*6,GRID*3 , "Fique por dentro! \n Ficha tecnica? :)")
+ --]]
 
+  --img contatos
+  local imgcnt = canvas:new("media/agenda/cnt.png")
+  -- local dx,dy = imgbgd:attrSize()
+
+  canvas:compose(GRID*5, GRID*2.75, imgcnt)
   for i=1,4 do
     local imgqrtag = canvas:new("media/agenda/qrtag" .. i .. ".png")
     local imgqr = canvas:new("media/agenda/qr" .. i .. ".png")
     local dx,dy = imgqrtag:attrSize()
     canvas:attrColor("white")
     if i == 1 then
-      canvas:compose(GRID*8, GRID*7, imgqr )
-      canvas:compose(GRID*12 -1, GRID*7, imgqrtag )
+      -- rede minas
+      canvas:compose(GRID*5, GRID*7.5, imgqr )
+      canvas:compose(GRID*9 -1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
-      canvas:drawText(GRID*8, GRID*17,"facebook.com/programaagenda")
-
+      canvas:drawText(GRID*5,GRID*11.75,"redeminas.tv/agenda")
+      -- youtube
     elseif i == 2 then
-      canvas:compose(GRID*16, GRID*7, imgqr )
-      canvas:compose(GRID*20-1, GRID*7, imgqrtag )
+      canvas:compose(GRID*13, GRID*7.5, imgqr )
+      canvas:compose(GRID*17-1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
-      canvas:drawText(GRID*8, GRID*11.2,"redeminas.tv/agenda")
-
+      canvas:drawText(GRID*13, GRID*11.75,"youtube.com/user/programaagendatv") 
+      -- facebook
     elseif i == 3 then
-      canvas:compose(GRID*8, GRID*12.75, imgqr )
-      canvas:compose(GRID*12-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*9, GRID*12.75, imgqr )
+      canvas:compose(GRID*13-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
-      canvas:drawText(GRID*16, GRID*11.2,"youtube.com/user/programaagendatv")
-
+      canvas:drawText(GRID*9, GRID*17,"facebook.com/programaagenda")
+      -- email
     elseif i == 4 then
-      canvas:compose(GRID*16, GRID*12.75, imgqr )
-      canvas:compose(GRID*20-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*17, GRID*12.75, imgqr )
+      canvas:compose(GRID*21-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
-      canvas:drawText(GRID*16, GRID*17,"agenda.redeminas@gmail.com")
-
+      canvas:drawText(GRID*17,GRID*17,"agenda.redeminas@gmail.com")
     end
   end
 end
