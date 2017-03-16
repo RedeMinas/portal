@@ -20,17 +20,20 @@ function altofalante:new(o)
     end
   end
 
+  self.listalbuns = layoutPgmAltofalanteAlbuns(ReadTable("tbl_af_albuns.txt"))
+
   self.bgdcolor = {255,102,0,200}
 
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
   self.meta = {
-    {2,8,2,GRID/2,GRID*3.5,color1="blue", color2="yellow", menu="teste"},
-    {1,4,0.5,0,GRID*14,color1="yellow", color2="blue", menu="Resumo"},
+    {2,8,2,GRID/2,GRID*3.5,color1="blue", color2="yellow", menu="Resumo"},
+    {1,#self.listalbuns,0.5,0,GRID*14,color1="yellow", color2="blue", menu="News"},
     {3,7,1.5,GRID*21,GRID*3,color1="pink", color2="red", menu="contato"},
-    {1,11,2,GRID*21,GRID*7,color1="brown", color2="white", menu="Garimpo"},
+    {1,13,3,GRID*21,GRID*7,color1="brown", color2="white", menu="Garimpo"},
   }
 
---  self.list=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
+  
+
   return o
 end
 
@@ -127,8 +130,6 @@ function altofalante:knobcvs(component)
   local size = GRID*2
   local alpha	= pi * 2 / self.meta[component][2]
 
-
-
   -- knob degress
   canvas:attrColor("white")
 
@@ -186,20 +187,30 @@ function altofalante:sector1()
 
   canvas:attrColor(self.meta[1].color1)
   canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
+
+  local imgil = canvas:new("media/altofalante/il2.png")
+  local dx,dy = imgil:attrSize()
+  canvas:compose(GRID/2, GRID*3.5, imgil )
+
+
   canvas:attrColor(self.meta[1].color2)
   canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
 end
 
 function altofalante:sector2()
-  local sizex = GRID*21
-  local sizey = GRID*4
+  local sizex = GRID*25
+  local sizey = GRID*2
   local offsetx = 0
-  local offsety = GRID*13
+  local offsety = GRID*16
 
   canvas:attrColor(self.meta[2].color1)
   canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
+
+  canvas:attrFont("Tiresias", 18,"bold")
   canvas:attrColor(self.meta[2].color2)
-  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[2][1])
+  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[2][1] .. "/" .. #self.listalbuns .. " : " ..  self.listalbuns[self.meta[2][1]]["album"])
+
+  self:timer()
 end
 
 
@@ -226,11 +237,29 @@ function altofalante:sector4()
   canvas:attrColor(self.meta[4].color1)
   canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
   canvas:attrColor(self.meta[4].color2)
-  canvas:attrFont("Tiresias", 14,"bold")
-  canvas:drawText(offsetx+GRID/2,offsety+GRID/2,"Disco " .. self.meta[4][1] )
-  canvas:drawText(offsetx+GRID/2,offsety+GRID*1.5,"Banda xxxx " )
+  canvas:attrFont("Tiresias", 12,"normal")
+  canvas:drawText(offsetx+GRID/2,offsety+GRID/2, self.meta[4][1] .. " " .. self.listalbuns[self.meta[4][1]]["banda"]  )
+  canvas:drawText(offsetx+GRID/2,offsety+GRID*1.5, self.listalbuns[self.meta[4][1]]["album"] )
 
   local index = string.format("%02d" , self.meta[4][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
   canvas:compose(offsetx+GRID/2,offsety+GRID*2.5,imgalbum )
+
+end
+
+
+function autoForward()
+  af.meta[2][1]=shift(af.meta[2][1],1,af.meta[2][2])
+  af:sector2()
+  af:knobcvs(2)
+  canvas:flush()
+end
+
+function altofalante:timer()
+  local timeout = 5000
+
+  if cancelTimerFunc then
+    cancelTimerFunc()
+  end
+  cancelTimerFunc = event.timer(timeout, autoForward)
 end

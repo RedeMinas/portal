@@ -25,6 +25,10 @@ echo "sync mulheresdelei"
 curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1045078955&format=tsv" > /tmp/tbl_mulherese.txt
 
 
+echo "sync altofalante discos"
+
+curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=504686772&format=tsv" > /tmp/tbl_af_albuns.txt
+
 
 
 if [[ -n "$par" ]]
@@ -48,6 +52,8 @@ then
     echo "copying mulheresdelei"
     cp /tmp/tbl_mulherese.txt  tbl_mulherese.txt
 
+    echo "copying altofalante discos"
+    cp /tmp/tbl_af_albuns.txt tbl_af_albuns.txt
 
 else
     echo "converting pgm"
@@ -67,4 +73,9 @@ else
 
     echo "converting mulheresdelei"
     iconv -t ISO-8859-1 /tmp/tbl_mulherese.txt > tbl_mulherese.txt
+
+    echo "converting  altofalante discos"
+    iconv -t ISO-8859-1 /tmp/tbl_af_albuns.txt > tbl_af_albuns.txt
+
+
 fi
