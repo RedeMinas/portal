@@ -215,6 +215,13 @@ function MainMenu:input(evt)
     dofile("lib_agenda.lua")
     agenda=agendaMenu:new{}
     agenda:pageReset()
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==2 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+    --agenda start
+    dofile("lib_altofalante.lua")
+    af=altofalante:new{}
+    --af:input()
+    af:pageReset()
+    
   elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)

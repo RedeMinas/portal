@@ -24,13 +24,13 @@ function altofalante:new(o)
 
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
   self.meta = {
-    {1,8,2,0,GRID*5,color1="brown", color2="yellow"},
-    {1,4,2,0,GRID*10,color1="yellow", color2="blue"},
-    {1,7,2,GRID*15,GRID*5,color1="pink", color2="red"},
-    {1,6,2,GRID*15,GRID*10,color1="gray", color2="white"},
+    {2,8,2,GRID/2,GRID*3.5,color1="blue", color2="yellow", menu="teste"},
+    {1,4,0.5,0,GRID*14,color1="yellow", color2="blue", menu="Resumo"},
+    {3,7,1.5,GRID*21,GRID*3,color1="pink", color2="red", menu="contato"},
+    {1,11,2,GRID*21,GRID*7,color1="brown", color2="white", menu="Garimpo"},
   }
 
---  self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
+--  self.list=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
   return o
 end
 
@@ -61,157 +61,176 @@ function altofalante:pageReset(page)
   end
 
   if not page then
+    -- top menu box
     canvas:attrColor(unpack(self.bgdcolor))
     canvas:clear(0,0,SCREEN_WIDTH,GRID*3)
-    local imglogo = canvas:new("media/altofalante/logo.png")
-    local dx,dy = imglogo:attrSize()
-    canvas:compose(GRID/2, GRID/2, imglogo )
 
-    --selector
-    canvas:attrColor("red")
-    canvas:drawEllipse("fill", GRID*6+GRID*5*(self.page-1), GRID*1.5, GRID*2.25, GRID*2.25)
+    -- top menu logo
+    local imglogoaf = canvas:new("media/altofalante/logo.png")
+    local dx,dy = imglogoaf:attrSize()
+    canvas:compose(GRID/2, GRID/2, imglogoaf )
+
+    local imglogorm = canvas:new("media/btn1off.png")
+    local dx,dy = imglogorm:attrSize()
+    canvas:compose(SCREEN_WIDTH-GRID-dx, GRID/2, imglogorm )
+
+    local btnarrowv = canvas:new("media/btnarrowv.png")
+    local btnarrowh = canvas:new("media/btnarrowh.png")
+    local btnexit = canvas:new("media/btnsair.png")
+    canvas:compose(SCREEN_WIDTH-GRID*4, GRID*1.5, btnarrowh)
+    canvas:compose(SCREEN_WIDTH-GRID*2, GRID*1.5, btnexit)
 
     -- top menu
-    for i=1, #self.meta do
-      local knob = self:knobcvs(i)
-      canvas:compose(GRID*5*i,GRID*0.5,knob)
+    canvas:attrFont("Tiresias", 14,"bold")
 
+    -- main menu: knobs and titles
+    for i=1, #self.meta do
+      self:knobcvs(i)
+      if i == self.page then
+        canvas:attrColor("white")
+        canvas:compose(GRID*5*i+GRID*2.25, GRID*2.25, btnarrowv)
+      else
+        canvas:attrColor("black")
+      end
+      local dx,dy = canvas:measureText(self.meta[i].menu)
+      canvas:drawText(GRID*5*i+GRID-dx/2,GRID*2.4, self.meta[i].menu)
     end
 
-    local sector1 = self:sector1()
-    local sector2 = self:sector2()
-    local sector3 = self:sector3()
-    local sector4 = self:sector4()
-
-    canvas:compose(self.meta[1][4],self.meta[1][5],sector1)
-    canvas:compose(self.meta[2][4],self.meta[2][5],sector2)
-    canvas:compose(self.meta[3][4],self.meta[3][5],sector3)
-    canvas:compose(self.meta[4][4],self.meta[4][5],sector4)
+    self:sector1()
+    self:sector2()
+    self:sector3()
+    self:sector4()
 
   elseif(page) then
 
     local sector
     if (page ==1)  then
-      sector = self:sector1()
+      self:sector1()
     elseif (page==2) then
-      sector = self:sector2()
+      self:sector2()
     elseif (page==3) then
-      sector = self:sector3()
+      self:sector3()
     elseif (page==4) then
-      sector = self:sector4()
+      self:sector4()
     end
 
-    local knob = self:knobcvs(page)
-
-    canvas:compose(GRID*5*page,GRID*0.5,knob)
-
-    canvas:compose(self.meta[page][4],self.meta[page][5],sector)
+    self:knobcvs(page)
   end
-
-
   canvas:flush()
 end
 
 function altofalante:knobcvs(component)
-    local div = self.meta[component][3] +1
-
+  local offsetx=GRID*5*component
+  local offsety=GRID/2
+  local div = self.meta[component][3] +1
   local pi = 22/7
   local size = GRID*2
   local alpha	= pi * 2 / self.meta[component][2]
+
+
+
+  -- knob degress
+  canvas:attrColor("white")
+
+  for i=1,self.meta[component][2] do
+    local theta = alpha * (i  + self.meta[component][3])
+    local px = math.cos( theta ) * size*0.6 + size/2
+    local py = math.sin( theta ) * size*0.6 + size/2
+    canvas:drawLine(offsetx+size/2,offsety+size/2, offsetx+px,offsety+py)
+  end
+
+  local imgknob = canvas:new("media/altofalante/knob1.png")
+  canvas:compose(offsetx,offsety, imgknob )
+
+
+  -- knob position
   local theta = alpha * (self.meta[component][1]  + self.meta[component][3])
-  --print ("alpha, teta" ,alpha, theta)
-  local px = math.cos( theta )  * size*0.4 + size/2
-  local py = math.sin( theta )  * size*0.4 + size/2
+  local px = math.cos( theta ) * size*0.4 + size/2
+  local py = math.sin( theta ) * size*0.4 + size/2
   --print("px,py" , px, py)
-  local cvs = canvas.new(size,size)
 
-  cvs:attrColor(self.meta[component].color1)
-  cvs:drawEllipse ('fill', size/2,size/2, size,size)
-  cvs:attrColor(self.meta[component].color2)
-  cvs:drawLine(size/2,size/2, px,py)
-  cvs:attrFont("Tiresias", 16,"bold")
-  cvs:attrColor("black")
-  cvs:drawText(size/2,size/2, self.meta[component][1])
-  cvs:flush()
-  return cvs
+
+  --  canvas:attrColor(self.meta[component].color2)
+  canvas:attrColor("black")
+
+  --canvas:attrLineWidth(5) -- bug in all tvs
+  canvas:drawLine(offsetx+size/2,offsety+size/2, offsetx+px,offsety+py)
+
+  canvas:attrFont("Tiresias", 16,"bold")
+  canvas:attrColor("black")
+  canvas:drawText(offsetx+size/2,offsety+size/2, self.meta[component][1])
 end
-
 
 function altofalante:switchcvs(pos, div, color1, color2)
   local size = GRID*4
-  local mult = 4
-  local cvs = canvas.new(size/mult,size)
+  local mult = GRID/2
 
   -- fundo
-  cvs:attrColor(color1)
-  cvs:clear()
+  canvas:attrColor(color1)
+  canvas:clear()
   --cvs:drawRect ('fill', 10, 10, size/mult,size/div)
 
-  cvs:attrColor(color2)
-  cvs:drawRect ('fill', 10, size/div*(pos-1), size-20, size/div)
+  canvas:attrColor(color2)
+  canvas:drawRect ('fill', 10, size/div*(pos-1), size-20, size/div)
 
-  cvs:attrFont("Tiresias", 16,"bold")
-  cvs:attrColor("white")
-  cvs:drawText(size/2,size/2, pos)
-
-  cvs:flush()
-  return cvs
+  canvas:attrFont("Tiresias", 16,"bold")
+  canvas:attrColor("white")
+  canvas:drawText(size/2,size/2, pos)
 end
 
 function altofalante:sector1()
-  local sizex = GRID*6
-  local sizey = GRID*5
+  local sizex = GRID*20
+  local sizey = GRID*10
+  local offsetx = 0
+  local offsety = GRID*3
 
-  local cvs = canvas.new(sizex,sizey)
-  cvs:attrColor(self.meta[1].color1)
-  cvs:drawRect('fill',0,0,sizex,sizey)
-  cvs:attrColor(self.meta[1].color2)
-  cvs:drawText(GRID,GRID,self.meta[1][1])
-
-  cvs:flush()
-  return cvs
+  canvas:attrColor(self.meta[1].color1)
+  canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
+  canvas:attrColor(self.meta[1].color2)
+  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
 end
 
-
 function altofalante:sector2()
-  local sizex = GRID*5
-  local sizey = GRID*5
+  local sizex = GRID*21
+  local sizey = GRID*4
+  local offsetx = 0
+  local offsety = GRID*13
 
-  local cvs = canvas.new(sizex,sizey)
-  cvs:attrColor(self.meta[2].color1)
-  cvs:drawRect('fill',0,0,sizex,sizey)
-  cvs:attrColor(self.meta[2].color2)
-  cvs:drawText(GRID,GRID,self.meta[2][1])
-
-  cvs:flush()
-  return cvs
+  canvas:attrColor(self.meta[2].color1)
+  canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
+  canvas:attrColor(self.meta[2].color2)
+  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[2][1])
 end
 
 
 function altofalante:sector3()
-  local sizex = GRID*5
-  local sizey = GRID*5
+  local sizex = GRID*11
+  local sizey = GRID*6
+  local offsetx = GRID*25
+  local offsety = GRID*3
 
-  local cvs = canvas.new(sizex,sizey)
-  cvs:attrColor(self.meta[3].color1)
-  cvs:drawRect('fill',0,0,sizex,sizey)
-  cvs:attrColor(self.meta[3].color2)
+  canvas:attrColor(self.meta[3].color1)
+  canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
 
-  cvs:flush()
-  return cvs
+  canvas:attrColor(self.meta[3].color2)
+  canvas:attrFont("Tiresias", 14,"bold")
+  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
 end
 
 function altofalante:sector4()
-  local sizex = GRID*5
-  local sizey = GRID*5
+  local sizex = GRID*13
+  local sizey = GRID*11
+  local offsetx = GRID*25
+  local offsety = GRID*9
 
-  local cvs = canvas.new(sizex,sizey)
-  
-  cvs:attrColor(self.meta[4].color1)
-  cvs:drawRect('fill',0,0,sizex,sizey)
-  cvs:attrColor(self.meta[4].color2)
-  cvs:drawText(GRID,GRID,self.meta[4][1])
+  canvas:attrColor(self.meta[4].color1)
+  canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
+  canvas:attrColor(self.meta[4].color2)
+  canvas:attrFont("Tiresias", 14,"bold")
+  canvas:drawText(offsetx+GRID/2,offsety+GRID/2,"Disco " .. self.meta[4][1] )
+  canvas:drawText(offsetx+GRID/2,offsety+GRID*1.5,"Banda xxxx " )
 
-  cvs:flush()
-  return cvs
+  local index = string.format("%02d" , self.meta[4][1] )
+  local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
+  canvas:compose(offsetx+GRID/2,offsety+GRID*2.5,imgalbum )
 end

@@ -48,6 +48,9 @@ function handler (evt)
       elseif (m.list[m.spos]["img"]==1) then
         --browse on agenda
         agenda:input(evt)
+      elseif (m.list[m.spos]["img"]==2) then
+        --browse on agenda
+        af:input(evt)
       elseif (m.list[m.spos]["img"]==8) then
         --browse on harmonia
         countMetric("harmonia")
