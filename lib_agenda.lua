@@ -18,7 +18,6 @@ function agendaMenu:new(o)
   -- poll positions
   self.pollposh = 1
   self.pollposv = 1
-  self.pollvote=false
   self.page = 1
   self.pages = 4
   self.menu = {"Agenda Cultural", "Centros Culturais", "Especial", "Contatos"}
@@ -72,9 +71,16 @@ function agendaMenu:input(evt)
       self.ccposv=shift(self.ccposv,1,#self.ccregions)
       self:cc()
     end
+  elseif (self.page == 3) then
+    if (evt.key=="CURSOR_UP") then
+      self.pollposv=shift(self.pollposv,-1,6)
+      self:especial()
+    elseif ( evt.key=="CURSOR_DOWN") then
+      self.pollposv=shift(self.pollposv,1,6)
+      self:especial()
+    end
   end
-end
-
+  end
 -- agenda icons vert scroll
 function agendaMenu:pageReset()
   if (not PGMON) then
@@ -114,22 +120,38 @@ function agendaMenu:pageReset()
   canvas:clear(0,GRID*2,GRID*3.75,GRID*16)
 
   self:bgd()
-
-  -- Draw nav buttons
-  local btnarrowv = canvas:new("media/btnarrowv.png")
-  local btnarrowh = canvas:new("media/btnarrowh.png")
-  local btnexit = canvas:new("media/btnsair.png")
-  canvas:compose(GRID/4, GRID*17, btnarrowv)
-  canvas:compose(GRID*1.5, GRID*17, btnarrowh)
-  canvas:compose(GRID*2.75, GRID*17, btnexit)
-
   if (self.page == 1) then
+    -- Draw nav buttons
+    local btnarrowv = canvas:new("media/btnarrowv.png")
+    local btnarrowh = canvas:new("media/btnarrowh.png")
+    local btnexit = canvas:new("media/btnsair.png")
+    canvas:compose(GRID/4, GRID*17, btnarrowv)
+    canvas:compose(GRID*1.5, GRID*17, btnarrowh)
+    canvas:compose(GRID*2.75, GRID*17, btnexit)
     self:calendar()
   elseif(self.page==2) then
+    -- Draw nav buttons
+    local btnarrowv = canvas:new("media/btnarrowv.png")
+    local btnarrowh = canvas:new("media/btnarrowh.png")
+    local btnexit = canvas:new("media/btnsair.png")
+    canvas:compose(GRID/4, GRID*17, btnarrowv)
+    canvas:compose(GRID*1.5, GRID*17, btnarrowh)
+    canvas:compose(GRID*2.75, GRID*17, btnexit)
+
     self:cc()
   elseif(self.page==3) then
+    -- Draw nav buttons
+    local btnarrowv = canvas:new("media/btnarrowv.png")
+    local btnexit = canvas:new("media/btnsair.png")
+    canvas:compose(GRID/4, GRID*17, btnarrowv)
+    canvas:compose(GRID*2.75, GRID*17, btnexit)
+
     self:especial()
   elseif(self.page==4) then
+    -- Draw nav buttons
+    local btnexit = canvas:new("media/btnsair.png")
+    canvas:compose(GRID*2.75, GRID*17, btnexit)
+
     self:contatos()
   end
   canvas:flush()
@@ -256,7 +278,7 @@ function agendaMenu:calendarEvents(day,cat)
     elseif  #tab > 1 and #tab <= 12 then
       str =  #tab .. " eventos encontrados."
     elseif  #tab > 12 then
-      str =  #tab .. " eventos encontrados, refine sua busca..."
+      str =  #tab .. " eventos encontrados, filre sua busca..."
     end
     canvas:attrColor("white")
     canvas:attrFont("Tiresias", 15,"bold")
@@ -404,7 +426,7 @@ end
     elseif  #tab > 1 and #tab <= 12 then
       str =  #tab .. " centros culturais encontrados."
     elseif  #tab > 12 then
-      str =  #tab .. " centros culturais encontrados, refine sua busca..."
+      str =  #tab .. " centros culturais encontrados, filtre sua busca..."
     end
     canvas:attrColor("white")
     canvas:attrFont("Tiresias", 15,"bold")
@@ -459,8 +481,8 @@ end
         canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
       end
       canvas:drawText(offsetx+posx-40, posy+GRID*2, tab[i]["func"])
-      canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["end"])
-      canvas:drawText(offsetx+posx-40, posy+GRID*3, tab[i]["contato"])
+      canvas:drawText(offsetx+posx-40, posy+GRID*2.4, tab[i]["end"])
+      canvas:drawText(offsetx+posx-40, posy+GRID*2.8, tab[i]["contato"])
       --canvas:drawText(posx, posy, tab[i]["nome"])
       --canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
     end
@@ -501,7 +523,14 @@ function agendaMenu:especial()
   local imgesp = canvas:new("media/agenda/especial.png")
   canvas:compose(GRID*7, GRID*3.5, imgesp)
 
-
+  -- list side bar
+  local imgcalwdtag = canvas:new("media/agenda/tagesp" .. math.random(5) ..".png")
+  local dx,dy = imgcalwdtag:attrSize()
+  canvas:compose(GRID*7,GRID*3.5+(self.pollposv-1)*GRID*2.3, imgcalwdtag )
+  local img = canvas:new("media/agenda/qresp" ..self. pollposv .. ".png")
+  local dx,dy = img:attrSize()
+  canvas:compose(GRID*21, GRID*13, img)
+  canvas:flush()
 end
 
 function agendaMenu:contatos()
@@ -523,28 +552,28 @@ function agendaMenu:contatos()
     if i == 1 then
       -- rede minas
       canvas:compose(GRID*5, GRID*7.5, imgqr )
-      canvas:compose(GRID*9 -1, GRID*7.5, imgqrtag )
+      canvas:compose(GRID*8.5 -1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*5,GRID*11.75,"redeminas.tv/agenda")
       -- youtube
     elseif i == 2 then
       canvas:compose(GRID*13, GRID*7.5, imgqr )
-      canvas:compose(GRID*17-1, GRID*7.5, imgqrtag )
+      canvas:compose(GRID*16.5-1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*13, GRID*11.75,"youtube.com/user/programaagendatv") 
       -- facebook
     elseif i == 3 then
       canvas:compose(GRID*9, GRID*12.75, imgqr )
-      canvas:compose(GRID*13-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*12.5-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*9, GRID*17,"facebook.com/programaagenda")
       -- email
     elseif i == 4 then
       canvas:compose(GRID*17, GRID*12.75, imgqr )
-      canvas:compose(GRID*21-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*20.5-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*17,GRID*17,"agenda.redeminas@gmail.com")
