@@ -379,6 +379,7 @@ function agendaMenu:cc()
   -- gen aux table (tab), category filter
   local tab = {}
   for i=1, #self.listcc do
+    print(i)
     if (self.ccposv == tonumber(self.listcc[i]["reg"])) then
       if (self.ccposh -1 == 0) then
         table.insert(tab,self.listcc[i])
@@ -413,8 +414,15 @@ end
 
     local posx, posy
     local offsetx, offsety = GRID*6 , GRID*2.5
-    print("d", #tab)
-    for i=1, #tab do
+
+    local qty
+    if #tab > 8 then
+      qty = 8
+    else
+      qty = #tab
+    end
+
+    for i=1, qty do
        --first line
       if i == 1 or i == 2 then
         posx = GRID * ((i-1)*10.5)  ; posy = GRID * 2.5
@@ -423,10 +431,7 @@ end
       elseif i == 5 or i == 6 then
         posx =  GRID * ((i-5)*10.5) ; posy = GRID * 10
       elseif i == 7 or i == 8 then
-        print("chegou")
         posx = GRID * ((i-7)*10.5)  ; posy = GRID * 13.75
-      else
-        posx = GRID * ((i-9)*10.5);  posy = GRID * 18.5
       end
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
@@ -460,6 +465,7 @@ end
       end
       canvas:drawText(offsetx+posx-40, posy+GRID*2, tab[i]["func"])
       canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["end"])
+      print("d", i)
       canvas:drawText(offsetx+posx-40, posy+GRID*3, tab[i]["contato"])
       --canvas:drawText(posx, posy, tab[i]["nome"])
       --canvas:drawText(posx, posy+GRID, self.acats[(tonumber(tab[i]["cat"])+1)])
