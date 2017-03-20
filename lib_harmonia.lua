@@ -23,7 +23,7 @@ function harmoniaMenu:new(o)
   self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 76)
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 75)
   self.episodiolines = 6
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
@@ -390,3 +390,4 @@ function barHorizontal()
   barHorizontalCoroutine=coroutine.create(barHorizontalAnim)
   barHorizontalUpdate()
 end
+;

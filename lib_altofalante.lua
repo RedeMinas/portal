@@ -8,20 +8,17 @@ function altofalante:new(o)
   self.__index = self
 
   self.posh = 1
-
-
   self.page = 1
-
   self.pos = {}
+  self.bgdcolor = {255,102,0,200}
 
   self.listalbuns = layoutPgmAltofalanteAlbuns(ReadTable("tbl_af_albuns.txt"))
-
-  self.bgdcolor = {255,102,0,200}
+  self.listnews = layoutPgmAltofalanteNews(ReadTable("tbl_af_news.txt"))
 
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
   self.meta = {
     {2,8,2,GRID*5,GRID/2,"knob",color1="blue", color2="yellow", menu="Resumo"},
-    {1,#self.listalbuns,2,GRID*10,GRID/2,"knob",color1="yellow", color2="blue", menu="News"},
+    {1,#self.listnews,2,GRID*10,GRID/2,"knob",color1="yellow", color2="blue", menu="News"},
     {1,2,0,GRID*12.5,GRID/2,"switch",color1="red", color2="white", menu="auto"},
     {3,7,1.5,GRID*15,GRID/2,"knob",color1="pink", color2="red", menu="contato"},
     {1,13,3,GRID*20,GRID/2,"knob",color1="brown", color2="white", menu="Garimpo"},
@@ -78,7 +75,6 @@ function altofalante:pageReset(page)
     local dx,dy = imglogorm:attrSize()
     canvas:compose(SCREEN_WIDTH-GRID-dx, GRID/2, imglogorm )
 
-
     local btnarrowh = canvas:new("media/btnarrowh.png")
     local btnexit = canvas:new("media/btnsair.png")
     canvas:compose(SCREEN_WIDTH-GRID*4, GRID*1.5, btnarrowh)
@@ -130,7 +126,7 @@ function altofalante:knobcvs(component)
   local offsety=self.meta[component][5]
   local div = self.meta[component][3] +1
   local pi = 22/7
-  local size = GRID*2
+  local size = GRID*1.5
   local alpha	= pi * 2 / self.meta[component][2]
   local btnarrowv = canvas:new("media/btnarrowv.png")
 
@@ -160,7 +156,6 @@ function altofalante:knobcvs(component)
   -- menu text, color from above
   canvas:attrFont("Tiresias", 14,"normal")
   local dx,dy = canvas:measureText(self.meta[component].menu)
-  print(dx)
   canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*2, self.meta[component].menu)
 
   -- knob image
@@ -207,16 +202,19 @@ function altofalante:switchcvs(component)
   canvas:attrColor(self.meta[component].color2)
   canvas:drawRect ('fill', offsetx, offsety+(sizey*(pos-1)), sizex,sizex,sizey)
 
+  if (component == 3) then
+    self:timer()
+  end
   --canvas:attrFont("Tiresias", 16,"bold")
   --canvas:attrColor("white")
   --canvas:drawText(offsetx+GRID,offsety, pos)
 end
 
 function altofalante:sector1()
-  local sizex = GRID*20
-  local sizey = GRID*10
-  local offsetx = 0
-  local offsety = GRID*3
+  local sizex = GRID*24
+  local sizey = GRID*12
+  local offsetx = GRID/2
+  local offsety = GRID*3.5
 
   canvas:attrColor(self.meta[1].color1)
   canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
@@ -240,7 +238,16 @@ function altofalante:sector2()
 
   canvas:attrFont("Tiresias", 18,"bold")
   canvas:attrColor(self.meta[2].color2)
-  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[2][1] .. "/" .. #self.listalbuns .. " : " ..  self.listalbuns[self.meta[2][1]]["album"])
+  canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
+
+  canvas:attrFont("Tiresias", 10,"normal")
+
+  local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
+
+  for i = 1, #text do
+
+    canvas:drawText(offsetx+GRID,offsety+GRID/2*i,text[i])
+end
 
   self:timer()
 end
@@ -280,15 +287,17 @@ end
 
 
 function autoForward()
-  af.meta[2][1]=shift(af.meta[2][1],1,af.meta[2][2])
-  af:sector2()
-  af:knobcvs(2)
-  canvas:flush()
+  if af.meta[3][1] == 1 and PGMON then
+    af.meta[2][1]=shift(af.meta[2][1],1,af.meta[2][2])
+    af:sector2()
+    af:knobcvs(2)
+    canvas:flush()
+  end
 end
 
 function altofalante:timer()
   local timeout = 1000
-  if self.meta[3][1] == 1 then
+  if self.meta[3][1] == 1 and PGMON then
     if cancelTimerFunc then
       cancelTimerFunc()
     end

@@ -312,3 +312,34 @@ function layoutPgmAltofalanteAlbuns(table)
   return tab
 end
 -- ex: local tab = layoutPgmAltofalanteAlbuns(ReadTable("table.txt"))
+
+
+
+function layoutPgmAltofalanteNews(table)
+  local tab={}
+  local id = 0
+  for i = 2, #table, 1 do
+    local w=1
+    for regexp in table[i]:gmatch("[^\t\t]+") do
+      if w == 1 then
+        id = tonumber(regexp)
+        tab[id]={}
+        tab[id]["img"] = i-1
+      elseif w == 2 then
+        tab[id]["nome"] = regexp
+      elseif w == 3 then
+        tab[id]["desc"] = regexp
+      elseif w == 4 then
+        tab[id]["site"] = regexp
+      end
+      if w < 5
+      then
+        w=w+1
+      else
+        w=1
+      end
+    end
+  end
+  return tab
+end
+-- ex: local tab = layoutPgmAltofalanteNews(ReadTable("table.txt"))

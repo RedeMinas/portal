@@ -26,8 +26,10 @@ curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt
 
 
 echo "sync altofalante discos"
-
 curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=504686772&format=tsv" > /tmp/tbl_af_albuns.txt
+
+echo "sync altofalante news"
+curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1939570171&format=tsv" > /tmp/tbl_af_news.txt
 
 
 
@@ -55,6 +57,10 @@ then
     echo "copying altofalante discos"
     cp /tmp/tbl_af_albuns.txt tbl_af_albuns.txt
 
+    echo "copying altofalante news"
+    cp /tmp/tbl_af_news.txt tbl_af_news.txt
+
+
 else
     echo "converting pgm"
     iconv -t ISO-8859-1 /tmp/tbl_pgm.txt > tbl_pgm.txt
@@ -76,6 +82,9 @@ else
 
     echo "converting  altofalante discos"
     iconv -t ISO-8859-1 /tmp/tbl_af_albuns.txt > tbl_af_albuns.txt
+
+    echo "converting  altofalante news"
+    iconv -t ISO-8859-1 /tmp/tbl_af_news.txt > tbl_af_news.txt
 
 
 fi
