@@ -557,28 +557,28 @@ function agendaMenu:contatos()
     if i == 1 then
       -- rede minas
       canvas:compose(GRID*5, GRID*7.5, imgqr )
-      canvas:compose(GRID*8.5 -1, GRID*7.5, imgqrtag )
+      canvas:compose(GRID*8.75 -1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*5,GRID*11.75,"redeminas.tv/agenda")
       -- youtube
     elseif i == 2 then
       canvas:compose(GRID*13, GRID*7.5, imgqr )
-      canvas:compose(GRID*16.5-1, GRID*7.5, imgqrtag )
+      canvas:compose(GRID*16.75-1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*13, GRID*11.75,"youtube.com/user/programaagendatv") 
       -- facebook
     elseif i == 3 then
       canvas:compose(GRID*9, GRID*12.75, imgqr )
-      canvas:compose(GRID*12.5-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*12.75-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*9, GRID*17,"facebook.com/programaagenda")
       -- email
     elseif i == 4 then
       canvas:compose(GRID*17, GRID*12.75, imgqr )
-      canvas:compose(GRID*20.5-1, GRID*12.75, imgqrtag )
+      canvas:compose(GRID*20.75-1, GRID*12.75, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
       canvas:drawText(GRID*17,GRID*17,"agenda.redeminas@gmail.com")
