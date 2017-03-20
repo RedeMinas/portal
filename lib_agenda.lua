@@ -278,7 +278,7 @@ function agendaMenu:calendarEvents(day,cat)
     elseif  #tab > 1 and #tab <= 12 then
       str =  #tab .. " eventos encontrados."
     elseif  #tab > 12 then
-      str =  #tab .. " eventos encontrados, filre sua busca..."
+      str =  #tab .. " eventos encontrados, filtre sua busca..."
     end
     canvas:attrColor("white")
     canvas:attrFont("Tiresias", 15,"bold")
@@ -401,7 +401,7 @@ function agendaMenu:cc()
   -- gen aux table (tab), category filter
   local tab = {}
   for i=1, #self.listcc do
-    print(i)
+--    print(i)
     if (self.ccposv == tonumber(self.listcc[i]["reg"])) then
       if (self.ccposh -1 == 0) then
         table.insert(tab,self.listcc[i])
