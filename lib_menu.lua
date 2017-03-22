@@ -45,7 +45,8 @@ function MainMenu:iconDraw()
   --  canvas:attrColor("white")
   --  canvas:drawRect("fill", 0,GRID*12,GRID*32,GRID*18 )
   canvas:flush()
-  for i=1,self.icons  do
+  --  for i=1,self.icons  do
+  for i=1,5  do
     if i==self.pos then
       iconpath = "media/btn" ..  tostring(i) .. "on.png"
     else
@@ -54,7 +55,7 @@ function MainMenu:iconDraw()
     local icon = canvas:new(iconpath)
     local dx,dy = icon:attrSize()
     canvas:compose(GRID, GRID*11.5+sumdy, icon )
-    sumdy=sumdy+dy+GRID/2
+    sumdy=sumdy+dy+GRID*0.5
   end
 
   local img = canvas:new("media/btnarrowv.png")
@@ -68,7 +69,6 @@ end
 function MainMenu:menuItem(par)
   --canvas:attrColor(0,0,0,0)
   --canvas:clear(0,0, GRID*32, GRID*10 )
-
   -- a redeminas
   if self.pos==1 then
     local img = canvas:new("media/aredeminas.png")
