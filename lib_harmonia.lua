@@ -156,10 +156,10 @@ function harmoniaMenu:episodio()
   for i=1, self.episodiopages do
     if (i == self.episodiopos) then
       -- canvas:attrColor(1,1,1,160)
-      local imgb3 = canvas:new("media/harmonia/b2.png")
+      local imgb3 = canvas:new("media/harmonia/b1.png")
       canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb3)
     else
-      local imgb4 = canvas:new("media/harmonia/b1.png")
+      local imgb4 = canvas:new("media/harmonia/b2.png")
       canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb4)
  
     end
@@ -230,10 +230,10 @@ function harmoniaMenu:repertorio()
   for i=1, #self.list do
     if (i == self.spos) then
       -- canvas:attrColor(1,1,1,160)
-      local imgb1 = canvas:new("media/harmonia/b2.png")
+      local imgb1 = canvas:new("media/harmonia/b1.png")
       canvas:compose((SCREEN_WIDTH-(GRID+13.5*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*5.95),imgb1)
     else
-      local imgb2 = canvas:new("media/harmonia/b1.png")
+      local imgb2 = canvas:new("media/harmonia/b2.png")
       canvas:compose((SCREEN_WIDTH-(GRID+13.5*#self.list)-GRID)+(GRID/2)*i-1,(offset_y+dy-GRID*5.95),imgb2)
       -- canvas:attrColor("white")
     end
@@ -280,10 +280,10 @@ function harmoniaMenu:especial()
   for i=1, self.especialpages do
     if (i == self.especialpos) then
       -- canvas:attrColor(1,1,1,160)
-      local imgb5 = canvas:new("media/harmonia/b2.png")
+      local imgb5 = canvas:new("media/harmonia/b1.png")
       canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb5)
     else
-      local imgb6 = canvas:new("media/harmonia/b1.png")
+      local imgb6 = canvas:new("media/harmonia/b2.png")
       canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.especialpages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb6)
        end
   end

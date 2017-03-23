@@ -8,7 +8,7 @@ function MainMenu:new(o)
   self.__index = self
   self.pos = 1
   self.spos = 1
-  self.icons = 4
+  self.icons = 5
   self.start = false
   self.pgmicons = math.floor(SCREEN_WIDTH/210)
   self.list=layoutPgmTable(ReadTable("tbl_pgm.txt"))
@@ -46,7 +46,7 @@ function MainMenu:iconDraw()
   --  canvas:drawRect("fill", 0,GRID*12,GRID*32,GRID*18 )
   canvas:flush()
   --  for i=1,self.icons  do
-  for i=1,5  do
+  for i=1,self.icons  do
     if i==self.pos then
       iconpath = "media/btn" ..  tostring(i) .. "on.png"
     else
@@ -55,7 +55,7 @@ function MainMenu:iconDraw()
     local icon = canvas:new(iconpath)
     local dx,dy = icon:attrSize()
     canvas:compose(GRID, GRID*11.5+sumdy, icon )
-    sumdy=sumdy+dy+GRID*0.5
+    sumdy=sumdy+dy+GRID*0.3
   end
 
   local img = canvas:new("media/btnarrowv.png")
@@ -83,6 +83,9 @@ function MainMenu:menuItem(par)
     local img = canvas:new("media/sede.png")
     canvas:compose(GRID*6, GRID*11.5, img)
   elseif self.pos==4 then
+    local img = canvas:new("media/especial.png")
+    canvas:compose(GRID*6, GRID*11.5, img)
+  elseif self.pos==5 then
     canvas:attrColor(1,1,1,200)
     canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
     local img = canvas:new("media/contato.png")
@@ -90,31 +93,31 @@ function MainMenu:menuItem(par)
     -- results from tcp get
     canvas:attrColor("white")
     canvas:attrFont("Vera", 8,"bold")
-    canvas:drawText(GRID*15, GRID*17.5, "v: " .. VERSION .. "/" .. tcpresult )
+    canvas:drawText(GRID*16, GRID*17.4, "v: " .. VERSION .. "/" .. tcpresult )
     if  par == 'red' then
       local img = canvas:new("media/qrfb.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(GRID*27,GRID*12.5, dx, dy )
+      canvas:compose(GRID*27, GRID*12.5, img)
     elseif  par == 'green' then
       local img = canvas:new("media/qrtwitter.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(GRID*27,GRID*12.5, dx, dy )
+      canvas:compose(GRID*27, GRID*12.5, img)
     elseif  par == 'yellow' then
       local img = canvas:new("media/qrinsta.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(GRID*27,GRID*12.5, dx, dy )
+      canvas:compose(GRID*27, GRID*12.5, img)
     elseif  par == 'blue' then
       local img = canvas:new("media/qryoutube.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*32-dx,GRID, dx, dy )
-      canvas:compose(GRID*32-dx, GRID, img)
+      canvas:clear(GRID*27,GRID*12.5, dx, dy )
+      canvas:compose(GRID*27, GRID*12.5, img)
     end
   end
   canvas:flush()
@@ -221,7 +224,7 @@ function MainMenu:input(evt)
     af=altofalante:new{}
     --af:input()
     af:pageReset()
-    
+
   elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
@@ -240,14 +243,14 @@ function MainMenu:input(evt)
     dofile("lib_mulherese.lua")
     mse=mulhereseMenu:new{}
     mse:iconsDraw()
-    --qrcodes on contatos 
-  elseif ( self.pos==4 and evt.key == "RED" ) then
+    --qrcodes on contatos
+  elseif ( self.pos==5 and evt.key == "RED" ) then
     self:menuItem('red')
-  elseif ( self.pos==4 and evt.key == "GREEN" ) then
+  elseif ( self.pos==5 and evt.key == "GREEN" ) then
     self:menuItem('green')
-  elseif ( self.pos==4 and evt.key == "YELLOW" ) then
+  elseif ( self.pos==5 and evt.key == "YELLOW" ) then
     self:menuItem('yellow')
-  elseif ( self.pos==4 and evt.key == "BLUE" ) then
+  elseif ( self.pos==5 and evt.key == "BLUE" ) then
     self:menuItem('blue')
   elseif ( evt.key=="EXIT" ) then
     ICON.state=1
