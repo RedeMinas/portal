@@ -17,12 +17,11 @@ function altofalante:new(o)
 
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
   self.meta = {
-    {2,8,2,GRID*5,GRID/2,"knob",color1={30,20,30,200}, color2={20,20,20,255}, menu="Resumo"},
-    {1,#self.listnews,2,GRID*10,GRID/2,"knob",color1={0,200,200,200}, color2={200,200,200,255}, menu="News"},
-    {1,2,0,GRID*12.5,GRID/2,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
-    {3,7,1.5,GRID*15,GRID/2,"knob",color1={200,100,100,200}, color2={255,0,0,255}, menu="contato"},
-    {1,#self.listalbuns,5,GRID*20,GRID/2,"knob",color1={200,200,0,200}, color2={255,255,255,255}, menu="Garimpo"},
-    {1,2,3,GRID*26,GRID/2,"switch",color1={10,20,30,200}, color2={255,255,255,255} , menu="Liga"}
+    {2,8,2,GRID*5,GRID,"knob",color1={30,20,30,200}, color2={0,0,0,255}, menu="Resumo"},
+    {1,#self.listnews,2,GRID*10,GRID,"knob",color1={0,200,200,200}, color2={0,0,0,255}, menu="News"},
+    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
+    {3,7,1.5,GRID*15,GRID,"knob",color1={200,100,100,200}, color2={0,0,0,255}, menu="contato"},
+    {1,#self.listalbuns,5,GRID*20,GRID,"knob",color1={200,200,0,200}, color2={0,0,0,255}, menu="Garimpo"},
   }
 
   self.pages=#self.meta
@@ -65,20 +64,6 @@ function altofalante:pageReset(page)
 
     local imgcabecote = canvas:new("media/altofalante/cabecote.png")
     canvas:compose(0,0, imgcabecote )
-
-    -- top menu logo
-    local imglogoaf = canvas:new("media/altofalante/logo.png")
-    local dx,dy = imglogoaf:attrSize()
-    canvas:compose(GRID/2, GRID/2, imglogoaf )
-
-    local imglogorm = canvas:new("media/btn1off.png")
-    local dx,dy = imglogorm:attrSize()
-    canvas:compose(SCREEN_WIDTH-GRID-dx, GRID/2, imglogorm )
-
-    local btnarrowh = canvas:new("media/btnarrowh.png")
-    local btnexit = canvas:new("media/btnsair.png")
-    canvas:compose(SCREEN_WIDTH-GRID*4, GRID*1.5, btnarrowh)
-    canvas:compose(SCREEN_WIDTH-GRID*2, GRID*1.5, btnexit)
 
     -- top menu
     canvas:attrFont("Tiresias", 14,"bold")
@@ -131,17 +116,16 @@ function altofalante:knobcvs(component)
   local btnarrowv = canvas:new("media/altofalante/btnarrowv.png")
 
   local imgcabecote = canvas:new("media/altofalante/cabecote.png")
-  imgcabecote:attrCrop(0,0,GRID*2.25,GRID*3)
+  imgcabecote:attrCrop(GRID*10,0,GRID*2.25,GRID*4)
   canvas:compose(offsetx,0, imgcabecote )
 
-
   -- knob degress
-  canvas:attrColor("white")
+  canvas:attrColor("red")
 
   for i=1,self.meta[component][2] do
     local theta = alpha * (i  + self.meta[component][3])
-    local px = math.cos( theta ) * size*0.55 + size/2
-    local py = math.sin( theta ) * size*0.5 + size/2
+    local px = math.cos( theta ) * size*0.6 + size/2
+    local py = math.sin( theta ) * size*0.6 + size/2
     canvas:drawLine(offsetx+size/2,offsety+size/2, offsetx+px,offsety+py)
   end
 
@@ -156,13 +140,13 @@ function altofalante:knobcvs(component)
   -- menu text, color from above
   canvas:attrFont("Tiresias", 14,"normal")
   local dx,dy = canvas:measureText(self.meta[component].menu)
-  canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*2, self.meta[component].menu)
+  canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*1.75, self.meta[component].menu)
 
   -- knob image
   local imgknob = canvas:new("media/altofalante/knob.png")
   canvas:compose(offsetx,offsety, imgknob )
 
-  -- knob position 
+  -- knob position
   local theta = alpha * (self.meta[component][1]  + self.meta[component][3])
   local px = math.cos( theta ) * size*0.4 + size/2
   local py = math.sin( theta ) * size*0.4 + size/2
@@ -215,21 +199,21 @@ function altofalante:clear(offsetx,offsety,sizex,sizey,color1,color2)
   canvas:attrColor(unpack(color1))
   canvas:drawRect('fill',offsetx,offsety,sizex,sizey)
 
-  local imgpattern = canvas:new("media/altofalante/pattern.png")
-  local dx,dy = imgpattern:attrSize()
+--  local imgpattern = canvas:new("media/altofalante/pattern.png")
+--  local dx,dy = imgpattern:attrSize()
 
-  for i = 0, math.floor(sizex/dx)-1 do
-    canvas:compose(offsetx+dx*i, offsety, imgpattern)
-    for j = 0, math.floor(sizey/dx)-1 do
-      canvas:compose(offsetx+dx*i, offsety+dy*j, imgpattern)
-    end
-  end
+--  for i = 0, math.floor(sizex/dx)-1 do
+    --canvas:compose(offsetx+dx*i, offsety, imgpattern)
+    --for j = 0, math.floor(sizey/dx)-1 do
+--      canvas:compose(offsetx+dx*i, offsety+dy*j, imgpattern)
+    --end
+  --end
 end
 
 function altofalante:sector1()
   local sizex = GRID*22.5
-  local sizey = GRID*11
-  local offsetx = GRID/2
+  local sizey = GRID*10.75
+  local offsetx = GRID*0.75
   local offsety = GRID*3.5
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
@@ -244,16 +228,15 @@ end
 
 function altofalante:news()
   local sizex = GRID*22.5
-  local sizey = GRID*2.5
-  local offsetx = GRID*0.5
-  local offsety = GRID*15
+  local sizey = GRID*3
+  local offsetx = GRID*0.75
+  local offsety = GRID*14.25
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
 
   canvas:attrFont("Tiresias", 14,"bold")
   canvas:attrColor(unpack(self.meta[2].color2))
   canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
-
   canvas:attrFont("Tiresias", 12,"normal")
 
   local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
@@ -261,14 +244,20 @@ function altofalante:news()
   for i = 1, #text do
     canvas:drawText(offsetx+GRID,offsety+GRID/2*i,text[i])
   end
---  self:timer()
+
+  local imgcornerll = canvas:new("media/altofalante/cornerll.png")
+  local dx,dy = imgcornerll:attrSize()
+  canvas:compose(0, SCREEN_HEIGHT-dy, imgcornerll)
+
+  --  self:timer()
+
 end
 
 
 function altofalante:sector3()
   local sizex = GRID*8
   local sizey = GRID*3
-  local offsetx = GRID*23.5
+  local offsetx = GRID*23.25
   local offsety = GRID*3.5
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
@@ -280,9 +269,9 @@ end
 
 function altofalante:garimpo()
   local sizex = GRID*8
-  local sizey = GRID*10.5
-  local offsetx = GRID*23.5
-  local offsety = GRID*7
+  local sizey = GRID*10.75
+  local offsetx = GRID*23.25
+  local offsety = GRID*6.5
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[5].color1, self.meta[5].color2)
 
@@ -294,6 +283,10 @@ function altofalante:garimpo()
   local index = string.format("%02d" , self.meta[5][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
   canvas:compose(offsetx+GRID/2,offsety+GRID*3,imgalbum )
+
+  local imgcornerlr = canvas:new("media/altofalante/cornerlr.png")
+  local dx,dy = imgcornerlr:attrSize()
+  canvas:compose(SCREEN_WIDTH-dx, SCREEN_HEIGHT-dy, imgcornerlr)
 end
 
 
