@@ -23,7 +23,7 @@ function harmoniaMenu:new(o)
   self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 75)
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 82)
   self.episodiolines = 6
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
@@ -216,7 +216,7 @@ function harmoniaMenu:repertorio()
   canvas:drawText((offset_x+dx),offset_y+(GRID*3), "Data: " .. self.list[self.spos]["data"])
   canvas:drawText((offset_x+dx),(offset_y+(GRID*4)),self.list[self.spos]["horario"])
 
-  if ((self.list["ingresso"]) ~= " ") then
+  if (self.list["ingresso"] ~= " " or self.list["ingresso"] ~= "FALSE" or not self.list["ingresso"]) then
     canvas:drawText((offset_x+dx*2),(offset_y+(GRID*4)),"Valor: " .. self.list[self.spos]["ingresso"])
   end
   --obras, lines of text
