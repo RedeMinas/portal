@@ -10,7 +10,7 @@ ICON = {}
 ICON.state = 1
 ICON.pos =1
 DEBUG = true
-VERSION = "1.2.7"
+VERSION = "1.2.8"
 START = false
 
 --- tcp metrics

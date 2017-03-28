@@ -17,7 +17,6 @@ function mulhereseMenu:new (o)
   self.llpos = 1
   self.llpages=1
   self.bgcolor={r=41,g=19,b=69,a=204}
-  --  self.menu = {"Sobre as Leis","Políticas Públicas", "Acesso à Justiça","Informações"}
   self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
   return o
 end
@@ -52,7 +51,7 @@ function mulhereseMenu:input(evt)
 
   if( self.llpages > 1) then
     if ( evt.key=="CURSOR_DOWN") then
-      self.llpos=shift(self.llpos,1,self.llpages) 
+      self.llpos=shift(self.llpos,1,self.llpages)
       self:pageDraw()
     elseif (evt.key=="CURSOR_UP") then
       self.llpos=shift(self.llpos,-1,self.llpages)
@@ -86,7 +85,9 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
   local item_w = 100
   local font_size = 12
 
-  local icon = canvas:new("media/mulherese/icon" .. string.format("%02d" , t) .. ".png")
+  local str = string.format("%02d" , self.list[t+1]["id"])
+
+  local icon = canvas:new("media/mulherese/icon" .. str .. ".png")
   canvas:compose((GRID+(item_w*(slot-1))+(0.92*GRID*(slot-1))), GRID*17.5-item_h, icon )
   canvas:attrColor("blue")
   canvas:attrFont("Vera", font_size,"bold")
@@ -126,15 +127,20 @@ function mulhereseMenu:textPrepare(text)
   return llist
 end
 
-function mulhereseMenu:displayText(list)
+function mulhereseMenu:displayText(list,intro)
   canvas:attrColor(41,19,69,200)
   canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
 
   --display text margin - remove!
-  canvas:attrFont("Tiresias",15, "normal")
+  if intro then
+    canvas:attrFont("Tiresias",20, "normal")
+  else
+    canvas:attrFont("Tiresias",15, "normal")
+  end
+
   canvas:attrColor(255,255,255,200)
 
-  local m = (self.llpos-1)*self.llines 
+  local m = (self.llpos-1)*self.llines
   for  i = m+1, m+self.llines do
     canvas:drawText(GRID*6,GRID*2.5+(GRID*0.75*(i-m-1)),list[i])
   end
@@ -171,7 +177,7 @@ function mulhereseMenu:pageDraw()
   canvas:attrColor(41,19,69,200)
   canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
 
-  local str = string.format("%02d" , self.pos)
+  local str = string.format("%02d" , self.list[self.pos+1]["id"])
   local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
   canvas:compose(GRID*1, GRID*1, imgil)
 
@@ -186,7 +192,6 @@ function mulhereseMenu:pageDraw()
         self.colors[i][3],
         self.colors[i][4]
       )
-
     else
       canvas:attrColor("white")
     end
@@ -205,9 +210,9 @@ function mulhereseMenu:pageDraw()
   canvas:attrColor(41,19,69,200)
     canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
 
-
   -- Draw Group Text using textDraw() function
-  local text=""
+    local text=""
+
   if (self.ppos == 1)   then
     texttitle = self.list[1]["page1"]
     text = self.list[self.pos+1]["page1"]
@@ -222,9 +227,14 @@ function mulhereseMenu:pageDraw()
     text = self.list[self.pos+1]["page4"]
   end
 
-  -- sets llpages
   local a = self:textPrepare(text)
-  self:displayText(a)
+
+  -- sets llpages
+  if (self.ppos == 1) then
+    self:displayText(a,true)
+  else
+    self:displayText(a,false)
+  end
 
   canvas:attrColor(255,255,255,255)
   canvas:attrFont("Tiresias", 22 ,"bold")
@@ -239,9 +249,7 @@ function mulhereseMenu:pageDraw()
   end
 
   --draw title
-  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["id"] .. ": " ..texttitle)
-
-
+  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["cat"] .. ": " ..texttitle)
   canvas:flush()
 
 end

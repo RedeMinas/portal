@@ -115,9 +115,9 @@ function altofalante:knobcvs(component)
   local alpha	= pi * 2 / self.meta[component][2]
   local btnarrowv = canvas:new("media/altofalante/btnarrowv.png")
 
-  local imgcabecote = canvas:new("media/altofalante/cabecote.png")
-  imgcabecote:attrCrop(GRID*10,0,GRID*2.25,GRID*4)
-  canvas:compose(offsetx,0, imgcabecote )
+  local imgplot = canvas:new("media/altofalante/plot.png")
+--  imgcabecote:attrCrop(GRID*10,0,GRID*2.25,GRID*4)
+  canvas:compose(offsetx,0, imgplot )
 
   -- knob degress
   canvas:attrColor("red")

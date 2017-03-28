@@ -8,7 +8,6 @@ function harmoniaMenu:new(o)
   self.__index = self
   self.pos = 1
   self.spos = 1
-
   self.icons=4
   self.debug=false
   self.bar={}
@@ -193,7 +192,6 @@ function harmoniaMenu:repertorio()
   local imgbgdr = canvas:new("media/harmonia/bgd0" .. math.random(4) .. ".png")
 
   local imgiconpath = string.format("%02d",self.list[self.spos]["img"])
-
 
   local imgicon = canvas:new("media/harmonia/" .. imgiconpath .. ".png" )
   local dx,dy = imgicon:attrSize()

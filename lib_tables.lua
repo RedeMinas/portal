@@ -102,16 +102,18 @@ function layoutPgmMulherese(table)
       if w == 1 then
         tab[i]["id"] = regexp
       elseif w == 2 then
-        tab[i]["page1"] = regexp
+        tab[i]["cat"] = regexp
       elseif w == 3 then
-        tab[i]["page2"] = regexp
+        tab[i]["page1"] = regexp
       elseif w == 4 then
-        tab[i]["page3"] = regexp
+        tab[i]["page2"] = regexp
       elseif w == 5 then
+        tab[i]["page3"] = regexp
+      elseif w == 6 then
         tab[i]["page4"] = regexp
       end
       -- controle dos campos
-      if w < 10 then
+      if w < 7  then
         w=w+1
       else
         w=1
