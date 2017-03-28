@@ -20,10 +20,11 @@ function agendaMenu:new(o)
   self.pollposv = 1
   self.page = 1
   self.pages = 4
-  self.menu = {"Agenda Cultural", "Centros Culturais", "Especial", "Contatos"}
+  self.menu = {"Agenda Cultural", "Espa�os Culturais", "Especial", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
-  self.catcolors = {{217,215,215,255},{183,43,137,255},{207,120,24,255},{209,197,16,255},{118,176,40,255},{0,227,247,255}}
-  self.acats = {"Todos" , "Cinema", "Teatro", "Literatura", "MÃºsica", "Artes"}
+  self.catcolors = {{217,215,215,255},{183,43,137,255},{207,120,24,255},{209,197,16,255},{118,176,40,255},{0,227,247,255},{100,100,100,255},{100,100,100,255}}
+  self.acats = {"Todos" , "Cinemas", "Teatros", "Literatura", "Música", "Artes"}
+  self.cccats = {"Todos" , "Cinemas", "Teatros", "Bibliotecas", "Shows", "Galerias", "Museus", "Centro Cultural"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
   self.listcc=layoutPgmAgendaCc(ReadTable("tbl_agendacc.txt"))
   return o
@@ -59,10 +60,10 @@ function agendaMenu:input(evt)
     end
   elseif ( self.page==2 ) then
     if ( evt.key == "CURSOR_LEFT" ) then
-      self.ccposh=shift(self.ccposh,-1,#self.acats)
+      self.ccposh=shift(self.ccposh,-1,#self.cccats)
       self:cc()
     elseif ( evt.key=="CURSOR_RIGHT") then
-      self.ccposh=shift(self.ccposh,1,#self.acats)
+      self.ccposh=shift(self.ccposh,1,#self.cccats)
       self:cc()
     elseif (evt.key=="CURSOR_UP") then
       self.ccposv=shift(self.ccposv,-1,#self.ccregions)
@@ -305,6 +306,7 @@ function agendaMenu:calendarEvents(day,cat)
 
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
+      print("debug", icat)
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],
@@ -457,6 +459,7 @@ end
       end
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
+      print("debug", icat)
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],
@@ -499,7 +502,7 @@ end
 function agendaMenu:ccCategoryDisplay()
   canvas:attrColor(64,64,65,204)
   canvas:clear(GRID*10,0,GRID*9, GRID*2)
-  for i=1, #self.acats do
+  for i=1, #self.cccats do
     if i == self.ccposh then
       canvas:attrColor(
         self.catcolors[i][1],
