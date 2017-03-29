@@ -142,14 +142,15 @@ function altofalante:knobcvs(component)
   end
 
   -- is active?
+  local imgbtn
   if component == self.page then
-    local imgbtn = canvas:new("media/altofalante/btn" .. component .. ".png")
-    local dx,dy = imgbtn:attrSize()
-    canvas:compose(  self.meta[component][4]+30-dx/2, offsety+GRID*2-6, imgbtn)
-
+     imgbtn = canvas:new("media/altofalante/btn" .. component .. "on.png")
   else
-    canvas:attrColor("black")
+     imgbtn = canvas:new("media/altofalante/btn" .. component .. "off.png")
   end
+  local dx,dy = imgbtn:attrSize()
+  canvas:compose(  self.meta[component][4]+30-dx/2, offsety+GRID*2-6, imgbtn)
+
   --canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*1.75, self.meta[component].menu)
 
 
