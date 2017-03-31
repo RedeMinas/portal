@@ -18,10 +18,10 @@ function altofalante:new(o)
 
   --    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
   self.meta = {
-    {2,8,2,GRID*6,GRID,"knob",color1={30,20,30,200}, color2={0,0,0,255}, menu="Resumo"},
-    {1,#self.listnews,2,GRID*10,GRID,"knob",color1={0,200,200,200}, color2={0,0,0,255}, menu="News"},
-    {3,7,1.5,GRID*14,GRID,"knob",color1={200,100,100,200}, color2={0,0,0,255}, menu="contato"},
-    {1,#self.listalbuns,5,GRID*18,GRID,"knob",color1={200,200,0,200}, color2={0,0,0,255}, menu="Discos"}
+    {2,8,2,GRID*7,GRID,"knob",color1={30,20,30,200}, color2={0,0,0,255}, menu="Programas"},
+    {1,#self.listnews,2,GRID*11,GRID,"knob",color1={0,200,200,200}, color2={0,0,0,255}, menu="Noticias"},
+    {3,7,1.5,GRID*15,GRID,"knob",color1={200,100,100,200}, color2={0,0,0,255}, menu="Discos"},
+    {1,#self.listalbuns,5,GRID*19,GRID,"knob",color1={200,200,0,200}, color2={0,0,0,255}, menu="Contatos"}
   }
 
   self.pages=#self.meta
@@ -149,7 +149,7 @@ function altofalante:knobcvs(component)
      imgbtn = canvas:new("media/altofalante/btn" .. component .. "off.png")
   end
   local dx,dy = imgbtn:attrSize()
-  canvas:compose(  self.meta[component][4]+30-dx/2, offsety+GRID*2-6, imgbtn)
+  canvas:compose(  offsetx+30-dx/2, offsety+GRID*2-4, imgbtn)
 
   --canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*1.75, self.meta[component].menu)
 
