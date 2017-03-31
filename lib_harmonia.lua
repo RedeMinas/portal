@@ -18,8 +18,8 @@ function harmoniaMenu:new(o)
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
   print("debug", #self.list)
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
-  self.especiallist = textWrap (self.listextra[2]["especial"], 90)
-  self.especiallines = 7
+  self.especiallist = textWrap (self.listextra[2]["especial"], 70)
+  self.especiallines = 6
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
   self.episodiolist = textWrap (self.listextra[2]["episodio"], 82)
@@ -148,8 +148,11 @@ function harmoniaMenu:episodio()
 
   local img = canvas:new("media/harmonia/asemana" .. self.episodiopos .. ".png")
   local dx,dy = img:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
-
+  if self.episodiopos == 2 then
+    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)    
+  else
+    canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
+  end
 
 -- switch pages a semana
   for i=1, self.episodiopages do
@@ -160,13 +163,9 @@ function harmoniaMenu:episodio()
     else
       local imgb4 = canvas:new("media/harmonia/b2.png")
       canvas:compose(SCREEN_WIDTH-GRID-(GRID/2.5*self.episodiopages)+GRID/2*(i-1),SCREEN_HEIGHT-GRID*6.45,imgb4)
- 
+
     end
    end
- --[[ canvas:attrFont("Tiresias", 14,"normal")
-  canvas:attrColor("white")
-  canvas:drawText(SCREEN_WIDTH-GRID*2,GRID*11.5+dy+GRID/4, "(" .. self.episodiopos .. "/" .. self.episodiopages .. ")")
- --]]
 
   if (self.episodiopos == 1) then
     local imglermais = canvas:new("media/harmonia/lermais.png")
@@ -178,7 +177,6 @@ function harmoniaMenu:episodio()
 
   canvas:flush()
 end
-
 
 -- sub menu repertorio draw carrossel
 function harmoniaMenu:repertorio()
@@ -259,7 +257,7 @@ function harmoniaMenu:especial()
   canvas:attrFont("Tiresias", 22,"bold")
 
   --  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
-  canvas:drawText(GRID*6,GRID*11.5, "Villa Lobos")
+  canvas:drawText(GRID*6,GRID*11.5, "Sergei Rachmaninov e Sergei Prokofiev")
 
   canvas:attrFont("Tiresias", 17,"normal")
 
@@ -273,7 +271,14 @@ function harmoniaMenu:especial()
 
   local img = canvas:new("media/harmonia/especialdomes" .. self.especialpos .. ".png")
   local dx,dy = img:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID, SCREEN_HEIGHT-GRID/2-dy, img)
+  
+
+  if self.especialpos == 2 then
+    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)    
+  else
+    canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
+  end
+
 
   for i=1, self.especialpages do
     if (i == self.especialpos) then
