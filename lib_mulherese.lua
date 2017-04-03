@@ -198,11 +198,11 @@ function mulhereseMenu:pageDraw()
     canvas:attrFont("Tiresias", 13,"bold")
     local param = "page" .. i
 
-    canvas:drawText(GRID*1.8, GRID*9+0.85*GRID*i-1, tostring(self.list[1][param]))
+    canvas:drawText(GRID*2.25, GRID*8.52+0.85*GRID*i-1, tostring(self.list[1][param]))
 
     local imgicons = canvas:new("media/mulherese/btnicon.png")
     local dx,dy = imgicons:attrSize()
-    canvas:compose(GRID*1.7-dx, GRID*9.85, imgicons )
+    canvas:compose(GRID*2-dx, GRID*9.39, imgicons )
     --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
     canvas:flush()
   end
