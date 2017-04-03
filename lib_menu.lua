@@ -243,6 +243,11 @@ function MainMenu:input(evt)
     dofile("lib_mulherese.lua")
     mse=mulhereseMenu:new{}
     mse:iconsDraw()
+  elseif  (self.pos==2 and self.list[self.spos]["img"]==18 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+    --mulherese start
+    dofile("lib_ribalta.lua")
+    ribalta=ribaltaMenu:new{}
+    ribalta:pageReset()
     --qrcodes on contatos
   elseif ( self.pos==5 and evt.key == "RED" ) then
     self:menuItem('red')

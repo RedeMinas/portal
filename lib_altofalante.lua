@@ -18,10 +18,10 @@ function altofalante:new(o)
 
   --    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
   self.meta = {
-    {2,8,2,GRID*7,GRID,"knob",color1={30,20,30,200}, color2={0,0,0,255}, menu="Programas"},
-    {1,#self.listnews,2,GRID*11,GRID,"knob",color1={0,200,200,200}, color2={0,0,0,255}, menu="Noticias"},
-    {3,7,1.5,GRID*15,GRID,"knob",color1={200,100,100,200}, color2={0,0,0,255}, menu="Discos"},
-    {1,#self.listalbuns,5,GRID*19,GRID,"knob",color1={200,200,0,200}, color2={0,0,0,255}, menu="Contatos"}
+    {2,8,2,GRID*7,GRID,"knob",color1={25,25,25,200}, color2={0,0,0,255}, menu="Programas"},
+    {1,#self.listnews,2,GRID*11,GRID,"knob",color1={100,100,100,200}, color2={0,0,0,255}, menu="Noticias"},
+    {3,7,1.5,GRID*15,GRID,"knob",color1={50,50,50,200}, color2={0,0,0,255}, menu="Discos"},
+    {1,#self.listalbuns,5,GRID*19,GRID,"knob",color1={75,75,75,200}, color2={0,0,0,255}, menu="Contatos"}
   }
 
   self.pages=#self.meta

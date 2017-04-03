@@ -58,6 +58,9 @@ function handler (evt)
       elseif (m.list[m.spos]["img"]==13) then
         --browse on mulherese
         mse:input(evt)
+      elseif (m.list[m.spos]["img"]==18) then
+        --browse on ribalta
+        ribalta:input(evt)
       end
     end
   elseif (evt.action == "start") then
