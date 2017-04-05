@@ -19,9 +19,9 @@ function altofalante:new(o)
   --    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
   self.meta = {
     {1,8,2,GRID*7,GRID,"knob",color1={25,25,25,200}, color2={0,0,0,255}, menu="Programas"},
-    {1,#self.listnews,2,GRID*11,GRID,"knob",color1={100,100,100,200}, color2={0,0,0,255}, menu="Noticias"},
-    {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={50,50,50,200}, color2={0,0,0,255}, menu="Discos"},
-    {3,4,1.5,GRID*19,GRID,"knob",color1={75,75,75,200}, color2={0,0,0,255}, menu="Contatos"}
+    {1,#self.listnews,2,GRID*11,GRID,"knob",color1={168,168,168,255}, color2={0,0,0,255}, menu="Noticias"},
+    {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={1,50,50,200}, color2={0,0,0,200}, menu="Discos"},
+    {3,4,1.5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
   }
 
   self.pages=#self.meta
@@ -82,8 +82,8 @@ function altofalante:pageReset(page)
 
     self:pgm()
     self:news()
-    self:contatos()
     self:discos()
+    self:contatos()
 
   elseif(page) then
 
@@ -177,7 +177,7 @@ function altofalante:switchcvs(component)
   local pos = self.meta[component][1]
 
   -- fundo
-  if component == self.page then
+--[[  if component == self.page then
     local btnarrowv = canvas:new("media/altofalante/btnarrowv.png")
     canvas:compose(offsetx+GRID, offsety+GRID/5, btnarrowv)
     canvas:attrColor("white")
@@ -191,6 +191,7 @@ function altofalante:switchcvs(component)
 
   canvas:attrColor(unpack(self.meta[component].color2))
   canvas:drawRect ('fill', offsetx, offsety+(sizey*(pos-1)), sizex,sizex,sizey)
+--]]
 
   if (component == 3) then
 --    self:timer()
@@ -224,11 +225,22 @@ function altofalante:pgm()
   local offsetx = GRID*0.75
   local offsety = GRID*3.5
 
-    self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
+  self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
 
   local imgil = canvas:new("media/altofalante/il2.png")
   local dx,dy = imgil:attrSize()
-  canvas:compose(GRID*2.25, GRID*4, imgil )
+  canvas:compose(GRID*2.75, GRID*4, imgil )
+
+  local imgpgm
+ -- local imgpgm1
+  if self.page == 1  then
+    imgpgm = canvas:new("media/altofalante/btn1on.png")
+   -- imgpmg1 = canvas:new("media/altofalante/l1.png")
+  else
+    imgpgm = canvas:new("media/altofalante/btn1off.png")
+  end
+  canvas:compose(GRID, GRID*13, imgpgm)
+  --canvas:compose(GRID*4.25, GRID*3.35, imgpmg1)
 
   canvas:attrColor(unpack(self.meta[1].color2))
   canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
@@ -236,6 +248,7 @@ end
 
 function altofalante:news()
   local sizex = GRID*16
+
   local sizey = GRID*3
   local offsetx = GRID*0.75
   local offsety = GRID*14.25
@@ -244,28 +257,36 @@ function altofalante:news()
 
   canvas:attrFont("Tiresias", 14,"bold")
   canvas:attrColor(unpack(self.meta[2].color2))
-  canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
+--  canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
   canvas:attrFont("Tiresias", 12,"normal")
 
   local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
 
   for i = 1, #text do
-    canvas:drawText(offsetx+GRID,offsety+GRID/2*i,text[i])
+    canvas:drawText(offsetx+GRID,offsety+GRID*0.5*i,text[i])
   end
 
   local imgcornerll = canvas:new("media/altofalante/cornerll.png")
   local dx,dy = imgcornerll:attrSize()
   canvas:compose(0, SCREEN_HEIGHT-dy, imgcornerll)
 
+  local imgnews
+  if self.page == 2  then
+    imgnews = canvas:new("media/altofalante/btn2on.png")
+  else
+    imgnews = canvas:new("media/altofalante/btn2off.png")
+  end
+  canvas:compose(GRID*14, GRID*14.25, imgnews)
   --  self:timer()
 
 end
 
 
 function altofalante:contatos()
-  local sizex = GRID*11.24
+
+  local sizex = GRID*10.5
   local sizey = GRID*6
-  local offsetx = GRID*16
+  local offsetx = GRID*16.75
   local offsety = GRID*3.5
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
@@ -273,29 +294,47 @@ function altofalante:contatos()
   canvas:attrColor(unpack(self.meta[3].color2))
   canvas:attrFont("Tiresias", 14,"bold")
   canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
+
+  local imcnt
+  if self.page == 4
+  then
+    imgcnt = canvas:new("media/altofalante/btn4on.png")
+  else
+    imgcnt = canvas:new("media/altofalante/btn4off.png")
+  end
+  canvas:compose(GRID*24, GRID*10, imgcnt)
 end
 
 function altofalante:discos()
-  local sizex = GRID*11.24
-  local sizey = GRID*10.75
-  local offsetx = GRID*16
-  local offsety = GRID*6.5
+  local sizex = GRID*10.5
+  local sizey = GRID*7.75
+  local offsetx = GRID*16.75
+  local offsety = GRID*9.5
 
   self:clear(offsetx,offsety,sizex,sizey, self.meta[4].color1, self.meta[4].color2)
 
   canvas:attrColor(unpack(self.meta[4].color2))
   canvas:attrFont("Tiresias", 14,"normal")
-  canvas:drawText(offsetx+GRID/2,offsety+GRID/3, self.meta[4][1] .. " " .. self.listalbuns[self.meta[4][1]]["banda"]  )
-  canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[4][1]]["album"] )
+ -- canvas:drawText(offsetx+GRID/2,offsety+GRID/3, self.meta[4][1] .. " " .. self.listalbuns[self.meta[4][1]]["banda"]  )
+ -- canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[4][1]]["album"] )
 
   local index = string.format("%02d" , self.meta[4][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
-  canvas:compose(offsetx+GRID/2,offsety+GRID*3,imgalbum )
+  --canvas:compose(offsetx+GRID*3.5,offsety+GRID/2,imgalbum )
 
   local imgcornerlr = canvas:new("media/altofalante/cornerlr.png")
   local dx,dy = imgcornerlr:attrSize()
   canvas:compose(SCREEN_WIDTH-dx, SCREEN_HEIGHT-dy, imgcornerlr)
+
+  local imgdisc
+  if self.page == 3  then
+    imgdisc = canvas:new("media/altofalante/btn3on.png")
+  else
+    imgdisc= canvas:new("media/altofalante/btn3off.png")
+  end
+  canvas:compose(GRID*17,GRID*4, imgdisc)
 end
+
 
 
 function afautoForward()
