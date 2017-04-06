@@ -6,18 +6,23 @@ function agendaMenu:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
-  self.pos = 1
-  self.spos = 1
   self.icons = 4
   -- calendar positions
   self.aposh = 1
   self.aposv = 1
+  self.apage =1
+  self.apages =1
+  self.aitens=9
   -- cc positions
   self.ccposh = 1
   self.ccposv = 1
+  self.ccpage = 1
+  self.ccpages = 1
+  self.ccitens=8
   -- poll positions
   self.pollposh = 1
   self.pollposv = 1
+  -- menu page
   self.page = 1
   self.pages = 4
   self.menu = {"Agenda Cultural", "Espaços Culturais", "Especial", "Contatos"}
@@ -61,15 +66,23 @@ function agendaMenu:input(evt)
   elseif ( self.page==2 ) then
     if ( evt.key == "CURSOR_LEFT" ) then
       self.ccposh=shift(self.ccposh,-1,#self.cccats)
+      self.ccpage,self.ccpages=1,1
       self:cc()
     elseif ( evt.key=="CURSOR_RIGHT") then
       self.ccposh=shift(self.ccposh,1,#self.cccats)
+      self.ccpage,self.ccpages=1,1
       self:cc()
+      self.ccpage,self.ccpages=1,1
     elseif (evt.key=="CURSOR_UP") then
       self.ccposv=shift(self.ccposv,-1,#self.ccregions)
+      self.ccpage,self.ccpages=1,1
       self:cc()
     elseif ( evt.key=="CURSOR_DOWN") then
       self.ccposv=shift(self.ccposv,1,#self.ccregions)
+      self.ccpage,self.ccpages=1,1
+      self:cc()
+    elseif ( self.ccpages > 1 and evt.key == "ENTER") then
+      self.ccpage=shift(self.ccpage,1,self.ccpages)
       self:cc()
     end
   elseif (self.page == 3) then
@@ -166,7 +179,6 @@ function agendaMenu:bgd()
   --  canvas:attrColor(64,64,65,153)
 
   canvas:flush()
-
 
   for i=1,4 do
     local btncaticon
@@ -306,7 +318,6 @@ function agendaMenu:calendarEvents(day,cat)
 
       -- category colors
       local icat = tonumber(tab[i]["cat"])+1
-      print("debug", icat)
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],
@@ -422,14 +433,18 @@ end
     canvas:attrFont("Tiresias", 15,"bold")
     local dx,dy = canvas:measureText(str)
     canvas:drawText( SCREEN_WIDTH-dx-(GRID*5.75), GRID*17.4, str)
-
+    self.ccpages=1
   else
     if #tab == 1 then
       str =  "1 centro cultural encontrado."
-    elseif  #tab > 1 and #tab <= 12 then
+      self.ccpages=1
+    elseif  #tab > 1 and #tab <= self.ccitens then
       str =  #tab .. " centros culturais encontrados."
-    elseif  #tab > 12 then
-      str =  #tab .. " centros culturais encontrados, filtre sua busca..."
+      self.ccpages=1
+    elseif  #tab > self.ccitens then
+      self.ccpages=math.ceil(#tab/self.ccitens)
+      str =  #tab .. " locais encontrados, página " .. self.ccpage .."/" ..self.ccpages .. ". Filtre sua busca ou aperte ok..."
+
     end
     canvas:attrColor("white")
     canvas:attrFont("Tiresias", 15,"bold")
@@ -439,27 +454,35 @@ end
     local posx, posy
     local offsetx, offsety = GRID*6 , GRID*2.5
 
+    --TODO: calcular com base na página!!!
     local qty
-    if #tab > 8 then
+
+    if #tab - ((self.ccpage-1)*self.ccitens) > 8 then
       qty = 8
     else
-      qty = #tab
+      qty = #tab - (self.ccpage-1)*self.ccitens
     end
 
-    for i=1, qty do
+    print("qty", qty)
+    print ("calc i, i+n", (self.ccpage-1)*self.ccitens+1, (self.ccpage-1)*self.ccitens+qty)
+    print("self.ccpage", self.ccpage)
+
+    for i=(self.ccpage-1)*self.ccitens+1, (self.ccpage-1)*self.ccitens+qty do
+
+      o = i - (self.ccpage-1) * self.ccitens
+      print("debug o", o)
        --first line
-      if i == 1 or i == 2 then
-        posx = GRID * ((i-1)*10.5)  ; posy = GRID * 2.5
-      elseif i == 3 or i ==4 then
-        posx = GRID * ((i-3)*10.5)  ; posy = GRID * 6.25
-      elseif i == 5 or i == 6 then
-        posx =  GRID * ((i-5)*10.5) ; posy = GRID * 10
-      elseif i == 7 or i == 8 then
-        posx = GRID * ((i-7)*10.5)  ; posy = GRID * 13.75
+      if o == 1 or o == 2 then
+        posx = GRID * ((o-1)*10.5)  ; posy = GRID * 2.5
+      elseif o == 3 or o ==4 then
+        posx = GRID * ((o-3)*10.5)  ; posy = GRID * 6.25
+      elseif o == 5 or o == 6 then
+        posx =  GRID * ((o-5)*10.5) ; posy = GRID * 10
+      elseif o == 7 or o == 8 then
+        posx = GRID * ((o-7)*10.5)  ; posy = GRID * 13.75
       end
       -- category colors
-      local icat = tonumber(tab[i]["cat"])+1
-      print("debug", icat)
+      local icat = tonumber(tab[o]["cat"])+1
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],
@@ -469,6 +492,7 @@ end
 
       -- box
       canvas:attrColor(64,64,65,204)
+      print("debug posx" , posx)
       canvas:drawRect("fill",offsetx+posx-50,posy,GRID*10+5,GRID*3.5)
 
       -- tag on box
@@ -485,8 +509,8 @@ end
       local desc = textWrap (tab[i]["desc"], 72)
 
       -- draw event desc lines (max 4)
-      for i = 1, #desc do
-        canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
+      for l = 1, #desc do
+        canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*l, desc[l])
       end
       canvas:drawText(offsetx+posx-40, posy+GRID*2, tab[i]["func"])
       canvas:drawText(offsetx+posx-40, posy+GRID*2.4, tab[i]["end"])
@@ -501,7 +525,7 @@ end
 
 function agendaMenu:ccCategoryDisplay()
   canvas:attrColor(64,64,65,204)
-  canvas:clear(GRID*10,0,GRID*9, GRID*2)
+  canvas:clear(GRID*10,0,GRID*12, GRID*2)
   for i=1, #self.cccats do
     if i == self.ccposh then
       canvas:attrColor(
@@ -570,7 +594,7 @@ function agendaMenu:contatos()
       canvas:compose(GRID*16.75-1, GRID*7.5, imgqrtag )
       canvas:attrFont("Tiresias",15,"normal")
       canvas:attrColor("white")
-      canvas:drawText(GRID*13, GRID*11.75,"youtube.com/user/programaagendatv") 
+      canvas:drawText(GRID*13, GRID*11.75,"youtube.com/user/programaagendatv")
       -- facebook
     elseif i == 3 then
       canvas:compose(GRID*9, GRID*12.75, imgqr )
