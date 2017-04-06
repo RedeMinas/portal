@@ -18,7 +18,8 @@ function altofalante:new(o)
 
   --    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
   self.meta = {
-    {1,8,2,GRID*7,GRID,"knob",color1={25,25,25,200}, color2={0,0,0,255}, menu="Programas"},
+
+    {1,8,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
     {1,#self.listnews,2,GRID*11,GRID,"knob",color1={168,168,168,255}, color2={0,0,0,255}, menu="Noticias"},
     {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={1,50,50,200}, color2={0,0,0,200}, menu="Discos"},
     {3,4,1.5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
@@ -34,8 +35,7 @@ function altofalante:input(evt)
   if ( evt.key == "CURSOR_LEFT" ) then
     self.page=shift(self.page,-1,self.pages)
     self:pageReset()
-  elseif ( evt.key=="CURSOR_RIGHT") then
-    self.page=shift(self.page,1,self.pages)
+  elseif ( evt.key=="CURSOR_RIGHT") then    self.page=shift(self.page,1,self.pages)
     self:pageReset()
 
   elseif ( evt.key == "CURSOR_UP" ) then
@@ -84,7 +84,6 @@ function altofalante:pageReset(page)
     self:news()
     self:discos()
     self:contatos()
-
   elseif(page) then
 
     local sector
@@ -120,7 +119,7 @@ function altofalante:knobcvs(component)
 
   local imgplot = canvas:new("media/altofalante/plot.png")
 --  imgcabecote:attrCrop(GRID*10,0,GRID*2.25,GRID*4)
-  canvas:compose(offsetx-GRID+10,0, imgplot )
+  canvas:compose(offsetx-GRID+10,offsety-GRID+30, imgplot )
 
   -- knob degress
 --  canvas:attrColor("red")
@@ -145,11 +144,15 @@ function altofalante:knobcvs(component)
   local imgbtn
    if component == self.page then
      imgbtn = canvas:new("media/altofalante/btn" .. component .. "on.png")
-  else
+     local dx,dy = imgbtn:attrSize()
+     canvas:compose(  offsetx+30-dx/2, offsety+GRID*1.93,imgbtn)
+   else
      imgbtn = canvas:new("media/altofalante/btn" .. component .. "off.png")
+     local dx,dy = imgbtn:attrSize()
+     canvas:compose(  offsetx+30-dx/2, offsety+GRID*2-3,imgbtn)
   end
-   local dx,dy = imgbtn:attrSize()
-   canvas:compose(  offsetx+30-dx/2, offsety+GRID*2-3, imgbtn)
+  
+  
    --canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*1.75, self.meta[component].menu)
 
     -- knob image
@@ -229,18 +232,18 @@ function altofalante:pgm()
 
   local imgil = canvas:new("media/altofalante/il2.png")
   local dx,dy = imgil:attrSize()
-  canvas:compose(GRID*2.75, GRID*4, imgil )
+  canvas:compose(GRID*1.25, GRID*4, imgil )
 
   local imgpgm
- -- local imgpgm1
+
   if self.page == 1  then
-    imgpgm = canvas:new("media/altofalante/btn1on.png")
-   -- imgpmg1 = canvas:new("media/altofalante/l1.png")
+    imgpgm = canvas:new("media/altofalante/l1.png")
+    canvas:compose(GRID*1.52, GRID*3.5, imgpgm)
   else
     imgpgm = canvas:new("media/altofalante/btn1off.png")
+    canvas:compose(GRID*1.51, GRID*13.1, imgpgm)
   end
-  canvas:compose(GRID, GRID*13, imgpgm)
-  --canvas:compose(GRID*4.25, GRID*3.35, imgpmg1)
+
 
   canvas:attrColor(unpack(self.meta[1].color2))
   canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
@@ -248,7 +251,6 @@ end
 
 function altofalante:news()
   local sizex = GRID*16
-
   local sizey = GRID*3
   local offsetx = GRID*0.75
   local offsety = GRID*14.25
@@ -263,7 +265,7 @@ function altofalante:news()
   local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
 
   for i = 1, #text do
-    canvas:drawText(offsetx+GRID,offsety+GRID*0.5*i,text[i])
+    canvas:drawText(offsetx+GRID,offsety+(GRID*0.5*i)+GRID/2,text[i])
   end
 
   local imgcornerll = canvas:new("media/altofalante/cornerll.png")
@@ -272,46 +274,22 @@ function altofalante:news()
 
   local imgnews
   if self.page == 2  then
-    imgnews = canvas:new("media/altofalante/btn2on.png")
+    imgnews = canvas:new("media/altofalante/l2.png")
+    canvas:compose(GRID*12.13, GRID*3.5, imgnews)
   else
     imgnews = canvas:new("media/altofalante/btn2off.png")
+    canvas:compose(GRID*13.9, GRID*14.6, imgnews)
   end
-  canvas:compose(GRID*14, GRID*14.25, imgnews)
+ 
   --  self:timer()
 
 end
-
-
-function altofalante:contatos()
-
-  local sizex = GRID*10.5
-  local sizey = GRID*6
-  local offsetx = GRID*16.75
-  local offsety = GRID*3.5
-
-  self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
-
-  canvas:attrColor(unpack(self.meta[3].color2))
-  canvas:attrFont("Tiresias", 14,"bold")
-  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
-
-  local imcnt
-  if self.page == 4
-  then
-    imgcnt = canvas:new("media/altofalante/btn4on.png")
-  else
-    imgcnt = canvas:new("media/altofalante/btn4off.png")
-  end
-  canvas:compose(GRID*24, GRID*10, imgcnt)
-end
-
 function altofalante:discos()
   local sizex = GRID*10.5
-  local sizey = GRID*7.75
+  local sizey = GRID*7.7
   local offsetx = GRID*16.75
-  local offsety = GRID*9.5
-
-  self:clear(offsetx,offsety,sizex,sizey, self.meta[4].color1, self.meta[4].color2)
+  local offsety = GRID*3.5
+  self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
 
   canvas:attrColor(unpack(self.meta[4].color2))
   canvas:attrFont("Tiresias", 14,"normal")
@@ -328,13 +306,40 @@ function altofalante:discos()
 
   local imgdisc
   if self.page == 3  then
-    imgdisc = canvas:new("media/altofalante/btn3on.png")
+    imgdisc = canvas:new("media/altofalante/l3.png")
+    canvas:compose(GRID*16.31,GRID*3.5, imgdisc)
   else
     imgdisc= canvas:new("media/altofalante/btn3off.png")
+    canvas:compose(GRID*24.7,GRID*10.34, imgdisc)
   end
-  canvas:compose(GRID*17,GRID*4, imgdisc)
+
 end
 
+
+
+function altofalante:contatos()
+  local sizex = GRID*10.5
+  local sizey = GRID*6.05
+  local offsetx = GRID*16.75
+  local offsety = GRID*11.2
+
+    self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
+
+  canvas:attrColor(unpack(self.meta[3].color2))
+  canvas:attrFont("Tiresias", 14,"bold")
+  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
+
+  local imgcnt
+  if self.page == 4
+  then
+    imgcnt = canvas:new("media/altofalante/l4.png")
+    canvas:compose(GRID*18.1, GRID*3.5, imgcnt)
+  else
+    imgcnt = canvas:new("media/altofalante/btn4off.png")
+    canvas:compose(GRID*18.05, GRID*11.55, imgcnt)
+  end
+ 
+end
 
 
 function afautoForward()
