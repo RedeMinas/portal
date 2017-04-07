@@ -72,7 +72,6 @@ function agendaMenu:input(evt)
       self.ccposh=shift(self.ccposh,1,#self.cccats)
       self.ccpage,self.ccpages=1,1
       self:cc()
-      self.ccpage,self.ccpages=1,1
     elseif (evt.key=="CURSOR_UP") then
       self.ccposv=shift(self.ccposv,-1,#self.ccregions)
       self.ccpage,self.ccpages=1,1
@@ -482,7 +481,7 @@ end
         posx = GRID * ((o-7)*10.5)  ; posy = GRID * 13.75
       end
       -- category colors
-      local icat = tonumber(tab[o]["cat"])+1
+      local icat = tonumber(tab[i]["cat"])+1
       canvas:attrColor(
         self.catcolors[icat][1],
         self.catcolors[icat][2],

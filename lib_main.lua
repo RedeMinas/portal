@@ -10,7 +10,7 @@ ICON = {}
 ICON.state = 1
 ICON.pos =1
 DEBUG = true
-VERSION = "1.2.8"
+VERSION = "1.2.9"
 START = false
 
 --- tcp metrics
@@ -32,7 +32,7 @@ function countMetric(param)
           tcpresult = tcpresult or '0'
         else
           tcpresult = 'er:' .. evt.error
-        end
+        end 
         canvas:flush()
         tcp.disconnect()
         START = true

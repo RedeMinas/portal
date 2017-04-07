@@ -12,18 +12,18 @@ function harmoniaMenu:new(o)
   self.debug=false
   self.bar={}
   self.bar.stop=false
-  self.repertorioItens=4
   self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
   print("debug", #self.list)
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
   self.especiallist = textWrap (self.listextra[2]["especial"], 70)
-  self.especiallines = 6
+  self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 82)
-  self.episodiolines = 6
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 63)
+  self.episodiolines = 5
+
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
 --  self.settings=false
