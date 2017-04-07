@@ -6,7 +6,7 @@ function altofalante:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
-
+  self.posv = 1 
   self.posh = 1
   self.page = 1
   self.bgdcolor = {255,102,0,200}
@@ -22,7 +22,7 @@ function altofalante:new(o)
     {1,8,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
     {1,#self.listnews,2,GRID*11,GRID,"knob",color1={168,168,168,255}, color2={0,0,0,255}, menu="Noticias"},
     {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={1,50,50,200}, color2={0,0,0,200}, menu="Discos"},
-    {3,4,1.5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
+    {3,6,5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
   }
 
   self.pages=#self.meta
@@ -35,14 +35,26 @@ function altofalante:input(evt)
   if ( evt.key == "CURSOR_LEFT" ) then
     self.page=shift(self.page,-1,self.pages)
     self:pageReset()
+
   elseif ( evt.key=="CURSOR_RIGHT") then    self.page=shift(self.page,1,self.pages)
     self:pageReset()
 
   elseif ( evt.key == "CURSOR_UP" ) then
     self.meta[self.page][1]=shift(self.meta[self.page][1],1,self.meta[self.page][2])
+-- contatos
+    if (self.page==4) then
+      self.posv=shift(self.posv,-1,6)
+      self:contatos()
+    end
     self:pageReset(self.page)
+
   elseif ( evt.key=="CURSOR_DOWN") then
     self.meta[self.page][1]=shift(self.meta[self.page][1],-1,self.meta[self.page][2])
+--contatos
+    if (self.page==4) then
+      self.posv=shift(self.posv,1,6)
+      self:contatos() 
+    end
     self:pageReset(self.page)
   elseif ( evt.key=="RED") then
     print("red")
@@ -296,9 +308,9 @@ function altofalante:discos()
  -- canvas:drawText(offsetx+GRID/2,offsety+GRID/3, self.meta[4][1] .. " " .. self.listalbuns[self.meta[4][1]]["banda"]  )
  -- canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[4][1]]["album"] )
 
-  local index = string.format("%02d" , self.meta[4][1] )
+  local index = string.format("%02d" , self.meta[3][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
-  --canvas:compose(offsetx+GRID*3.5,offsety+GRID/2,imgalbum )
+  canvas:compose(offsetx+GRID/4,offsety+GRID/4,imgalbum )
 
   local imgcornerlr = canvas:new("media/altofalante/cornerlr.png")
   local dx,dy = imgcornerlr:attrSize()
@@ -327,16 +339,40 @@ function altofalante:contatos()
 
   canvas:attrColor(unpack(self.meta[3].color2))
   canvas:attrFont("Tiresias", 14,"bold")
-  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
+ -- canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
 
-  local imgcnt
+  -- imagem contato
+  local imgcontato = canvas:new("media/altofalante/cnt.png")
+  local dx, dy = imgcontato:attrSize()
+  canvas:compose(GRID*17.2, GRID*12.25, imgcontato)
+
+  -- imagem cone/seta
+  local imgset = canvas:new("media/altofalante/tagcnt.png")
+  local dx, dy = imgset:attrSize()
+  canvas:compose(GRID*17.2, GRID*11.25+(self.posv-1)*GRID, imgset )
+
+  if self.posv ~= 1 then
+    -- imagem qr
+    local imgqr = canvas:new("media/altofalante/qr".. self. posv ..".png")
+    local dx, dy = imgqr:attrSize()
+    canvas:compose(GRID*22.25, GRID*11.25+GRID, imgqr )
+  else
+    -- imagem info
+    local imginfo = canvas:new("media/altofalante/info.png")
+    local dx, dy = imginfo:attrSize()
+    canvas:compose(GRID*21.25, GRID*12.25, imginfo)
+    canvas:flush()
+
+  end
+
+ local imgcnt
   if self.page == 4
   then
     imgcnt = canvas:new("media/altofalante/l4.png")
-    canvas:compose(GRID*18.1, GRID*3.5, imgcnt)
+    canvas:compose(GRID*18.1, GRID*3.4, imgcnt)
   else
     imgcnt = canvas:new("media/altofalante/btn4off.png")
-    canvas:compose(GRID*18.05, GRID*11.55, imgcnt)
+    canvas:compose(GRID*18.05, GRID*11.45, imgcnt)
   end
  
 end
