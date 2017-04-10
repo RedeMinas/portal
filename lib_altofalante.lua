@@ -253,7 +253,7 @@ function altofalante:pgm()
     canvas:compose(GRID*1.52, GRID*3.5, imgpgm)
   else
     imgpgm = canvas:new("media/altofalante/btn1off.png")
-    canvas:compose(GRID*1.51, GRID*13.1, imgpgm)
+    canvas:compose(GRID*1.51, GRID*13.6, imgpgm)
   end
 
 
@@ -277,7 +277,7 @@ function altofalante:news()
   local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
 
   for i = 1, #text do
-    canvas:drawText(offsetx+GRID,offsety+(GRID*0.5*i)+GRID/2,text[i])
+    canvas:drawText(offsetx*2,offsety+(GRID*0.5*i)+GRID/2,text[i])
   end
 
   local imgcornerll = canvas:new("media/altofalante/cornerll.png")
@@ -298,19 +298,22 @@ function altofalante:news()
 end
 function altofalante:discos()
   local sizex = GRID*10.5
-  local sizey = GRID*7.7
+  local sizey = GRID*7.5
   local offsetx = GRID*16.75
   local offsety = GRID*3.5
   self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
 
   canvas:attrColor(unpack(self.meta[4].color2))
   canvas:attrFont("Tiresias", 14,"normal")
- -- canvas:drawText(offsetx+GRID/2,offsety+GRID/3, self.meta[4][1] .. " " .. self.listalbuns[self.meta[4][1]]["banda"]  )
- -- canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[4][1]]["album"] )
-
+  canvas:drawText(offsetx+GRID/2,offsety+GRID*0.5, self.listalbuns[self.meta[3][1]]["banda"]  )
+  canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[3][1]]["album"] )
+  for i=1, 10 do
+    canvas:drawText(offsetx+GRID*6,offsety*1.5+GRID*(i-1)/2,"SOBRE O DISCO")
+  end
+  
   local index = string.format("%02d" , self.meta[3][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
-  canvas:compose(offsetx+GRID/4,offsety+GRID/4,imgalbum )
+  canvas:compose(offsetx+GRID/2,offsety+GRID*2,imgalbum )
 
   local imgcornerlr = canvas:new("media/altofalante/cornerlr.png")
   local dx,dy = imgcornerlr:attrSize()
@@ -324,16 +327,16 @@ function altofalante:discos()
     imgdisc= canvas:new("media/altofalante/btn3off.png")
     canvas:compose(GRID*24.7,GRID*10.34, imgdisc)
   end
-
+  --self:pgm()
 end
 
 
 
 function altofalante:contatos()
   local sizex = GRID*10.5
-  local sizey = GRID*6.05
+  local sizey = GRID*6.2
   local offsetx = GRID*16.75
-  local offsety = GRID*11.2
+  local offsety = GRID*11
 
     self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
 
@@ -355,12 +358,12 @@ function altofalante:contatos()
     -- imagem qr
     local imgqr = canvas:new("media/altofalante/qr".. self. posv ..".png")
     local dx, dy = imgqr:attrSize()
-    canvas:compose(GRID*22.25, GRID*11.25+GRID, imgqr )
+    canvas:compose(GRID*22.25, GRID*10.75+GRID, imgqr )
   else
     -- imagem info
     local imginfo = canvas:new("media/altofalante/info.png")
     local dx, dy = imginfo:attrSize()
-    canvas:compose(GRID*21.25, GRID*12.25, imginfo)
+    canvas:compose(GRID*22.25, GRID*11.6, imginfo)
     canvas:flush()
 
   end
