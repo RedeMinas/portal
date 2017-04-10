@@ -27,7 +27,7 @@ function agendaMenu:new(o)
   self.pages = 4
   self.menu = {"Agenda Cultural", "Espaços Culturais", "Especial", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
-  self.catcolors = {{217,215,215,255},{183,43,137,255},{207,120,24,255},{209,197,16,255},{118,176,40,255},{0,227,247,255},{100,100,100,255},{100,100,100,255}}
+  self.catcolors = {{217,215,215,255},{215,38,156,255},{245,135,15,255},{209,197,16,255},{118,176,40,255},{0,227,247,255},{55,101,226,255},{147,41,255,255}}
   self.acats = {"Todos" , "Cinemas", "Teatros", "Literatura", "MÃºsica", "Artes"}
   self.cccats = {"Todos" , "Cinemas", "Teatros", "Bibliotecas", "Shows", "Galerias", "Museus", "Centro Cultural"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
@@ -126,7 +126,7 @@ function agendaMenu:pageReset()
   -- draw redeminas logo
   local imglogorm = canvas:new("media/agenda/logoredeminas.png")
   local dx,dy = imglogorm:attrSize()
-  canvas:compose(SCREEN_WIDTH-dx-GRID/2, GRID-dy/2, imglogorm )
+  canvas:compose(SCREEN_WIDTH-dx-GRID*0.75, GRID-dy/2, imglogorm )
 
   -- clear left menu
   canvas:attrColor(64,64,65,204)
