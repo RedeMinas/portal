@@ -21,8 +21,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 63)
-  self.episodiolines = 5
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 73)
+  self.episodiolines = 4
 
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
@@ -208,18 +208,20 @@ function harmoniaMenu:repertorio()
   canvas:attrFont("Tiresias", 17,"bold")
   canvas:attrColor(1,1,1,160 )
   canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["regente"])
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*2)), self.list[self.spos]["local"])
-  canvas:drawText((offset_x+dx),offset_y+(GRID*3), "Data: " .. self.list[self.spos]["data"])
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*4)),self.list[self.spos]["horario"])
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*1.9)), self.list[self.spos]["local"])
+  canvas:drawText((offset_x+dx),offset_y+(GRID*2.8), "Data: " .. self.list[self.spos]["data"])
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*3.7)),self.list[self.spos]["horario"])
 
-  if (self.list["ingresso"] ~= " " or self.list["ingresso"] ~= "FALSE" or not self.list["ingresso"]) then
-    canvas:drawText((offset_x+dx*2),(offset_y+(GRID*4)),"Valor: " .. self.list[self.spos]["ingresso"])
-  end
   --obras, lines of text
   local list =textWrap(self.list[self.spos]["programa"],70)
   for i=1,#list do
-    canvas:drawText((offset_x+dx),(offset_y+GRID*5+((i-1)*(GRID/2))) , list[i])
+    canvas:drawText((offset_x+dx),(offset_y+GRID*4.6+((i-1)*(GRID*0.9))) , list[i])
   end
+
+  if (self.list["ingresso"] ~= " " or self.list["ingresso"] ~= "FALSE" or not self.list["ingresso"]) then
+    canvas:drawText((offset_x+dx),(offset_y+(GRID*5.5)),"Valor: " .. self.list[self.spos]["ingresso"])
+  end
+
 
   -- switch pages harmonia
 
