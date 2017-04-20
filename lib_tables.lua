@@ -286,8 +286,6 @@ function layoutPgmAgendaCc(table)
 end
 -- ex: local tab = layoutPgmAgenda(ReadTable("table.txt"))
 
-
-
 function layoutPgmAltofalanteAlbuns(table)
   local tab={}
   local id = 0
@@ -314,8 +312,6 @@ function layoutPgmAltofalanteAlbuns(table)
   return tab
 end
 -- ex: local tab = layoutPgmAltofalanteAlbuns(ReadTable("table.txt"))
-
-
 
 function layoutPgmAltofalanteNews(table)
   local tab={}

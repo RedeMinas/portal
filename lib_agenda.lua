@@ -347,7 +347,7 @@ function agendaMenu:calendarEvents(day,cat)
         canvas:drawText(offsetx+posx-42, posy+GRID/4+GRID/2.5*i, desc[i])
       end
 
-      canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["hora"] .. " / R$ " .. tab[i]["valor"] )
+      canvas:drawText(offsetx+posx-40, posy+GRID*2.5, tab[i]["hora"] .. " / " .. tab[i]["valor"] )
       canvas:drawText(offsetx+posx-40, posy+GRID*3, "Local: " .. tab[i]["local"])
 
     end
@@ -442,13 +442,13 @@ end
       self.ccpages=1
     elseif  #tab > self.ccitens then
       self.ccpages=math.ceil(#tab/self.ccitens)
-      str =  #tab .. " locais encontrados, página " .. self.ccpage .."/" ..self.ccpages .. ". Filtre sua busca ou aperte ok..."
+      str =  #tab .. " locais encontrados, página " .. self.ccpage .."/" ..self.ccpages .. ". Filtre sua busca ou aperte OK..."
 
     end
     canvas:attrColor("white")
     canvas:attrFont("Tiresias", 15,"bold")
     local dx,dy = canvas:measureText(str)
-    canvas:drawText( SCREEN_WIDTH-dx-(GRID*5.75), GRID*17.4, str)
+    canvas:drawText( SCREEN_WIDTH-dx-(GRID*7.75), GRID*17.4, str)
 
     local posx, posy
     local offsetx, offsety = GRID*6 , GRID*2.5
