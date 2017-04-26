@@ -31,6 +31,9 @@ curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt
 echo "sync altofalante news"
 curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1939570171&format=tsv" > /tmp/tbl_af_news.txt
 
+echo "sync altofalante pgms"
+curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=1739500427&format=tsv" > /tmp/tbl_af_pgms.txt
+
 
 
 if [[ -n "$par" ]]
@@ -60,6 +63,9 @@ then
     echo "copying altofalante news"
     cp /tmp/tbl_af_news.txt tbl_af_news.txt
 
+    echo "copying altofalante pgms"
+    cp /tmp/tbl_af_pgms.txt tbl_af_pgms.txt
+
 
 else
     echo "converting pgm"
@@ -85,6 +91,9 @@ else
 
     echo "converting  altofalante news"
     iconv -t ISO-8859-1 /tmp/tbl_af_news.txt > tbl_af_news.txt
+
+    echo "converting  altofalante pgms"
+    iconv -t ISO-8859-1 /tmp/tbl_af_pgms.txt > tbl_af_pgms.txt
 
 
 fi

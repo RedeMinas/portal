@@ -98,7 +98,7 @@ function agendaMenu:input(evt)
 function agendaMenu:pageReset()
   if (not PGMON) then
     -- canvas:attrColor(255,141,47,200)
-   canvas:attrColor("black")
+   canvas:attrColor(0,0,0,0)
    canvas:clear(0,0, GRID*32, GRID*18)
 
    -- imagem hora extra

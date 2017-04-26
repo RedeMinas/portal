@@ -6,20 +6,21 @@ function altofalante:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
-  self.posv = 1 
+  self.posv = 1
   self.posh = 1
   self.page = 1
   self.bgdcolor = {255,102,0,200}
 
   self.listalbuns = layoutPgmAltofalanteAlbuns(ReadTable("tbl_af_albuns.txt"))
   self.listnews = layoutPgmAltofalanteNews(ReadTable("tbl_af_news.txt"))
+  self.listpgm = layoutPgmAltofalantePgms(ReadTable("tbl_af_pgms.txt"))
 
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
+  -- switch example
+  --  {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
 
-  --    {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
   self.meta = {
-
-    {1,8,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
+    {1,#self.listpgm,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
     {1,#self.listnews,2,GRID*11,GRID,"knob",color1={168,168,168,255}, color2={0,0,0,255}, menu="Noticias"},
     {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={1,50,50,200}, color2={0,0,0,200}, menu="Discos"},
     {3,6,5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
@@ -53,7 +54,7 @@ function altofalante:input(evt)
 --contatos
     if (self.page==4) then
       self.posv=shift(self.posv,1,6)
-      self:contatos() 
+      self:contatos()
     end
     self:pageReset(self.page)
   elseif ( evt.key=="RED") then
@@ -90,7 +91,6 @@ function altofalante:pageReset(page)
         self:switchcvs(i)
       end
     end
-
 
     self:pgm()
     self:news()
@@ -144,7 +144,7 @@ function altofalante:knobcvs(component)
       canvas:attrColor("black")
     end
   end
- 
+
   for i=1,self.meta[component][2] do
     local theta = alpha * (i  + self.meta[component][3])
     local px = math.cos( theta ) * size*0.6 + size/2
@@ -163,8 +163,6 @@ function altofalante:knobcvs(component)
      local dx,dy = imgbtn:attrSize()
      canvas:compose(  offsetx+30-dx/2, offsety+GRID*2-3,imgbtn)
   end
-  
-  
    --canvas:drawText(offsetx+size/2-dx/2,offsety+GRID*1.75, self.meta[component].menu)
 
     -- knob image
@@ -256,6 +254,16 @@ function altofalante:pgm()
     canvas:compose(GRID*1.51, GRID*13.6, imgpgm)
   end
 
+  canvas:attrColor("black")
+  canvas:drawText(offsetx*2,offsety+GRID*4+GRID/2,self.listpgm[self.meta[1][1]]["img"])
+
+  -- show pgms description
+  local text = textWrap (self.listpgm[self.meta[1][1]]["desc"], 150)
+
+  for i = 1, #text do
+    canvas:drawText(offsetx*2,offsety+GRID*4+(GRID*0.5*i)+GRID/2,text[i])
+    print (text[i])
+  end
 
   canvas:attrColor(unpack(self.meta[1].color2))
   canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
@@ -274,7 +282,7 @@ function altofalante:news()
 --  canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
   canvas:attrFont("Tiresias", 12,"normal")
 
-  local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 150)
+  local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 90)
 
   for i = 1, #text do
     canvas:drawText(offsetx*2,offsety+(GRID*0.5*i)+GRID/2,text[i])
@@ -292,7 +300,6 @@ function altofalante:news()
     imgnews = canvas:new("media/altofalante/btn2off.png")
     canvas:compose(GRID*13.9, GRID*14.6, imgnews)
   end
- 
   --  self:timer()
 
 end
@@ -310,7 +317,7 @@ function altofalante:discos()
   for i=1, 10 do
     canvas:drawText(offsetx+GRID*6,offsety*1.5+GRID*(i-1)/2,"SOBRE O DISCO")
   end
-  
+
   local index = string.format("%02d" , self.meta[3][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
   canvas:compose(offsetx+GRID/2,offsety+GRID*2,imgalbum )
@@ -330,19 +337,17 @@ function altofalante:discos()
   --self:pgm()
 end
 
-
-
 function altofalante:contatos()
   local sizex = GRID*10.5
   local sizey = GRID*6.2
   local offsetx = GRID*16.75
   local offsety = GRID*11
 
-    self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
+  self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
 
   canvas:attrColor(unpack(self.meta[3].color2))
   canvas:attrFont("Tiresias", 14,"bold")
- -- canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
+  -- canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[4][1])
 
   -- imagem contato
   local imgcontato = canvas:new("media/altofalante/cnt.png")
@@ -365,7 +370,6 @@ function altofalante:contatos()
     local dx, dy = imginfo:attrSize()
     canvas:compose(GRID*22.25, GRID*11.6, imginfo)
     canvas:flush()
-
   end
 
  local imgcnt
@@ -377,9 +381,7 @@ function altofalante:contatos()
     imgcnt = canvas:new("media/altofalante/btn4off.png")
     canvas:compose(GRID*18.05, GRID*11.45, imgcnt)
   end
- 
 end
-
 
 function afautoForward()
   if af.meta[3][1] == 1 and PGMON then
