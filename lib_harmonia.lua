@@ -149,7 +149,7 @@ function harmoniaMenu:episodio()
   local img = canvas:new("media/harmonia/asemana" .. self.episodiopos .. ".png")
   local dx,dy = img:attrSize()
   if self.episodiopos == 2 then
-    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)    
+    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)
   else
     canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
   end
@@ -207,10 +207,17 @@ function harmoniaMenu:repertorio()
   canvas:drawText((offset_x+dx),offset_y, self.list[self.spos]["evento"] )
   canvas:attrFont("Tiresias", 17,"bold")
   canvas:attrColor(1,1,1,160 )
-  canvas:drawText((offset_x+dx),(offset_y+(GRID)), self.list[self.spos]["regente"])
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*1.9)), self.list[self.spos]["local"])
-  canvas:drawText((offset_x+dx),offset_y+(GRID*2.8), "Data: " .. self.list[self.spos]["data"])
-  canvas:drawText((offset_x+dx),(offset_y+(GRID*3.7)),self.list[self.spos]["horario"])
+
+
+  --obras, lines of text
+  local list =textWrap(self.list[self.spos]["regente"],75)
+  for i=1,#list do
+    canvas:drawText((offset_x+dx),(offset_y+GRID*1+((i-1)*(GRID*0.9))) , list[i])
+  end
+
+  canvas:drawText((offset_x+dx),(offset_y+(GRID*2.9)), self.list[self.spos]["local"])
+  canvas:drawText((offset_x+dx),offset_y+(GRID*3.8), "Data: " .. self.list[self.spos]["data"])
+  canvas:drawText((offset_x+dx+GRID*7),(offset_y+(GRID*3.8)),self.list[self.spos]["horario"])
 
   --obras, lines of text
   local list =textWrap(self.list[self.spos]["programa"],70)
@@ -273,10 +280,9 @@ function harmoniaMenu:especial()
 
   local img = canvas:new("media/harmonia/especialdomes" .. self.especialpos .. ".png")
   local dx,dy = img:attrSize()
-  
 
   if self.especialpos == 2 then
-    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)    
+    canvas:compose(SCREEN_WIDTH-GRID-dx, SCREEN_HEIGHT-GRID-dy, img)
   else
     canvas:compose(SCREEN_WIDTH-dx-GRID,SCREEN_HEIGHT-GRID/2-dy, img)
   end

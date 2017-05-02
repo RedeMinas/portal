@@ -206,10 +206,13 @@ function layoutPgmAgendaEvt(table)
         id = tonumber(regexp)
         tab[id]={}
         tab[id]["img"] = i-1
+        print(regexp)
       elseif w == 2 then
         tab[id]["nome"] = regexp
+        print(regexp)
       elseif w == 3 then
         tab[id]["data"] = regexp
+        print(regexp)
       elseif w == 4 then
         tab[id]["cat"] = regexp
       elseif w == 6 then
@@ -237,6 +240,7 @@ function layoutPgmAgendaEvt(table)
       end
     end
   end
+  
   return tab
 end
 -- ex: local tab = layoutPgmAgendaEvt(ReadTable("table.txt"))

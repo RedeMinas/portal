@@ -28,7 +28,7 @@ function agendaMenu:new(o)
   self.menu = {"Agenda Cultural", "Espa�os Culturais", "Especial", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
   self.catcolors = {{217,215,215,255},{215,38,156,255},{245,135,15,255},{209,197,16,255},{118,176,40,255},{0,227,247,255},{55,101,226,255},{147,41,255,255}}
-  self.acats = {"Todos" , "Cinemas", "Teatros", "Literatura", "Música", "Artes"}
+  self.acats = {"Todos" , "Cinemas", "Teatros", "Literatura", "Música", "Artes", "Encontros"}
   self.cccats = {"Todos" , "Cinemas", "Teatros", "Bibliotecas", "Shows", "Galerias", "Museus", "Centro Cultural"}
   self.listevt=layoutPgmAgendaEvt(ReadTable("tbl_agendaevt.txt"))
   self.listcc=layoutPgmAgendaCc(ReadTable("tbl_agendacc.txt"))
@@ -205,7 +205,9 @@ function agendaMenu:calendar()
   canvas:attrColor(64,64,65,204)
   canvas:clear(0,GRID*2,GRID*3.75,GRID*8)
 
+  print("teste", self.listevt[1]["nome"])
   local d=tonumber(self.listevt[1]["segunda"])
+
   local yy,mm,dd, M = os.date("%Y"), os.date("%m"), os.date("%d"), os.date("%w")
   local month_days = get_days_in_month(mm,yy)
   local day_week = get_day_of_week(1, mm, yy)
@@ -357,7 +359,7 @@ end
 
 function agendaMenu:calendarCategory()
   canvas:attrColor(64,64,65,200)
-  canvas:clear(GRID*10,0,GRID*9, GRID*2)
+  canvas:clear(GRID*10,0,GRID*11, GRID*2)
 
   for i=1, #self.acats do
     if i == self.aposh then
@@ -462,14 +464,10 @@ end
       qty = #tab - (self.ccpage-1)*self.ccitens
     end
 
-    print("qty", qty)
-    print ("calc i, i+n", (self.ccpage-1)*self.ccitens+1, (self.ccpage-1)*self.ccitens+qty)
-    print("self.ccpage", self.ccpage)
 
     for i=(self.ccpage-1)*self.ccitens+1, (self.ccpage-1)*self.ccitens+qty do
 
       o = i - (self.ccpage-1) * self.ccitens
-      print("debug o", o)
        --first line
       if o == 1 or o == 2 then
         posx = GRID * ((o-1)*10.5)  ; posy = GRID * 2.5
@@ -491,7 +489,6 @@ end
 
       -- box
       canvas:attrColor(64,64,65,204)
-      print("debug posx" , posx)
       canvas:drawRect("fill",offsetx+posx-50,posy,GRID*10+5,GRID*3.5)
 
       -- tag on box

@@ -1,4 +1,3 @@
-
 --- agenda object
 
 calendar = {}
@@ -19,12 +18,10 @@ function calendar:new(o)
   return o
 end
 
-
 function calendar:agenda()
   self:agendaGrid()
   self:agendaDisplayDay()
 end
-
 
 -- based  on http://lua-users.org/wiki/DisplayCalendarInHtml
 function calendar:agendaGrid()
@@ -99,7 +96,6 @@ function calendar:agendaDisplayDay()
   canvas:flush()
 end
 
-
 -- harmonia icons vert scroll
 function calendar:iconDraw()
   if (not PGMON) then
@@ -124,8 +120,6 @@ function calendar:iconDraw()
   self:pageDraw()
   canvas:flush()
 end
-
-
 
 function calendar:pageDraw()
   canvas:attrColor(93,196,179,217)
