@@ -21,8 +21,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 73)
-  self.episodiolines = 5
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 67)
+  self.episodiolines = 6
 
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
@@ -266,7 +266,7 @@ function harmoniaMenu:especial()
   canvas:attrFont("Tiresias", 22,"bold")
 
   --  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
-  canvas:drawText(GRID*6,GRID*11.5, "Sergei Rachmaninov e Sergei Prokofiev")
+  canvas:drawText(GRID*6,GRID*11.5, "Johannes Brahms")
 
   canvas:attrFont("Tiresias", 17,"normal")
 
