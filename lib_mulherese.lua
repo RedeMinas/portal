@@ -101,7 +101,7 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
 end
 
 function mulhereseMenu:textPrepare(text)
-  local list=textWrap(text,SCREEN_WIDTH/13)
+  local list=textWrap(text,SCREEN_WIDTH/12)
   local ll = 1
   local llist = {}
 
@@ -114,6 +114,17 @@ function mulhereseMenu:textPrepare(text)
       llist[ll]=list[i]
     end
   end
+--[[
+  for regexp in llist:gmatch("[^\\]+") do
+    for i=1,#llist do
+      if i ~= 1 then
+        l = l +1
+      end
+      list[ll]=llist[i]
+    end
+  end
+]]--
+
 
   self.llpages=math.ceil(ll/self.llines)
 

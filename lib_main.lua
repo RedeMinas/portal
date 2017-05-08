@@ -10,7 +10,7 @@ ICON = {}
 ICON.state = 1
 ICON.pos =1
 DEBUG = true
-VERSION = "1.4.3"
+VERSION = "1.4.4"
 START = false
 
 --- tcp metrics
@@ -25,7 +25,7 @@ function countMetric(param)
   end
     tcp.execute(
       function ()
-        tcp.connect('redeminas.mg.gov.br', 80)
+        tcp.connect('redeminas.mg.gov.br', 80) 
         tcp.send('get /ginga.php?aplicacao=' .. param .. VERSION .. '\n')
         tcpresult = tcp.receive()
         if tcpresult then
