@@ -21,8 +21,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 67)
-  self.episodiolines = 6
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 85)
+  self.episodiolines = 7
 
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
