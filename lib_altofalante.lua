@@ -9,6 +9,13 @@ function altofalante:new(o)
   self.posv = 1
   self.posh = 1
   self.page = 1
+  self.txtpos = 1
+  self.pgmpos = 1
+  -- Lines News 
+  self.newslines = 4
+  -- Lines Pgm
+  self.pgmlines = 8
+
   self.bgdcolor = {255,102,0,200}
 
   self.listalbuns = layoutPgmAltofalanteAlbuns(ReadTable("tbl_af_albuns.txt"))
@@ -18,6 +25,7 @@ function altofalante:new(o)
   ---   [1], pos,[2] pages, [3]offset, [4]x, [5]y
   -- switch example
   --  {1,2,0,GRID*12.5,GRID,"switch",color1={0,0,200,200}, color2={200,200,200,255}, menu="auto"},
+
 
   self.meta = {
     {1,#self.listpgm,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
@@ -238,14 +246,19 @@ function altofalante:pgm()
   local offsetx = GRID*0.75
   local offsety = GRID*3.5
 
-  self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
+ self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
 
+ --[[
   local imgil = canvas:new("media/altofalante/il2.png")
   local dx,dy = imgil:attrSize()
   canvas:compose(GRID*1.25, GRID*4, imgil )
+ --]] 
 
-  local imgpgm
+ local index = string.format("%02d" , self.meta[1][1] )
+ local imgpgms = canvas:new("media/altofalante/programas/" .. index  .. ".png")
+ canvas:compose(GRID*1.25, GRID*4, imgpgms )
 
+ local imgpgm
   if self.page == 1  then
     imgpgm = canvas:new("media/altofalante/l1.png")
     canvas:compose(GRID*1.52, GRID*3.5, imgpgm)
@@ -255,18 +268,54 @@ function altofalante:pgm()
   end
 
   canvas:attrColor("black")
-  canvas:drawText(offsetx*2,offsety+GRID*4+GRID/2,self.listpgm[self.meta[1][1]]["img"])
+  --count programas
+--  canvas:drawText(offsetx*2,offsety+GRID*4+GRID/2,self.listpgm[self.meta[1][1]]["img"])
+
+  -- count lines pgm
+  self.textPgm = textWrap (self.listpgm[self.meta[1][1]]["desc"], 95) 
+  local m = (self.pgmpos-1)*self.pgmlines
+  for i = m+1, m+self.pgmlines do
+    if
+    not self.textPgm[i] then
+      self.textPgm[i]= " "
+    end
+    canvas:drawText(offsetx*2,offsety+(GRID*4)+GRID*0.5*(i-m-0.5),self.textPgm[i])
+  end
+  
+ --[[ if  self.txtpos == 2 then
+    canvas:drawText(offsetx*2,offsety+(GRID/4*i)+GRID/4*(i+2),self.textPgm[i])
+  end
+ --]]
+  
+  --[[
+  local list=textWrap(self.textPgm,offsety/14)
+  local ll = 1
+  local llist = {}
+
+  for regexp in text:gmatch("[^\\]+") do
+    local list=textWrap(regexp,106)
+    for i=1,#list do
+      if i ~= 1 then
+        ll = ll +1
+      end
+      llist[ll]=list[i]
+    end
+  end
+  ]] --
 
   -- show pgms description
-  local text = textWrap (self.listpgm[self.meta[1][1]]["desc"], 150)
-
+ 
+  -- local text = textWrap (self.listpgm[self.meta[1][1]]["desc"], 150)
+--[[
   for i = 1, #text do
     canvas:drawText(offsetx*2,offsety+GRID*4+(GRID*0.5*i)+GRID/2,text[i])
     print (text[i])
   end
+--]]
 
   canvas:attrColor(unpack(self.meta[1].color2))
-  canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
+-- cout img programas
+  --canvas:drawText(offsetx+GRID,offsety+GRID,self.meta[1][1])
 end
 
 function altofalante:news()
@@ -282,11 +331,31 @@ function altofalante:news()
 --  canvas:drawText(offsetx+GRID,offsety,self.meta[2][1] .. "/" .. #self.listnews .. " : " ..  self.listnews[self.meta[2][1]]["nome"])
   canvas:attrFont("Tiresias", 12,"normal")
 
-  local text = textWrap (self.listnews[self.meta[2][1]]["desc"], 90)
-
-  for i = 1, #text do
-    canvas:drawText(offsetx*2,offsety+(GRID*0.5*i)+GRID/2,text[i])
+ -- count lines news
+  self.textNews = textWrap (self.listnews[self.meta[2][1]]["desc"], 110)
+  local m = (self.txtpos-1)*self.newslines
+  for i = m+1, m+self.newslines do
+    if
+    not self.textNews[i] then
+      self.textNews[i]= " "
+    end
+    canvas:drawText(offsetx*2,offsety+(GRID/4*i)+GRID/4*(i-m+2),self.textNews[i])
   end
+  
+  --[[
+  if  self.txtpos == 2 then
+    canvas:drawText(offsetx*2,offsety+(GRID/4*i)+GRID/4*(i+2),self.text[i])
+  end
+  --]]
+
+
+--[[
+  for i = 1, #text do
+    if (self.txtpos==1) then
+      canvas:drawText(offsetx*2,offsety+(GRID*0.5*i)+GRID/2,text[i])
+    end
+--]]
+
 
   local imgcornerll = canvas:new("media/altofalante/cornerll.png")
   local dx,dy = imgcornerll:attrSize()
@@ -326,7 +395,7 @@ function altofalante:discos()
   local dx,dy = imgcornerlr:attrSize()
   canvas:compose(SCREEN_WIDTH-dx, SCREEN_HEIGHT-dy, imgcornerlr)
 
-  local imgdisc
+  local imgdisc 
   if self.page == 3  then
     imgdisc = canvas:new("media/altofalante/l3.png")
     canvas:compose(GRID*16.31,GRID*3.5, imgdisc)
