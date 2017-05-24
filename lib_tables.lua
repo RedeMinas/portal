@@ -304,8 +304,11 @@ function layoutPgmAltofalanteAlbuns(table)
         tab[id]["banda"] = regexp
       elseif w == 3 then
         tab[id]["album"] = regexp
+	 elseif w == 4 then
+        tab[id]["descricao"] = regexp
+
       end
-      if w < 4
+      if w < 5
       then
         w=w+1
       else

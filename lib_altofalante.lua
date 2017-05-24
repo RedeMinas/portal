@@ -9,12 +9,15 @@ function altofalante:new(o)
   self.posv = 1
   self.posh = 1
   self.page = 1
+self.discpos = 1
   self.txtpos = 1
   self.pgmpos = 1
   -- Lines News 
   self.newslines = 4
   -- Lines Pgm
   self.pgmlines = 8
+  -- lines disc
+  self.disclines =13
 
   self.bgdcolor = {255,102,0,200}
 
@@ -377,19 +380,36 @@ function altofalante:discos()
   local sizey = GRID*7.5
   local offsetx = GRID*16.75
   local offsety = GRID*3.5
-  self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
+  self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
 
   canvas:attrColor(unpack(self.meta[4].color2))
   canvas:attrFont("Tiresias", 14,"normal")
-  canvas:drawText(offsetx+GRID/2,offsety+GRID*0.5, self.listalbuns[self.meta[3][1]]["banda"]  )
-  canvas:drawText(offsetx+GRID/2,offsety+GRID, self.listalbuns[self.meta[3][1]]["album"] )
-  for i=1, 10 do
-    canvas:drawText(offsetx+GRID*6,offsety*1.5+GRID*(i-1)/2,"SOBRE O DISCO")
+  canvas:drawText(offsetx+GRID*2.25,offsety+GRID*0.5, self.listalbuns[self.meta[3][1]]["banda"]  )
+  canvas:drawText(offsetx+GRID*2.25,offsety+GRID, self.listalbuns[self.meta[3][1]]["album"] )
+ -- canvas:drawText(offsetx+GRID*6,offsety+GRID*2, self.listalbuns[self.meta[3][1]]["descricao"] )
+  canvas:drawRect("fill",offsetx, offsety*1.10,sizex*0.55, sizey*0.95)
+
+  self.textDisc = textWrap (self.listalbuns[self.meta[3][1]]["descricao"], 25)
+  local m = (self.discpos-1)*self.disclines
+  for i = m+1, m+self.disclines do
+    if
+    not self.textDisc[i] then
+      self.textDisc[i]= " "
+    end
+    canvas:drawText(offsetx+GRID*6,offsety+(GRID/4*i)+GRID/4*(i-m-1),self.textDisc[i])
   end
+  
+
+  --[[
+    for i=1, 10 do
+    canvas:drawText(offsetx+GRID*6,offsety*1.5+GRID*(i-1)/2,"SOBRE O DISCO")
+    end
+  --]]
+
 
   local index = string.format("%02d" , self.meta[3][1] )
   local imgalbum = canvas:new("media/altofalante/albuns/" .. index  .. ".png")
-  canvas:compose(offsetx+GRID/2,offsety+GRID*2,imgalbum )
+  canvas:compose(offsetx+GRID*0.4,offsety+GRID*2.15,imgalbum )
 
   local imgcornerlr = canvas:new("media/altofalante/cornerlr.png")
   local dx,dy = imgcornerlr:attrSize()
@@ -412,7 +432,7 @@ function altofalante:contatos()
   local offsetx = GRID*16.75
   local offsety = GRID*11
 
-  self:clear(offsetx,offsety,sizex,sizey, self.meta[1].color1, self.meta[1].color2)
+  self:clear(offsetx,offsety,sizex,sizey, self.meta[2].color1, self.meta[2].color2)
 
   canvas:attrColor(unpack(self.meta[3].color2))
   canvas:attrFont("Tiresias", 14,"bold")
