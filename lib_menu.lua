@@ -73,18 +73,20 @@ function MainMenu:menuItem(par)
   if self.pos==1 then
     local img = canvas:new("media/aredeminas.png")
     canvas:compose(GRID*6, GRID*11.5, img)
-    -- programas
+    -- Novidades
   elseif self.pos == 2 then
+    local img = canvas:new("media/especial.png")
+    canvas:compose(GRID*6, GRID*11.5, img)
+       -- Programas
+  elseif self.pos==3 then
     local img = canvas:new("media/btnarrowh.png")
     canvas:compose(GRID*2.5, GRID*17, img)
     self:pgmDraw()
-    -- Nova sede
-  elseif self.pos==3 then
+--Nova Sede
+  elseif self.pos==4 then
     local img = canvas:new("media/sede.png")
     canvas:compose(GRID*6, GRID*11.5, img)
-  elseif self.pos==4 then
-    local img = canvas:new("media/especial.png")
-    canvas:compose(GRID*6, GRID*11.5, img)
+  --Contatos
   elseif self.pos==5 then
     canvas:attrColor(1,1,1,200)
     canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
@@ -206,44 +208,44 @@ function MainMenu:input(evt)
     self.pos=shift(self.pos,1,self.icons )
     self:iconDraw()
     self:menuItem()
-  elseif ( self.pos==2 and evt.key == "CURSOR_LEFT" ) then
+  elseif ( self.pos==3 and evt.key == "CURSOR_LEFT" ) then
     self.spos=shift(self.spos,-1, #self.list)
     self:pgmDraw()
-  elseif ( self.pos==2 and evt.key == "CURSOR_RIGHT" ) then
+  elseif ( self.pos==3 and evt.key == "CURSOR_RIGHT" ) then
     self.spos=shift(self.spos,1, #self.list)
     self:pgmDraw()
     -- PGM
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==1 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==1 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --agenda start
     dofile("lib_agenda.lua")
     agenda=agendaMenu:new{}
     agenda:pageReset()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==2 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==3 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --agenda start
     dofile("lib_altofalante.lua")
     af=altofalante:new{}
     --af:input()
     af:pageReset()
 
-  elseif(self.pos == 2 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
+  elseif(self.pos == 3 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
     canvas:clear(0,0, GRID*32, GRID*11 )
     local img = canvas:new("media/pgm06.png")
     canvas:compose(0, 0, img)
     canvas:flush()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==8 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==8 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --harmonia start
     dofile("lib_harmonia.lua")
     harmonia=harmoniaMenu:new{}
     harmonia:iconDraw()
     harmonia:menuItem()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==13 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==13 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --mulherese start
     dofile("lib_mulherese.lua")
     mse=mulhereseMenu:new{}
     mse:iconsDraw()
-  elseif  (self.pos==2 and self.list[self.spos]["img"]==18 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==18 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --mulherese start
     dofile("lib_ribalta.lua")
     ribalta=ribaltaMenu:new{}
