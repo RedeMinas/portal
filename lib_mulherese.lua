@@ -12,14 +12,20 @@ function mulhereseMenu:new (o)
   self.lastppos = 1
   self.pages = 4
   self.start = false
-  self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
+  self.debug=true
+  if not self.debug then
+    self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
+  end
   self.llines = 15
   self.llpos = 1
   self.llpages=1
+
   self.bgcolor={r=41,g=19,b=69,a=204}
   self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
   return o
 end
+
+
 
 --deal with keys
 function mulhereseMenu:input(evt)
@@ -60,22 +66,59 @@ function mulhereseMenu:input(evt)
   end
 end
 
+
 function mulhereseMenu:iconsDraw(nItens)
   --selective clear all on start or partial on icons area
   canvas:attrColor(0,0,0,200)
   if (not PGMON) then
     canvas:clear(0,0, GRID*32, GRID*18 )
+    self:pageReset()
+    PGMON=true
   else
     canvas:clear(0,GRID*14.5, GRID*32, GRID*18 )
   end
-  for i=1,self.iconsDisplay  do
-    if i==1 then
-      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i,true)
-    else
-      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i)
+
+  if self.debug then
+
+    self:Debug()
+
+  else
+    for i=1,self.iconsDisplay  do
+      if i==1 then
+        self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i,true)
+      else
+        self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i)
+      end
+      canvas:flush()
     end
+    self:pageDraw()
+    canvas:flush()
   end
-  self:pageDraw()
+
+end
+
+function mulhereseMenu:Debug()
+  print("debug")
+
+  canvas:attrColor("red")
+  canvas:drawRect("frame", GRID*2,GRID*2, GRID*25, GRID*9)
+
+  --self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
+
+  canvas:attrColor("white")
+  canvas:attrFont("Vera", 10,"bold")
+  canvas:drawText(GRID*3,GRID*2,"comeco")
+  canvas:flush()
+
+  self.list=ReadTable("tbl_mulherese.txt")
+
+  for i=1,#self.list do
+    canvas:attrColor("white")
+    canvas:attrFont("Vera", 10,"bold")
+    canvas:drawText(GRID*3,GRID*6+(GRID/4*(i-1)),self.list[i])
+    canvas:flush()
+  end
+  canvas:drawText(GRID,GRID*15,"acabou")
   canvas:flush()
 end
 
@@ -179,10 +222,6 @@ function mulhereseMenu:pageReset()
 end
 
 function mulhereseMenu:pageDraw()
-  if (not PGMON) then
-    self:pageReset()
-    PGMON = true
-  end
 
   -- Draw Ilustrations on left
   canvas:attrColor(41,19,69,200)

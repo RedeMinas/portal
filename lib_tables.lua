@@ -1,9 +1,22 @@
 function ReadTable(pathFile)
   local file, erro = io.open( pathFile, "r")
   local tab = {}
+  teste=1
   if file ~= nil then
     for l in file:lines() do
+--[[
+      canvas:attrColor("white")
+      canvas:attrFont("Vera", 10,"bold")
+      canvas:drawText(GRID*teste,GRID,teste)
+      canvas:flush()
+      teste=teste+1
+]]--
       if #l > 1 then
+--[[
+        canvas:attrColor("yellow")
+        canvas:drawText(GRID*2,GRID/4*teste,l)
+        canvas:flush()
+]]--
         tab[#tab+1]= l
       end
     end
