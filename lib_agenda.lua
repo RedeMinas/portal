@@ -8,6 +8,7 @@ function agendaMenu:new(o)
   self.__index = self
   self.icons = 4
   -- calendar positions
+  self.aenable = false
   self.aposh = 1
   self.aposv = 1
   self.apage =1
@@ -23,8 +24,7 @@ function agendaMenu:new(o)
   self.pollposh = 1
   self.pollposv = 1
   -- menu page
-  self.page = 1
-  self.pages = 4
+  self.page = 2
   self.menu = {"Agenda Cultural", "Espaços Culturais", "Especial", "Contatos"}
   self.ccregions = {"Barreiro", "Centro Sul", "Leste", "Nordeste", "Noroeste", "Norte", "Oeste", "Pampulha", "Venda Nova"}
   self.catcolors = {{217,215,215,255},{215,38,156,255},{245,135,15,255},{209,197,16,255},{118,176,40,255},{0,227,247,255},{55,101,226,255},{147,41,255,255}}
@@ -37,7 +37,7 @@ end
 
 --deal with keys
 function agendaMenu:input(evt)
-  if ( evt.key == "RED" ) then
+  if ( evt.key == "RED" and self.aenable) then
     self.page=1
    self:pageReset()
   elseif ( evt.key == "GREEN" ) then
@@ -174,12 +174,16 @@ function agendaMenu:bgd()
   -- background fundo
   canvas:attrColor(64,64,65,153)
   canvas:clear(GRID*3.75,GRID*12,GRID, GRID*6)
-
   --  canvas:attrColor(64,64,65,153)
-
   canvas:flush()
 
-  for i=1,4 do
+  local start=1
+
+  if not  self.aenable then
+     start=2
+  end
+
+  for i=start,4 do
     local btncaticon
     if i ==  self.page then
       btncaticon = canvas:new("media/agenda/btn" .. i .. "on.png")
@@ -334,7 +338,6 @@ function agendaMenu:calendarEvents(day,cat)
       local imgtagevt = canvas:new("media/agenda/tagevt" .. icat-1 .. ".png")
       local dx,dy = imgtagevt:attrSize()
       canvas:compose(offsetx+posx-50+GRID*6.5-5-dx/2-1,posy, imgtagevt )
-
 
       -- draw event text
       canvas:attrFont("Tiresias", 14, "bold")
@@ -546,7 +549,6 @@ function agendaMenu:especial()
   canvas:attrColor(64,64,65,153)
   canvas:clear(GRID*3.75,GRID*2,GRID,GRID*10)
   canvas:clear(GRID*4.75,GRID*2,GRID*21.75,GRID*16)
-
 
   local imgesp = canvas:new("media/agenda/especial.png")
   canvas:compose(GRID*7, GRID*3.5, imgesp)
