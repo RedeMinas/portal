@@ -21,8 +21,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 70)
-  self.episodiolines = 3
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 90)
+  self.episodiolines = 4
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
 --  self.settings=false
@@ -228,9 +228,7 @@ function harmoniaMenu:repertorio()
     canvas:drawText((offset_x+dx),(offset_y+(GRID*5.5)),"Valor: " .. self.list[self.spos]["ingresso"])
   end
 
-
   -- switch pages harmonia
-
   for i=1, #self.list do
     if (i == self.spos) then
       -- canvas:attrColor(1,1,1,160)
@@ -264,8 +262,12 @@ function harmoniaMenu:especial()
 
   canvas:attrFont("Tiresias", 22,"bold")
 
-  --  canvas:drawText(GRID*6,GRID*11.5,  self.listextra[1]["especial"])
-  canvas:drawText(GRID*6,GRID*11.5, "Johannes Brahms")
+  local listextra
+  for regexp in self.listextra[1]["especial"]:gmatch("[^\t\t]+") do
+    listextra = regexp
+  end
+
+  canvas:drawText(GRID*6,GRID*11.5, listextra)
 
   canvas:attrFont("Tiresias", 17,"normal")
 
