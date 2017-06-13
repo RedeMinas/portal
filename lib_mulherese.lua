@@ -10,22 +10,19 @@ function mulhereseMenu:new (o)
   self.ppos = 1
   -- self.posv = 1
   self.lastppos = 1
-  self.pages = 4
   self.start = false
-  self.debug=true
+  self.debug = false
   if not self.debug then
     self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
   end
   self.llines = 15
   self.llpos = 1
-  self.llpages=1
-
-  self.bgcolor={r=41,g=19,b=69,a=204}
-  self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
+  self.llpages = 1
+  --self.bgcolor={r=70,g=32,b=27,a=204} -- cinza
+  self.bgcolor = {r=100,g=50,b=50,a=150} -- terra
+  --self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
   return o
 end
-
-
 
 --deal with keys
 function mulhereseMenu:input(evt)
@@ -37,22 +34,6 @@ function mulhereseMenu:input(evt)
     self.llpos,self.llpages =1,1
     self.pos=shift(self.pos,-1,#self.list-1)
     self:iconsDraw()
-  elseif ( evt.key=="RED") then
-    self.llpos,self.llpages =1,1
-    self.ppos=1
-    self:pageDraw()
-  elseif ( evt.key=="GREEN") then
-    self.llpos,self.llpages =1,1
-    self.ppos=2
-    self:pageDraw()
-  elseif ( evt.key=="YELLOW") then
-    self.llpos,self.llpages =1,1
-    self.ppos=3
-    self:pageDraw()
-  elseif ( evt.key=="BLUE") then
-    self.llpos,self.llpages =1,1
-    self.ppos=4
-    self:pageDraw()
   end
 
   if( self.llpages > 1) then
@@ -66,7 +47,6 @@ function mulhereseMenu:input(evt)
   end
 end
 
-
 function mulhereseMenu:iconsDraw(nItens)
   --selective clear all on start or partial on icons area
   canvas:attrColor(0,0,0,200)
@@ -78,47 +58,15 @@ function mulhereseMenu:iconsDraw(nItens)
     canvas:clear(0,GRID*14.5, GRID*32, GRID*18 )
   end
 
-  if self.debug then
-
-    self:Debug()
-
-  else
-    for i=1,self.iconsDisplay  do
-      if i==1 then
-        self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i,true)
-      else
-        self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i)
-      end
-      canvas:flush()
+  for i=1,self.iconsDisplay  do
+    if i==1 then
+      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i,true)
+    else
+      self:iconsDrawItens(shift(self.pos-1,i,#self.list-1),i)
     end
-    self:pageDraw()
     canvas:flush()
   end
-
-end
-
-function mulhereseMenu:Debug()
-  print("debug")
-
-  canvas:attrColor("red")
-  canvas:drawRect("frame", GRID*2,GRID*2, GRID*25, GRID*9)
-
-  --self.list=layoutPgmMulherese(ReadTable("tbl_mulherese.txt"))
-
-  canvas:attrColor("white")
-  canvas:attrFont("Vera", 10,"bold")
-  canvas:drawText(GRID*3,GRID*2,"comeco")
-  canvas:flush()
-
-  self.list=ReadTable("tbl_mulherese.txt")
-
-  for i=1,#self.list do
-    canvas:attrColor("white")
-    canvas:attrFont("Vera", 10,"bold")
-    canvas:drawText(GRID*3,GRID*6+(GRID/4*(i-1)),self.list[i])
-    canvas:flush()
-  end
-  canvas:drawText(GRID,GRID*15,"acabou")
+  self:pageDraw()
   canvas:flush()
 end
 
@@ -182,18 +130,15 @@ function mulhereseMenu:textPrepare(text)
 end
 
 function mulhereseMenu:displayText(list,intro)
-  canvas:attrColor(41,19,69,200)
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
   canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
-
   --display text margin - remove!
   if intro then
     canvas:attrFont("Tiresias",20, "normal")
   else
     canvas:attrFont("Tiresias",15, "normal")
   end
-
   canvas:attrColor(255,255,255,200)
-
   local m = (self.llpos-1)*self.llines
   for  i = m+1, m+self.llines do
     canvas:drawText(GRID*6,GRID*2.5+(GRID*0.75*(i-m-1)),list[i])
@@ -202,9 +147,8 @@ end
 
 function mulhereseMenu:pageReset()
   -- clear
-  canvas:attrColor(41,19,69,200)
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
   canvas:clear(GRID,GRID,GRID*30,GRID*13.5 )
-  --canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
 --  canvas:drawRect("fill", GRID, GRID, GRID*30, GRID*13.5 )
 
   -- draw redeminas logo
@@ -224,82 +168,59 @@ end
 function mulhereseMenu:pageDraw()
 
   -- Draw Ilustrations on left
-  canvas:attrColor(41,19,69,200)
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
   canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
 
   local str = string.format("%02d" , self.list[self.pos+1]["id"])
-  local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
-  canvas:compose(GRID*1, GRID*1, imgil)
+  if self.pos ==3 or self.pos ==4 then
+    print("sem img")
+  else
+    local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
+    canvas:compose(GRID*1, GRID*1, imgil)
+  end
 
  --Draw btnicon on left
  -- canvas:attrColor(41,19,69,200)
  -- canvas:clear(GRID*1,GRID*1,GRID*5, GRID*12.5)
-  for i=1, self.pages do
-    if i == self.ppos then
-      canvas:attrColor(
-        self.colors[i][1],
-        self.colors[i][2],
-        self.colors[i][3],
-        self.colors[i][4]
-      )
-    else
-      canvas:attrColor("white")
-    end
-    canvas:attrFont("Tiresias", 13,"bold")
-    local param = "page" .. i
+  canvas:attrFont("Tiresias", 13,"bold")
+  canvas:drawText(GRID*2.25, GRID*8.52+0.85*GRID, tostring(self.list[1][pagey]))
 
-    canvas:drawText(GRID*2.25, GRID*8.52+0.85*GRID*i-1, tostring(self.list[1][param]))
+--  local imgicons = canvas:new("media/mulherese/btnicon.png")
+--  local dx,dy = imgicons:attrSize()
+--  canvas:compose(GRID*2-dx, GRID*9.39, imgicons )
+  --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
+  canvas:flush()
 
-    local imgicons = canvas:new("media/mulherese/btnicon.png")
-    local dx,dy = imgicons:attrSize()
-    canvas:compose(GRID*2-dx, GRID*9.39, imgicons )
-    --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
-    canvas:flush()
-  end
   -- Draw Group Title
-  canvas:attrColor(41,19,69,200)
-    canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
-
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
+  canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
   -- Draw Group Text using textDraw() function
-    local text=""
-
-  if (self.ppos == 1)   then
-    texttitle = self.list[1]["page1"]
-    text = self.list[self.pos+1]["page1"]
-  elseif (self.ppos == 2)   then
-    texttitle = self.list[1]["page2"]
-    text = self.list[self.pos+1]["page2"]
-  elseif (self.ppos == 3)   then
-    texttitle = self.list[1]["page3"]
-    text = self.list[self.pos+1]["page3"]
-  elseif (self.ppos == 4)   then
-    texttitle = self.list[1]["page4"]
-    text = self.list[self.pos+1]["page4"]
-  end
-
+  local text = self.list[self.pos+1]["page"]
+  local texttitle = ""
   local a = self:textPrepare(text)
-
   -- sets llpages
   if (self.ppos == 1) then
     self:displayText(a,true)
   else
     self:displayText(a,false)
   end
-
   canvas:attrColor(255,255,255,255)
   canvas:attrFont("Tiresias", 22 ,"bold")
-
   -- if pages, change title, draw arrowv
   if self.llpages > 1 then
-    texttitle = texttitle .. " (" .. self.llpos .. " / " .. self.llpages .. ")"
-    dx,dy=canvas:measureText(texttitle)
-
+    print(texttitle)
+    texttitle = self.list[self.pos+1]["cat"] .. " (" .. self.llpos .. " / " .. self.llpages .. ")"
+    print(texttitle)
+    local dx,dy=canvas:measureText(texttitle)
+    print(dx, texttitle)
     local btnarrowv = canvas:new("media/btnarrowv.png")
-    canvas:compose(GRID*6+dx+GRID*4, GRID*1.1, btnarrowv)
+    canvas:compose(GRID*6.5+dx, GRID*1.1, btnarrowv)
+  else
+    texttitle = self.list[self.pos+1]["cat"]
   end
 
   --draw title
-  canvas:drawText(GRID*6, GRID*1.2, self.list[self.pos+1]["cat"] .. ": " ..texttitle)
+  canvas:drawText(GRID*6, GRID*1.2, texttitle)
   canvas:flush()
 
 end

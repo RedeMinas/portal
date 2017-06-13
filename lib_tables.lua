@@ -4,19 +4,7 @@ function ReadTable(pathFile)
   teste=1
   if file ~= nil then
     for l in file:lines() do
---[[
-      canvas:attrColor("white")
-      canvas:attrFont("Vera", 10,"bold")
-      canvas:drawText(GRID*teste,GRID,teste)
-      canvas:flush()
-      teste=teste+1
-]]--
       if #l > 1 then
---[[
-        canvas:attrColor("yellow")
-        canvas:drawText(GRID*2,GRID/4*teste,l)
-        canvas:flush()
-]]--
         tab[#tab+1]= l
       end
     end
@@ -111,22 +99,16 @@ function layoutPgmMulherese(table)
     tab[i]={}
     local w=1
 
-    for regexp in table[i]:gmatch("[^\t\t]+") do
+    for regexp in table[i]:gmatch("[^\t\t\t]+") do
       if w == 1 then
         tab[i]["id"] = regexp
       elseif w == 2 then
         tab[i]["cat"] = regexp
       elseif w == 3 then
-        tab[i]["page1"] = regexp
-      elseif w == 4 then
-        tab[i]["page2"] = regexp
-      elseif w == 5 then
-        tab[i]["page3"] = regexp
-      elseif w == 6 then
-        tab[i]["page4"] = regexp
+        tab[i]["page"] = regexp
       end
       -- controle dos campos
-      if w < 7  then
+      if w < 4  then
         w=w+1
       else
         w=1

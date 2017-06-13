@@ -22,7 +22,11 @@ echo "sync mulheresdelei"
 #original
 #curl  "https://docs.google.com/spreadsheets/d/1oN93tyir9MtQ_ee_ZLALS3tYZqYXKddw658pm0nsCAA/export?gid=0&format=tsv" > /tmp/tbl_mulherese.txt
 
-curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=2006482232&format=tsv" > /tmp/tbl_mulherese.txt
+#backup
+#curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=2006482232&format=tsv" > /tmp/tbl_mulherese.txt
+
+#new format
+curl "https://docs.google.com/spreadsheets/d/1JV9f29P7MvIzclLvaein7g7GjdaBCcYiCt6-UpHFfhU/export?gid=9852555&format=tsv" > /tmp/tbl_mulherese.txt
 
 
 echo "sync altofalante discos"
