@@ -5,7 +5,8 @@ function mulhereseMenu:new (o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
-  self.iconsDisplay = 9
+  --numero de icons 
+  self.iconsDisplay = 8
   self.pos = 1
   self.ppos = 1
   -- self.posv = 1
@@ -20,6 +21,8 @@ function mulhereseMenu:new (o)
   self.llpages = 1
   --self.bgcolor={r=70,g=32,b=27,a=204} -- cinza
   self.bgcolor = {r=100,g=50,b=50,a=150} -- terra
+  self.bgcolor2 = {r=100,g=50,b=50,a=200} -- terra
+
   --self.colors = {{127,30,43,255},{11,108,84,255},{203,164,9,255},{22,59,118,255}}
   return o
 end
@@ -30,6 +33,7 @@ function mulhereseMenu:input(evt)
     self.llpos,self.llpages =1,1
     self.pos=shift(self.pos,1,#self.list-1)
     self:iconsDraw()
+
   elseif (evt.key=="CURSOR_LEFT") then
     self.llpos,self.llpages =1,1
     self.pos=shift(self.pos,-1,#self.list-1)
@@ -49,13 +53,15 @@ end
 
 function mulhereseMenu:iconsDraw(nItens)
   --selective clear all on start or partial on icons area
-  canvas:attrColor(0,0,0,200)
+--  canvas:attrColor(0,0,0,200)
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
   if (not PGMON) then
     canvas:clear(0,0, GRID*32, GRID*18 )
     self:pageReset()
     PGMON=true
   else
-    canvas:clear(0,GRID*14.5, GRID*32, GRID*18 )
+    -- clear bottom icons area
+    canvas:clear(GRID*5,GRID*14.5, GRID*32, GRID*18 )
   end
 
   for i=1,self.iconsDisplay  do
@@ -79,7 +85,7 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
   local str = string.format("%02d" , self.list[t+1]["id"])
 
   local icon = canvas:new("media/mulherese/icon" .. str .. ".png")
-  canvas:compose((GRID+(item_w*(slot-1))+(0.92*GRID*(slot-1))), GRID*17.5-item_h, icon )
+  canvas:compose((GRID*7+(item_w*(slot-1))+(0.5*GRID*(slot-1))), GRID*17.5-item_h, icon )
   canvas:attrColor("blue")
   canvas:attrFont("Vera", font_size,"bold")
 
@@ -87,7 +93,7 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
     canvas:attrColor(255,255,255,255)
     --canvas:drawRect("frame", GRID+(item_w*(slot-1))+(GRID*(slot-1)), GRID*17.5-item_h, 100, 100)
     local iconborder = canvas:new("media/mulherese/focusborder.png")
-    canvas:compose(GRID-2, GRID*17.5-item_h-2, iconborder )
+    canvas:compose(GRID*7-2, GRID*17.5-item_h-2, iconborder )
   end
 end
 
@@ -130,8 +136,9 @@ function mulhereseMenu:textPrepare(text)
 end
 
 function mulhereseMenu:displayText(list,intro)
-  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  canvas:clear(GRID*6,GRID*2, GRID*25, GRID*12.5 )
+-- RECT DISPLAY
+  canvas:attrColor(self.bgcolor2["r"],self.bgcolor2["g"],self.bgcolor2["b"],self.bgcolor2["a"])
+  canvas:clear(GRID*5.5,0, GRID*27, GRID*14.5 )
   --display text margin - remove!
   if intro then
     canvas:attrFont("Tiresias",20, "normal")
@@ -141,62 +148,35 @@ function mulhereseMenu:displayText(list,intro)
   canvas:attrColor(255,255,255,200)
   local m = (self.llpos-1)*self.llines
   for  i = m+1, m+self.llines do
-    canvas:drawText(GRID*6,GRID*2.5+(GRID*0.75*(i-m-1)),list[i])
+    canvas:drawText(GRID*6.25,GRID*2+(GRID*0.75*(i-m-1)),list[i])
   end
 end
 
 function mulhereseMenu:pageReset()
   -- clear
   canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  canvas:clear(GRID,GRID,GRID*30,GRID*13.5 )
+  canvas:clear(GRID*6,GRID*4.5,GRID*30,GRID*13.5 )
 --  canvas:drawRect("fill", GRID, GRID, GRID*30, GRID*13.5 )
 
-  -- draw redeminas logo
-  local logo = canvas:new("media/btn1off.png")
-  canvas:compose(GRID*26.8, GRID*1.3, logo )
-
-  -- Draw nav buttons
- -- local btnarrowv = canvas:new("media/btnarrowv.png")
-  local btnarrowh = canvas:new("media/btnarrowh.png")
-  local btnexit = canvas:new("media/btnsair.png")
- -- canvas:compose(GRID*1.5, GRID*13.5, btnarrowv)
-  canvas:compose(GRID*2, GRID*13.5, btnarrowh)
-  canvas:compose(GRID*4, GRID*13.5, btnexit)
-  canvas:flush()
 end
 
 function mulhereseMenu:pageDraw()
-
+  -- RECT ICONS
   -- Draw Ilustrations on left
   canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  canvas:clear(GRID*1,GRID*1,GRID*5,GRID*12.5 )
+  canvas:clear(0,0,GRID*5.5,GRID*18)
+  local imgil = canvas:new("media/mulherese/il.png")
+  canvas:compose(0,0 , imgil)
 
-  local str = string.format("%02d" , self.list[self.pos+1]["id"])
-  if self.pos ==3 or self.pos ==4 then
-    print("sem img")
-  else
-    local imgil = canvas:new("media/mulherese/il" ..  str .. ".png")
-    canvas:compose(GRID*1, GRID*1, imgil)
-  end
-
- --Draw btnicon on left
- -- canvas:attrColor(41,19,69,200)
- -- canvas:clear(GRID*1,GRID*1,GRID*5, GRID*12.5)
-  canvas:attrFont("Tiresias", 13,"bold")
-  canvas:drawText(GRID*2.25, GRID*8.52+0.85*GRID, tostring(self.list[1][pagey]))
-
---  local imgicons = canvas:new("media/mulherese/btnicon.png")
---  local dx,dy = imgicons:attrSize()
---  canvas:compose(GRID*2-dx, GRID*9.39, imgicons )
-  --canvas:drawText(GRID*14,GRID*16 , self.acats[self.aposh])
-  canvas:flush()
 
   -- Draw Group Title
   canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
-  canvas:clear(GRID*6,GRID*1.2,GRID*19,GRID )
+  canvas:clear(GRID*7,GRID*1.2,GRID*19,GRID )
+
   -- Draw Group Text using textDraw() function
   local text = self.list[self.pos+1]["page"]
   local texttitle = ""
+  local pagetitle = ""
   local a = self:textPrepare(text)
   -- sets llpages
   if (self.ppos == 1) then
@@ -204,23 +184,42 @@ function mulhereseMenu:pageDraw()
   else
     self:displayText(a,false)
   end
+
+  if (self.pos == 1 and self.llpos == 2) then
+    local imgqr = canvas:new("media/mulherese/qrmse.png")
+    canvas:compose(GRID*15,GRID*8 , imgqr)
+  end
+
   canvas:attrColor(255,255,255,255)
   canvas:attrFont("Tiresias", 22 ,"bold")
+
   -- if pages, change title, draw arrowv
+  canvas:attrColor(self.bgcolor["r"],self.bgcolor["g"],self.bgcolor["b"],self.bgcolor["a"])
+  canvas:clear(GRID*2.5,GRID*17,GRID,GRID )
   if self.llpages > 1 then
-    print(texttitle)
-    texttitle = self.list[self.pos+1]["cat"] .. " (" .. self.llpos .. " / " .. self.llpages .. ")"
-    print(texttitle)
+    texttitle = self.list[self.pos+1]["cat"]
+    pagetitle = "(" .. self.llpos .. " / " .. self.llpages .. ")"
     local dx,dy=canvas:measureText(texttitle)
-    print(dx, texttitle)
     local btnarrowv = canvas:new("media/btnarrowv.png")
-    canvas:compose(GRID*6.5+dx, GRID*1.1, btnarrowv)
+    canvas:compose(GRID*2.5, GRID*17, btnarrowv)
   else
     texttitle = self.list[self.pos+1]["cat"]
   end
+   -- Draw nav buttons
+  local btnarrowh = canvas:new("media/btnarrowh.png")
+  local btnexit = canvas:new("media/btnsair.png")
+  canvas:compose(GRID*1, GRID*17, btnarrowh)
+  canvas:compose(GRID*4, GRID*17, btnexit)
+  canvas:flush()
 
+  -- draw redeminas logo
+  local logo = canvas:new("media/btn1off.png")
+  canvas:compose(GRID*0.75, GRID/2, logo )
   --draw title
-  canvas:drawText(GRID*6, GRID*1.2, texttitle)
+  canvas:attrColor(255,255,255,255)
+  canvas:attrFont("Tiresias", 28 ,"bold")
+  canvas:drawText(GRID*6.25, GRID/2, texttitle)
+  canvas:drawText(GRID*26, GRID/2, pagetitle)
   canvas:flush()
 
 end
