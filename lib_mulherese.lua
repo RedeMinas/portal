@@ -98,7 +98,7 @@ function mulhereseMenu:iconsDrawItens(t, slot, ativo)
 end
 
 function mulhereseMenu:textPrepare(text)
-  local list=textWrap(text,SCREEN_WIDTH/12)
+  local list=textWrap(text,106)
   local ll = 1
   local llist = {}
 
