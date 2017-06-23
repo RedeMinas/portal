@@ -15,13 +15,13 @@ function harmoniaMenu:new(o)
   self.menu ={{desc="Edição da semana",width=150},{desc="Repertório",width=160}, {desc="Villa Lobos",width=150}, {desc="Contatos",width=180}}
   --remove
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
-  print("debug", #self.list)
+  --print("debug", #self.list)
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
   self.especiallist = textWrap (self.listextra[2]["especial"], 80)
   self.especiallines = 5
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 90)
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 70)
   self.episodiolines = 4
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
@@ -32,7 +32,7 @@ end
 --deal with keys
 function harmoniaMenu:input (evt)
   if (evt.key=="CURSOR_UP") then
-    self.pos=shift(self.pos,-1,self.icons)
+    self.pos=shift(self.pos,-1,self.icons) 
     self.bar.stop=true
     self:iconDraw()
   elseif ( evt.key=="CURSOR_DOWN") then

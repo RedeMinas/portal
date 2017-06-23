@@ -12,7 +12,7 @@ function altofalante:new(o)
 self.discpos = 1
   self.txtpos = 1
   self.pgmpos = 1
-  -- Lines News 
+  -- Lines News
   self.newslines = 4
   -- Lines Pgm
   self.pgmlines = 8
@@ -31,7 +31,7 @@ self.discpos = 1
 
 
   self.meta = {
-    {1,#self.listpgm,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Programas"},
+    {1,#self.listpgm,2,GRID*7,GRID,"knob",color1={102,102,102,255}, color2={0,0,0,255}, menu="Prochrome://settings/peoplegramas"},
     {1,#self.listnews,2,GRID*11,GRID,"knob",color1={168,168,168,255}, color2={0,0,0,255}, menu="Noticias"},
     {1,#self.listalbuns,5,GRID*15,GRID,"knob",color1={1,50,50,200}, color2={0,0,0,200}, menu="Discos"},
     {3,6,5,GRID*19,GRID,"knob",color1={75,75,75,100}, color2={0,0,0,200}, menu="Contatos"}
@@ -178,7 +178,7 @@ function altofalante:knobcvs(component)
 
     -- knob image
   local imgknob = canvas:new("media/altofalante/knob.png")
-  canvas:compose(offsetx,offsety, imgknob )
+--  canvas:compose(offsetx,offsety, imgknob )
   -- knob position
   local theta = alpha * (self.meta[component][1]  + self.meta[component][3])
   local px = math.cos( theta ) * size*0.4 + size/2
