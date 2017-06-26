@@ -330,7 +330,7 @@ function layoutPgmAltofalanteNews(table)
       elseif w == 3 then
         tab[id]["desc"] = regexp
       elseif w == 4 then
-        tab[id]["site"] = regexp
+        tab[id]["data"] = regexp
       end
       if w < 5
       then
