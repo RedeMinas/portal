@@ -17,11 +17,11 @@ function harmoniaMenu:new(o)
   self.list=layoutPgmHarmoniaRep(ReadTable("tbl_harmoniarep.txt"))
   --print("debug", #self.list)
   self.listextra=layoutPgmHarmoniaExtra(ReadTable("tbl_harmoniaextra.txt"))
-  self.especiallist = textWrap (self.listextra[2]["especial"], 80)
-  self.especiallines = 5
+  self.especiallist = textWrap (self.listextra[2]["especial"], 100)
+  self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 70)
+  self.episodiolist = textWrap (self.listextra[2]["episodio"], 95)
   self.episodiolines = 4
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1

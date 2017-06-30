@@ -40,7 +40,7 @@ function MainMenu:iconDraw()
   canvas:attrColor(0,0,0,0)
   canvas:clear(0,0, GRID*32, GRID*12)
 
-  canvas:attrColor(1,1,1,200)
+  canvas:attrColor(2,2,2,150)
   canvas:clear(0,GRID*11, GRID*32, GRID*18 )
   --  canvas:attrColor("white")
   --  canvas:drawRect("fill", 0,GRID*12,GRID*32,GRID*18 )
@@ -88,7 +88,7 @@ function MainMenu:menuItem(par)
     canvas:compose(GRID*6, GRID*11.5, img)
   --Contatos
   elseif self.pos==5 then
-    canvas:attrColor(1,1,1,200)
+    canvas:attrColor(1,1,1,150)
     canvas:clear(GRID*6,GRID*11, GRID*32, GRID*18 )
     local img = canvas:new("media/contato.png")
     canvas:compose(GRID*6, GRID*11.5, img)
@@ -130,7 +130,7 @@ function MainMenu:pgmDraw()
 
   canvas:attrColor(0,0,0,0)
   canvas:clear(0,0, GRID*32, GRID*11 )
-  canvas:attrColor(1,1,1,200)
+  canvas:attrColor(1,1,1,150)
   canvas:clear(GRID*6,GRID*11.5, GRID*32, GRID*18 )
 
   for i=1,self.pgmicons  do
@@ -220,13 +220,12 @@ function MainMenu:input(evt)
     dofile("lib_agenda.lua")
     agenda=agendaMenu:new{}
     agenda:pageReset()
-  elseif  (self.pos==3 and self.list[self.spos]["img"]==3 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
+  elseif  (self.pos==3 and self.list[self.spos]["img"]==2 and self.list[self.spos]["info"] and evt.key == "ENTER" ) then
     --agenda start
     dofile("lib_altofalante.lua")
     af=altofalante:new{}
     --af:input()
     af:pageReset()
-
   elseif(self.pos == 3 and self.list[self.spos]["img"]==6 and self.list[self.spos]["info"] and evt.key=="ENTER") then
     --dango start
     canvas:attrColor(0,0,0,0)
