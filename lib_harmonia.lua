@@ -21,8 +21,8 @@ function harmoniaMenu:new(o)
   self.especiallines = 7
   self.especialpages = math.ceil(#self.especiallist/self.especiallines)
   self.especialpos =1
-  self.episodiolist = textWrap (self.listextra[2]["episodio"], 95)
-  self.episodiolines = 4
+  self.episodiolist = textWrap (self.listextra[2]["episodio"],100)
+  self.episodiolines = 7
   self.episodiopages = math.ceil(#self.episodiolist/self.episodiolines)
   self.episodiopos =1
 --  self.settings=false
@@ -224,9 +224,13 @@ function harmoniaMenu:repertorio()
     canvas:drawText((offset_x+dx),(offset_y+GRID*4.6+((i-1)*(GRID*0.9))) , list[i])
   end
 
-  if (self.list["ingresso"] ~= " " or self.list["ingresso"] ~= "FALSE" or not self.list["ingresso"]) then
+  -- atualização para o mes de Agosto
+  --[[
+    if (self.list["ingresso"] ~= " " or self.list["ingresso"] ~= "FALSE" or not self.list["ingresso"]) then
     canvas:drawText((offset_x+dx),(offset_y+(GRID*5.5)),"Valor: " .. self.list[self.spos]["ingresso"])
-  end
+    end
+  --]]
+
 
   -- switch pages harmonia
   for i=1, #self.list do
