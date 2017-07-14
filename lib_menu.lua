@@ -94,39 +94,42 @@ function MainMenu:menuItem(par)
     canvas:compose(GRID*6, GRID*11.5, img)
     -- results from tcp get
     canvas:attrColor("white")
-    canvas:attrFont("Vera", 8,"bold")
-    canvas:drawText(GRID*16, GRID*17.4, "v: " .. VERSION .. "/" .. tcpresult )
-    if  par == 'red' then
-      local img = canvas:new("media/qrfb.png")
-      local dx,dy = img:attrSize()
-      canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*27,GRID*12.5, dx, dy )
-      canvas:compose(GRID*27, GRID*12.5, img)
-    elseif  par == 'green' then
-      local img = canvas:new("media/qrtwitter.png")
-      local dx,dy = img:attrSize()
-      canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*27,GRID*12.5, dx, dy )
-      canvas:compose(GRID*27, GRID*12.5, img)
-    elseif  par == 'yellow' then
-      local img = canvas:new("media/qrinsta.png")
-      local dx,dy = img:attrSize()
-      canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*27,GRID*12.5, dx, dy )
-      canvas:compose(GRID*27, GRID*12.5, img)
-    elseif  par == 'blue' then
+    canvas:attrFont("Vera", 10,"bold")
+    canvas:drawText(GRID*22.15, GRID*16.9, "v: " .. VERSION .. "/" .. tcpresult )
+
+    -- QRCode Contatos
+    if  spos ~= 1  then
       local img = canvas:new("media/qryoutube.png")
       local dx,dy = img:attrSize()
       canvas:attrColor(0,0,0,0)
-      canvas:clear(GRID*27,GRID*12.5, dx, dy )
-      canvas:compose(GRID*27, GRID*12.5, img)
+      canvas:clear(GRID*27,GRID*11.5, dx, dy )
+      canvas:compose(GRID*27, GRID*11.5, img)
+      if  par == 'green' then
+        local img = canvas:new("media/qrtwitter.png")
+        local dx,dy = img:attrSize()
+        canvas:attrColor(0,0,0,0)
+        canvas:clear(GRID*27,GRID*11.5, dx, dy )
+        canvas:compose(GRID*27, GRID*11.5, img)
+      elseif  par == 'yellow' then
+        local img = canvas:new("media/qrinsta.png")
+        local dx,dy = img:attrSize()
+        canvas:attrColor(0,0,0,0)
+        canvas:clear(GRID*27,GRID*11.5, dx, dy )
+        canvas:compose(GRID*27, GRID*11.5, img)
+      elseif  par == 'blue' then
+        local img = canvas:new("media/qrfb.png")
+        local dx,dy = img:attrSize()
+        canvas:attrColor(0,0,0,0)
+        canvas:clear(GRID*27,GRID*11.5, dx, dy )
+        canvas:compose(GRID*27, GRID*11.5, img)
+      end
     end
   end
   canvas:flush()
 end
 
 -- sub menu pgm draw carrossel
-function MainMenu:pgmDraw()
+function MainMenu:pgmDraw() 
 
   canvas:attrColor(0,0,0,0)
   canvas:clear(0,0, GRID*32, GRID*11 )
